@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CdB · Cursillo de Bolsillo</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Roboto+Slab:wght@600;700&display=swap">
 <style>
 /* Layout: cabecera con el nombre de la página, una fila de pestañas por activo y otra con las fechas
    de cada análisis (más reciente primero). Debajo, el análisis elegido: cotizaciones, conclusión,
@@ -160,6 +160,36 @@ section > .note { color: var(--muted); font-size: 14px; max-width: 75ch; }
 .src li { font-size: 14px; }
 footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 16px; }
 
+
+/* Tema: mismos colores que la portada (verde toro, rojo oso, crema del título) con texto legible */
+html:root:root:root {
+  --bg: #0b110d; --surface: #131b15; --fg: #f3ead2; --muted: #bdb59b; --line: #3b4033;
+  --accent: #e1d3a8; --accent-soft: #2e2c1b;
+  --up: #67d68f; --up-soft: #15321f; --flat: #e6bd62; --flat-soft: #382d10; --down: #ff8a63; --down-soft: #3d1d13;
+  --band: rgba(225, 211, 168, 0.10);
+  --font-title: "Roboto Slab", Georgia, "Times New Roman", serif;
+  color-scheme: dark;
+}
+body {
+  background:
+    radial-gradient(ellipse 70% 55% at 0% 0%, rgba(47, 125, 70, 0.30), transparent 70%),
+    radial-gradient(ellipse 70% 55% at 100% 100%, rgba(200, 75, 32, 0.24), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+}
+h1, header h2 { font-family: var(--font-title); color: var(--accent); }
+h1 { text-transform: uppercase; letter-spacing: 0.02em; font-weight: 700; }
+.nav .eyebrow { color: var(--muted); }
+h2 { color: var(--muted); }
+.menubtn { align-self: flex-start; font-family: var(--font-title); font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); background: rgba(10, 15, 12, 0.6); border: 2px solid var(--accent); border-radius: 999px; padding: 10px 26px; cursor: pointer; line-height: 1; }
+.menubtn:hover, .menubtn:focus-visible { background: var(--accent); color: #0a0f0c; outline: none; }
+.chip { background: rgba(19, 27, 21, 0.9); border-color: #4a5040; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { color: #0a0f0c; }
+.conclusion { border-left-color: var(--up); background: linear-gradient(90deg, rgba(47, 125, 70, 0.16), rgba(19, 27, 21, 0.92) 55%, rgba(200, 75, 32, 0.12)); }
+.lv.now .p { color: #0a0f0c; }
+.shot img { border-color: #4a5040; }
+
 @media (max-width: 820px) {
   .levels { grid-template-columns: minmax(0, 1fr); }
   .scen { grid-template-columns: minmax(0, 1fr); }
@@ -199,10 +229,9 @@ footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line)
 
 <div class="wrap" id="app">
   <nav class="nav" aria-label="Activos y fechas">
-    <button type="button" class="backhome" data-home="1">← Inicio · CdB Cursillo de Bolsillo</button>
+    <button type="button" class="menubtn" data-home="1" aria-label="Volver al menú principal">☰ MENÚ</button>
     <div class="eyebrow">Método VIPERIANDICATOR14</div>
-    <h1>Análisis por activo</h1>
-    <div class="navrow"><span class="lbl">Espacio</span><span id="modes" class="navrow"></span></div>
+    <h1 id="title">Análisis por activo</h1>
     <div class="navrow" id="assetrow"><span class="lbl">Activo</span><span id="assets" class="navrow"></span></div>
     <div class="navrow"><span class="lbl">Fecha</span><span id="dates" class="navrow"></span></div>
   </nav>
@@ -910,9 +939,7 @@ var ENTRIES = [
   }
 
   function renderNav() {
-    document.getElementById('modes').innerHTML = modeKeys.map(function (k) {
-      return '<button type="button" class="chip" data-mode="' + esc(k) + '" aria-pressed="' + (k === state.mode) + '">' + esc(MODES[k]) + '</button>';
-    }).join('');
+    document.getElementById('title').textContent = MODES[state.mode];
     var assets = modeAssets(state.mode);
     var row = document.getElementById('assetrow');
     var drow = document.getElementById('dates').parentNode;
