@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Análisis por activo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: cabecera con el nombre de la página, una fila de pestañas por activo y otra con las fechas
+   de cada análisis (más reciente primero). Debajo, el análisis elegido: cotizaciones, conclusión,
+   niveles (escala + tabla), escenarios, plan, lectura técnica, noticias y fuentes. */
+:root {
+  --bg: #f3f5f7;
+  --surface: #ffffff;
+  --fg: #12202c;
+  --muted: #55656f;
+  --line: #d6dde3;
+  --accent: #0a6a86;
+  --accent-soft: #dcebf0;
+  --up: #16784a;
+  --up-soft: #dcefe4;
+  --flat: #8a6208;
+  --flat-soft: #f4ead2;
+  --down: #b3392c;
+  --down-soft: #f6dedb;
+  --band: rgba(10, 106, 134, 0.10);
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1620; --surface: #152230; --fg: #e5ecf1; --muted: #9fb0bc; --line: #2a3a49;
+    --accent: #5cc0dc; --accent-soft: #17323f; --up: #4cc58a; --up-soft: #153427;
+    --flat: #e0b04c; --flat-soft: #3a2f15; --down: #ef7f70; --down-soft: #3b1f1c;
+    --band: rgba(92, 192, 220, 0.12);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1620; --surface: #152230; --fg: #e5ecf1; --muted: #9fb0bc; --line: #2a3a49;
+  --accent: #5cc0dc; --accent-soft: #17323f; --up: #4cc58a; --up-soft: #153427;
+  --flat: #e0b04c; --flat-soft: #3a2f15; --down: #ef7f70; --down-soft: #3b1f1c;
+  --band: rgba(92, 192, 220, 0.12);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  padding-inline: 16px;
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+.wrap > * { min-width: 0; }
+#entry { margin: 0; width: 100%; }
+h1, h2, h3, p, ul, dl, dd { margin: 0; }
+h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.1; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
+h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+h3 { font-size: 16px; font-weight: 600; line-height: 1.3; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+section { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+/* Navegación */
+.nav { display: flex; flex-direction: column; gap: 14px; }
+.nav .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.navrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.navrow .lbl { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; width: 64px; flex: none; }
+.chip { font: inherit; font-size: 14px; font-weight: 500; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px; cursor: pointer; line-height: 1.2; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.chip.date { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 13px; }
+.chip .new { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 6px; opacity: 0.85; }
+
+/* Cabecera del análisis */
+header { display: flex; flex-direction: column; gap: 18px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 14px; color: var(--muted); }
+.meta .when { color: var(--fg); font-weight: 600; }
+.badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 3px; background: var(--accent-soft); color: var(--accent); }
+.badge.old { background: var(--flat-soft); color: var(--flat); }
+.quotes { display: flex; flex-wrap: wrap; gap: 8px 32px; align-items: flex-end; }
+.quote { display: flex; flex-direction: column; gap: 2px; }
+.quote .lbl { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.quote .val { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 26px; font-weight: 600; line-height: 1.1; }
+.quote .sub { font-size: 12px; color: var(--muted); }
+
+.conclusion { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
+.conclusion .lead { font-size: 18px; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+
+.frames { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.frame { border-top: 2px solid var(--line); padding-top: 8px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.frame .lbl { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.frame .val { font-family: var(--font-num); font-weight: 600; font-size: 15px; }
+.frame .note { font-size: 13px; color: var(--muted); }
+
+/* Niveles */
+.levels { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 24px; align-items: start; }
+.ladder { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.band { position: absolute; left: 0; right: 0; background: var(--band); }
+.band span { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--accent); font-weight: 500; }
+.lv { position: absolute; left: 0; right: 0; transform: translateY(-50%); display: flex; align-items: center; gap: 10px; padding-inline: 12px; z-index: 1; }
+.lv .p { width: 56px; text-align: right; font-family: var(--font-num); font-variant-numeric: tabular-nums; font-weight: 600; font-size: 14px; flex: none; background: var(--surface); }
+.lv .ln { flex: 1 1 24px; height: 0; border-top: 1px solid var(--line); min-width: 12px; }
+.lv .t { font-size: 12.5px; color: var(--muted); text-align: right; max-width: 52%; line-height: 1.25; }
+.lv.res .p { color: var(--down); } .lv.res .ln { border-top-color: var(--down); }
+.lv.sup .p { color: var(--up); } .lv.sup .ln { border-top-color: var(--up); }
+.lv.now .p { background: var(--accent); color: var(--surface); border-radius: 3px; padding: 1px 4px; width: auto; min-width: 56px; }
+.lv.now .ln { border-top: 2px solid var(--accent); }
+.lv.now .t { color: var(--accent); font-weight: 600; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th { text-align: left; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.lvl { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+td.typ { color: var(--muted); min-width: 120px; }
+td.cm { min-width: 200px; }
+
+/* Escenarios */
+.scen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.sc { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.sc .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.sc .pct { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 28px; font-weight: 600; line-height: 1; }
+.tag { align-self: flex-start; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 3px; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 3px; }
+.sc.up .pct { color: var(--up); } .sc.up .tag { background: var(--up-soft); color: var(--up); } .sc.up .bar i { background: var(--up); }
+.sc.flat .pct { color: var(--flat); } .sc.flat .tag { background: var(--flat-soft); color: var(--flat); } .sc.flat .bar i { background: var(--flat); }
+.sc.down .pct { color: var(--down); } .sc.down .tag { background: var(--down-soft); color: var(--down); } .sc.down .bar i { background: var(--down); }
+.sc p { color: var(--muted); font-size: 14px; }
+
+/* Plan */
+.plan { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pl { border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.pl .k { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.pl.wide { grid-column: 1 / -1; }
+
+/* Filas de texto */
+.rows { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+.row .k { font-weight: 600; }
+.row p { max-width: 70ch; }
+.paras { display: flex; flex-direction: column; gap: 12px; max-width: 70ch; }
+.paras .note { color: var(--muted); font-size: 14px; }
+
+.dt td { min-width: 130px; }
+.dt td:first-child { font-weight: 600; white-space: nowrap; min-width: 0; }
+.dt td:last-child { min-width: 240px; }
+section > .note { color: var(--muted); font-size: 14px; max-width: 75ch; }
+.src { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.src li { font-size: 14px; }
+footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 820px) {
+  .levels { grid-template-columns: minmax(0, 1fr); }
+  .scen { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  .frames { grid-template-columns: minmax(0, 1fr); }
+  .plan { grid-template-columns: minmax(0, 1fr); }
+  .row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .navrow .lbl { width: 100%; }
+  .conclusion .lead { font-size: 17px; }
+}
+</style>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Activos y fechas">
+    <div class="eyebrow">Método VIPERIANDICATOR14</div>
+    <h1>Análisis por activo</h1>
+    <div class="navrow"><span class="lbl">Activo</span><span id="assets" class="navrow"></span></div>
+    <div class="navrow"><span class="lbl">Fecha</span><span id="dates" class="navrow"></span></div>
+  </nav>
+  <main id="entry" class="wrap" style="gap:40px"></main>
+  <footer>Análisis de seguimiento con el método VIPERIANDICATOR14. Contenido informativo, no es asesoramiento financiero.</footer>
+</div>
+
+<script>
+/* ---------------------------------------------------------------------------
+   DATOS. Cada análisis es un objeto de ENTRIES. Para añadir uno, se agrega otro
+   objeto con el mismo formato (asset, date ISO, y las secciones que apliquen).
+   --------------------------------------------------------------------------- */
+var ASSET_NAMES = { WTI: 'Petróleo (WTI)', KC: 'Café (KC)', CC: 'Cacao (CC)' };
+
+var ENTRIES = [
+  {
+    asset: 'WTI',
+    date: '2026-10-09',
+    title: 'Análisis del petróleo (WTI)',
+    operativa: 'Swing',
+    quotes: [
+      { l: 'WTI', v: '91,85', s: 'cierre del viernes 9 (una fuente). A las 11:43 cotizaba 90,76' },
+      { l: 'Rango semanal', v: '86,86 – 93,20', s: 'mínimo del martes 6, máximo del jueves 8' },
+      { l: 'Brent − WTI', v: '≈ 12,9', s: 'Brent 104,72 al cierre (una fuente)' }
+    ],
+    conclusion: {
+      lead: 'En rango con sesgo alcista de fondo, pero el color del diario ya pasó a fucsia: el rebote murió bajo 93,51 y el barrido de 86,86 no tuvo continuación.',
+      text: 'Respecto al análisis del 4 de octubre, el escenario lateral es el que se está cumpliendo. El martes 6 el precio pinchó el túnel amarillo H4 y tocó 86,86, pero recuperó; el jueves 8 subió hasta 93,20 y se frenó otra vez bajo 93,51. Hoy cotiza pegado a la Genial Line y la EMA 8 de H1 y H4, sin dirección. Con la leyenda de colores: la vela diaria de hoy es fucsia (inicio de secuencia bajista) tras la del 8 en verde fosforito (fuerza bajista impulsiva), y el semanal lleva tres velas amarillas (pérdida de fuerza). El color no apoya el rebote por ahora, aunque la vela de hoy puede cambiar hasta el cierre. Para operar necesito un cierre H4 sobre 93,51 o bajo 86,86. Hay conflicto entre marcos (semanal alcista, diario bajo EMA 8 y Genial Line, H4 y H1 sin dirección): esperar o reducir tamaño. Actualización del sábado: el viernes cerró en 91,85 (+0,8% semanal, según una fuente), dentro del rango, y apareció un factor nuevo: el huracán Isaías paró cerca del 63% de la producción petrolera del Golfo de México. El análisis técnico es el de las capturas del viernes a las 11:43.'
+    },
+    frames: [
+      { l: 'Gatillo', v: 'H1 / M15', n: 'con confirmación en H4. Falta la captura de M15' },
+      { l: 'Contexto', v: 'H4 / D' },
+      { l: 'Niveles', v: 'D / W' }
+    ],
+    bands: [
+      { lo: 97.5, hi: 101, label: 'FVG 97,5‑101' },
+      { lo: 87.1, hi: 88.7, label: 'Túnel amarillo H4 ~87‑89' }
+    ],
+    levels: [
+      { p: 102.38, cls: 'res', t: 'Techo de la tesis alcista' },
+      { p: 97.11, cls: 'res', t: 'Reacción principal' },
+      { p: 93.51, cls: 'res', t: 'Doble rechazo, gatillo largo' },
+      { p: 90.76, cls: 'now', t: 'WTI, hoy 11:43' },
+      { p: 86.86, cls: 'sup', t: 'Mínimo semanal' },
+      { p: 86.14, cls: 'sup', t: 'FVG y túnel azul diarios' }
+    ],
+    table: [
+      ['106,86 / ~105‑106', 'Resistencia mayor', 'Máximo de septiembre y directriz bajista desde marzo. En W el rechazo fue justo ahí. Fuera de juego mientras no pase 97‑102'],
+      ['102,38', 'Resistencia', 'Techo de la tesis alcista'],
+      ['97,11 / FVG 97,5‑101', 'Resistencia + imán', 'FVG en D y H4. Zona de reacción principal si rompe 93,51'],
+      ['93,51', 'Resistencia / gatillo', 'Rechazado hacia el 2 de octubre y de nuevo el 8 (máx. 93,20). Cierre H4 encima con retesteo = gatillo largo'],
+      ['91,5‑92', 'Resistencia inmediata', 'Genial Line diaria (~92), borde alto del túnel azul H4 (~91,8) y túnel amarillo H1 (~91,5‑91,9)'],
+      ['89,4‑89,6 / 88,6', 'Soporte corto (FVG H1)', 'Huecos de H1 y borde bajo del túnel rosa H1'],
+      ['87‑89', 'Soporte (túnel amarillo H4)', 'Tocado el martes 6. El precio lo recuperó'],
+      ['86,86', 'Soporte clave', 'Mínimo semanal. Un cierre H4 por debajo es la pérdida del rango'],
+      ['86,14', 'Soporte', 'FVG diario 84‑86 y túnel azul diario (~84‑86). Túnel rosa H4 (~83‑85) como colchón'],
+      ['80,00', 'Soporte', 'Objetivo del escenario de acuerdo'],
+      ['74,43', 'Soporte profundo', 'Solo con reapertura real de Hormuz']
+    ],
+    scenarios: [
+      { cls: 'up', tag: 'Alcista', title: '1. Ruptura de 93,51 → 97,11', pct: 30, text: 'H4 cierra sobre 93,51 y la retestea, con H1 y H4 sobre Genial Line y EMA 8, velas de fuerza compradora y volumen en M5. Objetivo 97,11 y el FVG 97,5‑101. Se invalida con un cierre H4 de vuelta bajo 91. Llegar a 102,38 pide catalizador (Irán, Hormuz o más recortes de inventarios).' },
+      { cls: 'flat', tag: 'Lateral', title: '2. Rango 86,86‑93,20', pct: 40, text: 'Los titulares se compensan (reservas y diésel frente a Irán y Hormuz) y el precio sigue girando entre 87 y 93. Es lo que ha pasado esta semana. Deja de valer con un cierre H4 fuera de ese rango.' },
+      { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 86,86', pct: 30, text: 'Cierre H4 bajo 86,86: primero 86,14 (FVG y túnel azul diarios) y después 80. Es la vía del acuerdo o alto el fuego; con Hormuz abierto de verdad entra el 74,43. Se invalida si recupera 88.' }
+    ],
+    plan: [
+      { k: 'Viernes 9 de octubre', wide: true, text: 'Sin ruptura ni confirmación, y con conflicto entre marcos. Hoy cierra la semana: no abriría posiciones swing nuevas antes del cierre y, si hay algo abierto, reduciría tamaño por el riesgo de titulares de Irán durante el fin de semana. Reevalúo el lunes con H4 y M15.' },
+      { k: 'Largos', text: 'Dos vías. Ruptura: cierre H4 sobre 93,51 con retesteo, H1 y H4 sobre Genial/EMA 8, color de vela con fuerza alcista (verde oscuro o azul marino, que hoy no están) y volumen en M5. Rebote: recuperación de 88‑89 o de 86,86 tras barrido, con el mismo filtro H4 y el volumen en M5.' },
+      { k: 'Cortos', text: 'Solo con cierre H4 bajo 86,86. Objetivo 86,14 y luego 80. La referencia del 4 de octubre (cierre H4 bajo 88) se quedó corta: el 88 se pinchó y se recuperó. No iría contra el semanal sin ese cierre.' },
+      { k: 'Pirámide', text: 'Solo a favor y tras superar 93,51 y 97,11, nunca promediando.' },
+      { k: 'Idea de fondo', text: 'Mientras no haya cierre H4 fuera de 86,86‑93,51 es rango: compras en 86‑89 con confirmación y parciales o ventas en 93‑97, con los titulares de Irán y las reservas como motor de cada tramo.' }
+    ],
+    tecnica: [
+      { k: 'Semanal', text: 'Estructura alcista desde las señales IN de principios de 2026, con mínimos crecientes (~67 → 74 → 80) y el precio sobre los tres túneles (azul ~75‑77, amarillo ~71‑73, rosa ~62‑67). La vela de esta semana abrió en 91,77, hizo máximo 93,20 y mínimo 86,86, y cotiza en 90,83: mecha inferior larga (rechazo del 87) y mecha superior (rechazo del 93). En septiembre el precio fue rechazado en 106,86, justo sobre la directriz bajista. Sigue siendo corrección dentro de tendencia.' },
+      { k: 'Diario', text: 'Precio bajo la EMA 8 (~93‑94) y bajo la Genial Line (~92), dentro de un rango de seis sesiones (87‑93,2). El jueves 8 dejó una vela verde grande y hoy devuelve parte. Debajo, FVG 84‑86 y túnel azul (~84‑86), muy cerca de 86,14. Encima, FVG 97,5‑101 como imán.' },
+      { k: 'H4', text: 'Precio dentro del túnel azul (123/188, ~90‑91,8), pegado a la Genial Line y la EMA 8 (~90,3‑90,8), con los puntos marrones sobre el precio: zona de corrección activa y sin dirección. Debajo, túnel amarillo (416/618, ~87‑89), que tocó el martes, y túnel rosa (882/1223, ~83‑85). El jueves se frenó en 93,20, bajo 93,51. Según la regla, la zona de corrección no decide por sí sola.' },
+      { k: 'H1', text: 'Precio ligeramente bajo la EMA 8 (~91,0) y la Genial Line (~90,9), dentro de los túneles rosa y azul. Encima, el túnel amarillo (~91,5‑91,9) como techo. Debajo, huecos (FVG) en ~89,5, ~88,6 y ~86,8. Desde el mínimo 86,86 del martes hubo rebote en V hasta 93,20 y retroceso de alrededor del 46% hasta ~90,3.' },
+      { k: 'Colores de vela (leyenda)', text: 'Semanal: tres velas amarillas seguidas (pérdida de fuerza o indecisión), tras un rojo y dos verdes. Diario: naranja varios días, verde fosforito el 8 (fuerza bajista impulsiva, aunque la vela subió) y fucsia hoy (inicio o confirmación de secuencia bajista). H4: dos velas verde oscuro en el impulso del 8 (máxima fuerza alcista), después cuatro amarillas y una azul clara: la fuerza se apagó. H1: velas demasiado pequeñas para leer el color con fiabilidad. Resumen: el color confirma el rango y apunta a debilidad a corto plazo; no hay azul marino ni verde oscuro en D que apoye una ruptura.' },
+      { k: 'Límites de la lectura', text: 'Los valores de medias, túneles y huecos están leídos a ojo de las capturas, así que son aproximados. Los colores de vela los extraje de los píxeles de la captura y los cruzo con tu leyenda; la vela de hoy puede cambiar hasta el cierre. No hay captura de M15 ni volumen de NinjaTrader.' }
+    ],
+    tables: [
+      {
+        title: 'Inventarios de crudo (EIA)',
+        intro: 'Informe semanal del miércoles 7 de octubre, con datos de la semana al 2 de octubre.',
+        head: ['Concepto', 'Dato', 'Cambio semanal', 'Lectura'],
+        rows: [
+          ['Crudo comercial', '424,1 M barriles', '−3,2 M (esperado +1,7 M)', 'Sorpresa alcista. 1% sobre la media de 5 años'],
+          ['Gasolina', '204,7 M', '+0,4 M', '6% bajo la media de 5 años'],
+          ['Destilados', '105,1 M', '≈ 0 (−0,04 M)', '12% bajo la media de 5 años: producto tenso'],
+          ['Total petróleo comercial', '—', '−6,9 M', 'Recorte mayor que el del crudo'],
+          ['Reserva estratégica (SPR)', '283,0 M', '−0,8 M', 'Sigue saliendo crudo de las reservas'],
+          ['Cushing', '24,7 M', '+0,4 M', 'Dato solo de Admirals, sin verificar en la EIA'],
+          ['Refinerías', 'Utilización 92,7%', 'Insumos 16,5 M b/d (+223 mil)', 'Refino fuerte'],
+          ['Importaciones de crudo', '6,8 M b/d', '+1,1 M b/d', 'Entra más crudo y aun así hay recorte']
+        ],
+        note: 'Lectura: el titular es alcista (recorte frente a la subida esperada) y los productos siguen por debajo de la media. Pero el recorte llega con refino fuerte y más importaciones, y el SPR sigue liberando barriles (hipótesis: eso alimenta la presión de los titulares de reservas). No cambia el rango y apoya los soportes. Próximo informe: jueves 15 de octubre a las 18:00 (hora de Madrid), con datos de la semana al 9; se retrasa un día por el festivo del lunes 12.'
+      },
+      {
+        title: 'Correlaciones con el WTI',
+        intro: 'No es un coeficiente estadístico: es la lectura de cómo se movieron estos activos con el petróleo en la sesión del jueves 8 y en la semana. Las fuentes difieren en algunas cifras, así que uso niveles aproximados y no saco conclusiones de decimales.',
+        head: ['Activo', 'Nivel (8‑9 oct, aprox.)', 'Relación con el WTI', 'Lectura'],
+        rows: [
+          ['Brent', '≈ 104,7 (cierre del viernes, una fuente)', 'Mismo sentido, con spread al alza', 'El Brent − WTI pasó de 11,1 (4 oct) a ≈ 12,9. El WTI sigue rezagado y el cierre del spread que se esperaba no ha llegado'],
+          ['Dólar (DXY)', '≈ 102,1‑102,2', 'Habitualmente inversa', 'Las fuentes no coinciden en la dirección del jueves (−0,13% frente a +0,40%). Un dólar firme limita las subidas del crudo, pero hoy el motor son los titulares de Irán'],
+          ['Bono a 10 años', '≈ 5,2‑5,3%', 'Mismo sentido esta semana', 'El jueves el rendimiento subió con el petróleo (miedo a inflación y a más subidas de tipos) y bajó cuando el crudo cayó tras las palabras de Trump. Si el WTI rompe 93,51, el bono es el primer freno que vigilar'],
+          ['Nasdaq / NQ', 'Nasdaq 100 −1,4% el jueves (una fuente; otra da −0,2% para el Composite)', 'Inversa en los días de crudo al alza', 'El jueves cayó con el crudo al alza y rendimientos altos, pero la caída de chips tuvo causa propia (informe sobre ingresos de OpenAI). No atribuir todo al petróleo. Sin captura del NQ queda como hipótesis'],
+          ['VIX', 'Sin dato fiable', '—', 'No he encontrado el nivel. Pásame la captura si quieres incluirlo'],
+          ['Oro', '≈ 4.134 $ (+0,5%)', 'Sin relación directa', 'Se mueve más con rendimientos y dólar que con el crudo']
+        ],
+        note: 'Hipótesis de trabajo: en los días de titulares de Irán el crudo manda sobre los rendimientos y el NQ, no al revés. Si el WTI rompe al alza con el 10 años en máximos, el NQ es el activo que más sufriría; si el crudo cae por reservas o acuerdo, el alivio llega por bono y NQ.'
+      }
+    ],
+    noticias: [
+      { k: 'Miércoles 7: reservas de diésel', text: 'Los miembros de la AIE acordaron priorizar la liberación de reservas de diésel y el crudo cayó ese día (titular de CNBC).' },
+      { k: 'Jueves 8: Irán', text: 'El crudo subió con noticias de Irán: el Pentágono ordenó preparar posibles nuevos ataques y hubo proyectiles contra un petrolero frente a Qatar. Cayó unos 1,5 dólares en minutos cuando Trump dijo que no atacará antes de las elecciones del 3 de noviembre, y no se calmó del todo (Babypips, cifras aproximadas).' },
+      { k: 'Viernes 9: huracán Isaías', text: 'Paró cerca del 63% de la producción petrolera del Golfo de México; las cifras en barriles difieren según la fuente. Hipótesis: si las refinerías de la costa quedan fuera hasta unos 10 días, baja la demanda de crudo WTI y el spread con el Brent podría ensancharse. Sin confirmar.' },
+      { k: 'Irán, actualización', text: 'Trump no atacará antes del 3 de noviembre y el bloqueo sigue; 17 buques sancionados.' },
+      { k: 'Tipos y bono', text: 'Las actas de la Fed y las declaraciones de Waller y Musalem apuntan a más subidas de tipos, y el 10 años ronda el 5,2‑5,3%. Un crudo caro alimenta ese temor.' },
+      { k: 'Oferta del Golfo (30 sept)', text: 'Goldman estima que las exportaciones del Golfo rondan 23,3 millones de barriles diarios incluyendo las «oscuras», similar a la media de 2025. Aun así, el tráfico visible por Ormuz marcó un mínimo de dos meses por los ataques, y HSBC describe Ormuz como «estructuralmente dañado».' }
+    ],
+    extra: {
+      title: 'Previsiones',
+      paras: [
+        'La encuesta de Reuters de septiembre (30 analistas) da un promedio de 83,90 dólares para el WTI en 2026 y de 89,05 para el Brent. El WTI actual está por encima, lo que encaja con una prima de riesgo por Ormuz.'
+      ]
+    },
+    vigilar: [
+      { k: 'Irán y Ormuz', text: 'Titulares del Pentágono, ataques a petroleros y tráfico por Ormuz. El fin de semana es riesgo de hueco el lunes.' },
+      { k: 'Huracán Isaías', text: 'Reapertura de plataformas y refinerías del Golfo: define si pesa más la oferta parada o la demanda perdida.' },
+      { k: 'Reservas', text: 'Nuevas liberaciones coordinadas (G7, Europa) y la prioridad al diésel acordada por la AIE.' },
+      { k: 'Lunes 12 de octubre', text: 'Festivo en EE. UU. (Columbus Day). Retrasa un día el informe de inventarios.' },
+      { k: 'Jueves 15, 18:00', text: 'Inventarios EIA de la semana al 9 de octubre (hora de Madrid).' },
+      { k: 'Fed y bono a 10 años', text: 'El 10 años en 5,2‑5,3% es el termómetro de si el crudo caro empieza a pasar factura a las acciones.' },
+      { k: '3 de noviembre', text: 'Elecciones en EE. UU., el plazo que Trump citó para no atacar a Irán.' }
+    ],
+    sources: [
+      { t: 'EIA Crude Oil Inventories Preview, 15 October 2026 Report – Admirals', u: 'https://admiralmarkets.com/analytics/traders-blog/eia-crude-oil-inventories-october-2026' },
+      { t: 'EIA: US crude oil inventories down 3.2 million bbl – Oil & Gas Journal', u: 'https://www.ogj.com/general-interest/economics-markets/news/55410217/eia-us-crude-oil-inventories-down-32-million-bbl' },
+      { t: 'Financial & Forex Market Recap, 8 oct 2026 – BabyPips', u: 'https://www.babypips.com/news/financial-forex-market-recap-2026-10-08' },
+      { t: 'Global Economy Briefing, 8 oct 2026 – Rio Times (sus cifras de petróleo son inconsistentes; solo uso las de bono y dólar)', u: 'https://www.riotimesonline.com/global-economy-briefing-october-8-2026/' },
+      { t: 'Oil Price Forecasts Jump as Hormuz Disruption Drags On – OilPrice (30 sept)', u: 'https://oilprice.com/Energy/Oil-Prices/Oil-Price-Forecasts-Jump-as-Hormuz-Disruption-Drags-On.html' },
+      { t: 'Oil prices fall as IEA members agree to prioritize release of diesel stocks – CNBC (solo el titular; no pude abrir el artículo)', u: 'https://www.cnbc.com/2026/10/07/oil-prices-today-brent-wti-hormuz.html' },
+      { t: 'Cierre del WTI y Brent del viernes 9 – The National (una sola fuente)', u: 'https://www.thenationalnews.com/business/energy/' },
+      { t: 'Oil Prices Today: WTI y Brent – OneValor (precio del Brent, a partir del extracto de búsqueda)', u: 'https://www.onevalor.com/oil-gas-prices/' }
+    ]
+  },
+  {
+    asset: 'KC',
+    date: '2026-10-09',
+    title: 'Análisis del café (KC)',
+    operativa: 'Swing',
+    quotes: [
+      { l: 'KC diciembre', v: '287,65', s: 'c/lb, viernes 11:59 (Madrid). Cierre ≈ 285,17 (−1,34%, una fuente)' },
+      { l: 'Semana', v: '286,00 – 308,35', s: 'abre en 293,15 · máximo semanal el 7 de octubre' },
+      { l: 'USD/BRL', v: '≈ 5,02', s: 'el real sube ≈ 4% en 7 días (agregador, aprox.)' }
+    ],
+    conclusion: {
+      lead: 'Indecisión con presión bajista de corto plazo que ya muestran los colores: la subida a 308 se borró y el precio perdió 293 sin definir dirección.',
+      text: 'Coincido con tu lectura. El real fuerte pudo empujar al KC hasta 308,35 el 7 de octubre, justo en el 308,95 y la confluencia de túneles, y el rechazo fue inmediato: vela diaria verde fosforito el 6 (fuerza bajista impulsiva), fucsia el 7 (inicio de secuencia bajista) y naranja el 8 y el 9. Hoy cotiza en 287,65, entre el POC (~289) y la zona de compra A del plan (284‑286,5), con la Genial Line y la EMA 8 de H1 por encima. El sesgo neutral-alcista táctico del plan sigue vivo solo mientras aguante 283. Ahora no hay confirmación para largos ni cierre H4 que justifique cortos: esperar o reducir tamaño.'
+    },
+    frames: [
+      { l: 'Gatillo', v: 'H1 / M15', n: 'con confirmación en H4. Falta la captura de M15' },
+      { l: 'Contexto', v: 'H4 / D' },
+      { l: 'Niveles', v: 'D / W' }
+    ],
+    bands: [
+      { lo: 296, hi: 298.5, label: 'Techo múltiple 296‑298,5' }
+    ],
+    levels: [
+      { p: 308.95, cls: 'res', t: 'Histórico. Máx. 308,35 rechazado' },
+      { p: 293.5, cls: 'res', t: 'Genial Line H1 y diaria' },
+      { p: 289.0, cls: 'mid', t: 'POC, imán sin ventaja' },
+      { p: 287.65, cls: 'now', t: 'KC, hoy 11:59' },
+      { p: 285.45, cls: 'sup', t: 'Línea defendida, EMA 8 diaria' },
+      { p: 283.0, cls: 'sup', t: 'Cierre H4 bajo = pérdida' },
+      { p: 269.85, cls: 'sup', t: 'Soporte semanal' }
+    ],
+    table: [
+      ['316‑328,80', 'FVG + resistencia', 'FVG diario, directriz bajista gris (~325 hoy) y nivel 328,80'],
+      ['308,95', 'Resistencia histórica', 'Confluencia con túneles amarillo y rosa H4. El 7 de octubre llegó a 308,35 y fue rechazado'],
+      ['300‑307', 'Vacío de volumen', 'Según el plan del lunes. La ruptura de 299‑300 no se sostuvo'],
+      ['296‑298,5', 'Techo múltiple', 'Túnel azul H4 (~295‑298), borde bajo de los túneles diarios azul y amarillo (~297‑308) y VAH de los perfiles grandes (plan)'],
+      ['293,5‑294', 'Resistencia / Genial', 'Genial Line H1 y diaria (~293,5) y VAH de la semana. Se perdió el 8 de octubre'],
+      ['~289', 'POC (imán)', 'Zona sin ventaja: no operar entre 289 y 293'],
+      ['285,45', 'Soporte', 'Línea defendida varias veces. EMA 8 diaria (~286) y túnel azul H1 en la zona'],
+      ['283‑286,5', 'Zona de compra A (plan)', 'VAL, nodo de volumen y spring en 283,3'],
+      ['283 / ~282', 'Soporte clave', 'Un cierre H4 bajo 283 es la pérdida del VAL. Borde alto del túnel rosa diario (~282)'],
+      ['275‑278,5', 'Soporte', 'Primer objetivo si se pierde 283 (plan)'],
+      ['269,85', 'Soporte', 'Zona de mínimos de septiembre. Túnel rosa diario (~262‑282) y demanda 262‑270 (plan)'],
+      ['244,35', 'Soporte profundo', 'Mínimo de junio']
+    ],
+    scenarios: [
+      { cls: 'up', tag: 'Alcista', title: '1. Rebote en 283‑286,5 (A del plan)', pct: 30, text: 'Rebote en H1 (vela de rechazo o Genial H1 recuperada), H4 saliendo del naranja a color de fuerza y vela de volumen de NinjaTrader en M5 con compradores. Objetivos 289 (parcial), 293,5‑294 y 296‑298,5. Se invalida con un cierre H4 bajo 283.' },
+      { cls: 'flat', tag: 'Lateral', title: '2. Indecisión 283‑294', pct: 40, text: 'El precio gira entre el POC y la zona de compra sin confirmar. Es lo que muestran hoy H1, H4 y el diario, con velas cian y naranja. Deja de valer con un cierre H4 fuera de ese rango.' },
+      { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 283 (D del plan)', pct: 30, text: 'Cierre H4 bajo 283: se abre 275‑278,5 y después la demanda 262‑270 (túnel rosa diario). Se invalida si recupera 289. Una ruptura alcista exige cierre H4 sobre 299‑300 y retest de 296‑298 que aguante, y hoy está lejos.' }
+    ],
+    plan: [
+      { k: 'Viernes 9 de octubre', wide: true, text: 'El precio está a 1‑2 puntos de la zona A, pero sin las condiciones del plan: la Genial H1 no está recuperada y H4 no está en color de fuerza. Entre 289 y 293 no hay ventaja y bajo 289 tampoco hasta llegar a la zona. Hoy cierra la semana: esperaría al cierre semanal para ver si la mecha de 308 queda como rechazo.' },
+      { k: 'Largos', text: 'Solo en 284‑286,5 y con las condiciones del plan: rechazo en H1 o Genial H1 recuperada, H4 en color de fuerza y volumen de NinjaTrader en M5 con compradores. Stop bajo 282,5. La subida del 7 se borró y el diario tiene una vela fucsia reciente, así que reduciría tamaño.' },
+      { k: 'Cortos', text: 'Solo con cierre H4 bajo 283, sin anticiparlo. Objetivos 278,5‑275 y luego 270. El corto táctico de rechazo del plan se movió: el techo que rechazó fue 308, no 296‑298.' },
+      { k: 'Pirámide', text: 'Solo a favor, al mantener sobre 289 o superar 294. Nunca promediando a la baja si el pullback falla.' },
+      { k: 'Idea de fondo', text: 'Rango 283‑298,5 con extremos como únicos puntos de entrada. No operaría en el medio ni perseguiría el 300 sin cierre H4 y volumen.' }
+    ],
+    tecnica: [
+      { k: 'Comparación con el plan', text: 'El plan del lunes prefería el pullback A y daba la ruptura B con cierre H4 sobre 299‑300. En la captura H4 hay velas con cuerpo cerca de 300 los días 6 y 7, pero el retest de 296‑298 no aguantó: ruptura fallida. El escenario D (cierre H4 bajo 283) no se ha activado. El precio no ha tocado la zona A todavía.' },
+      { k: 'Semanal', text: 'Vela en curso con apertura 293,15, máximo 308,35, mínimo 286,00 y precio en 287,30: mecha superior larga (rechazo del 308) y cierre cerca de mínimos. Color naranja (falta de fuerza clara). Desde la vela fucsia de hacia finales de agosto solo ha habido naranja y cian, sin azul marino. El precio está dentro del túnel azul semanal (~279‑297) y bajo la EMA 8 (~295) y la Genial Line (~292). La directriz bajista gris (~325) sigue intacta.' },
+      { k: 'Diario', text: 'El 6 de octubre vela verde fosforito (fuerza bajista impulsiva, aunque la vela subió), el 7 fucsia (inicio de secuencia bajista) con mecha hasta 308, y el 8 y hoy naranja (falta de fuerza clara). Antes, cian y verde fosforito alternados desde finales de septiembre. El precio se apoya en la EMA 8 (~286) y en la línea 285,45, con los puntos marrones por encima (zona de corrección) y la Genial Line (~293,5) arriba. Debajo, el túnel rosa (~262‑282) como colchón.' },
+      { k: 'H4', text: 'Precio pegado a la Genial Line (~287‑288) y bajo la EMA 8 (~288,5), con los puntos marrones sobre el precio. Encima, túnel azul (~295‑298), amarillo (~301‑307) y rosa (~308‑310) juntos, que explican el rechazo del 7. Colores: verde oscuro (máxima fuerza alcista) en el impulso del 6 y 7, después amarillo y naranja: la fuerza se apagó. La zona de corrección no decide por sí sola.' },
+      { k: 'H1', text: 'Precio bajo la EMA 8 (~289,5) y la Genial Line (~293,5), con velas marrón y verde fosforito (fuerza bajista impulsiva) en la caída del jueves 8 y cian y naranja desde entonces. El túnel azul H1 y la línea 285,45 quedan justo debajo. Hay huecos H1 arriba en ~290‑292 y ~297‑300.' },
+      { k: 'Límites de la lectura', text: 'Los valores de medias, túneles y huecos están leídos a ojo de las capturas, así que son aproximados. La lectura de colores usa tu leyenda y puede fallar en velas pequeñas. No hay captura de M15 ni volumen de NinjaTrader.' }
+    ],
+    tables: [
+      {
+        title: 'Oferta, existencias y clima',
+        intro: 'Datos que mueven el KC. Los de oferta vienen de Trading Economics (7 de octubre) y no he podido contrastarlos con la fuente original.',
+        head: ['Factor', 'Dato', 'Lectura'],
+        rows: [
+          ['Existencias certificadas ICE', 'Mínimo de 27 años en septiembre, con recuperación parcial', 'Alcista, da soporte a los vencimientos cercanos. No encontré la cifra actual'],
+          ['Cosecha de Brasil 2026', 'Récord estimado de 67,6 M sacos (+19,6% interanual)', 'Bajista. Limita las subidas'],
+          ['Exportaciones de Brasil', 'Septiembre, el nivel más alto en 20 meses', 'Bajista'],
+          ['Balance mundial', 'Hedgepoint estima un excedente de 8,9 M sacos', 'Bajista'],
+          ['Clima', 'Lluvias escasas en Minas Gerais durante la floración, y preocupación por El Niño', 'Alcista. Condiciona la cosecha 2027/28'],
+          ['Calidad de la cosecha', 'Lluvias intensas retrasaron la recolección y el secado (2 de octubre)', 'Alcista a corto plazo'],
+          ['COT de fondos', 'Sin dato', 'No he podido leerlo. Revísalo hoy']
+        ],
+        note: 'Lectura: hay factores opuestos. La oferta de este año es abundante, pero los inventarios en bolsa están escasos y el clima de floración amenaza la próxima cosecha. Eso encaja con un precio que sube con titulares y se devuelve, como esta semana.'
+      },
+      {
+        title: 'Correlaciones con el KC',
+        intro: 'Lectura de la semana, no un coeficiente estadístico. Las fuentes difieren en algunas cifras, así que uso niveles aproximados.',
+        head: ['Activo', 'Nivel (aprox.)', 'Relación con el KC', 'Lectura'],
+        rows: [
+          ['Real brasileño (USD/BRL)', '≈ 5,02 (real +4,1% en 7 días)', 'Real fuerte apoya al KC; real débil lo presiona', 'Coherente con tu idea de que el real impulsó la subida. La fuente no da el día exacto, así que conviene confirmarlo en el gráfico USD/BRL'],
+          ['Dólar (DXY)', '≈ 102,1‑102,2', 'Habitualmente inversa', 'Un dólar firme resta apoyo al KC. Las fuentes no coinciden en su dirección del jueves'],
+          ['Nasdaq / NQ', 'Nasdaq 100 −1,4% el jueves (una fuente)', 'Vía real y apetito por riesgo (hipótesis)', 'El jueves el KC cayó 1,25% con las acciones a la baja. Con una sola sesión no concluyo. Sin captura del NQ'],
+          ['WTI', '≈ 90,8', 'Sin relación clara', 'El jueves el WTI subió y el KC cayó. No lo usaría como guía'],
+          ['VIX', 'Sin dato fiable', '—', 'Pásame la captura si quieres incluirlo']
+        ],
+        note: 'Hipótesis de trabajo: el real es el primer activo que vigilar para el KC. Si el real revierte, el 283 queda expuesto aunque el café por sí solo no lo muestre.'
+      }
+    ],
+    noticias: [
+      { k: 'Oferta récord en Brasil', text: 'El 7 de octubre el arábica bajó de 295 c/lb tras su máximo desde septiembre. Pesan la cosecha récord estimada de Brasil, las exportaciones de septiembre más altas en 20 meses y el excedente mundial previsto. El Niño sigue sosteniendo los precios (Trading Economics).' },
+      { k: 'Calidad y clima', text: 'El 2 de octubre el arábica subió por problemas de calidad: las lluvias intensas retrasaron la recolección y el secado. También preocupan las lluvias escasas en Minas Gerais durante la floración.' },
+      { k: 'La semana', text: 'El 6 de octubre el KC llegó a su nivel más alto desde septiembre (300,55 en el cierre según la fuente) y el 8 cerró en 289,05, un 1,25% menos. Hoy ronda 287,65.' },
+      { k: 'Real brasileño', text: 'El real se apreció alrededor de un 4% en siete días (USD/BRL en 5,02 aproximadamente). Es coherente con tu lectura de la subida del 6 y 7, aunque no he podido confirmar el día exacto del movimiento.' }
+    ],
+    vigilar: [
+      { k: 'Cierre semanal de hoy', text: 'Cerró ≈ 285,17 (una fuente), justo bajo 285,45 y sobre 283. Decide si la mecha de 308 queda como rechazo semanal.' },
+      { k: 'Lluvia en Minas Gerais', text: 'Floración: condiciona la cosecha 2027/28. Atención a los titulares de El Niño.' },
+      { k: 'Real brasileño y dólar', text: 'Un real que revierta es la señal de peligro para el 283.' },
+      { k: 'Existencias certificadas ICE', text: 'En mínimos de 27 años en septiembre con recuperación parcial. Revisar la cifra diaria.' },
+      { k: 'COT de hoy', text: 'Posición de fondos. No he podido leerlo.' },
+      { k: 'Contrato', text: 'Sin cambio de contrato esta semana (KC diciembre), según el plan.' }
+    ],
+    sources: [
+      { t: 'Coffee – Price, Chart, Historical Data, News – Trading Economics', u: 'https://tradingeconomics.com/commodity/coffee' },
+      { t: 'BRL/USD – FxFeed (cotización del real, agregador)', u: 'https://fxfeed.io/currencies/pairs/brl-usd' },
+      { t: 'Financial & Forex Market Recap, 8 oct 2026 – BabyPips (dólar y Nasdaq)', u: 'https://www.babypips.com/news/financial-forex-market-recap-2026-10-08' }
+    ]
+  },
+  {
+    asset: 'CC',
+    date: '2026-10-09',
+    title: 'Análisis del cacao (CC)',
+    operativa: 'Swing',
+    quotes: [
+      { l: 'Cacao ICE US', v: '5.577', s: 'USD/t, hoy 12:14 hora de Madrid' },
+      { l: 'Semana', v: '5.431 – 5.908', s: 'máximo el lunes 5 · cierre previo no verificado' },
+      { l: 'Cacao Londres dic', v: '+1,41%', s: 'cierre del jueves 8 (NY dic +1,49%)' }
+    ],
+    conclusion: {
+      lead: 'Cumplió el objetivo de 5.900 y rechazó en la directriz, como esperabas. Ahora está en indecisión: sin color de fuerza y con el estrangulamiento diario aún sin resolver.',
+      text: 'El lunes 5 llegó a 5.908 y el jueves 8 devolvió todo hasta 5.431, para cotizar hoy en 5.577, bajo el borde inferior del túnel azul semanal. Por colores, el semanal lleva tres semanas sin fuerza (amarillo y azul claro) y el diario rebotó en cian y naranja, sin verde ni azul marino. Tu escenario alcista a medio‑largo plazo y el estrangulamiento del túnel azul diario (~5.310) son una posibilidad real pero no confirmada: falta el cruce y un cierre H4 y diario sobre 5.960. Mientras tanto, esperar o reducir tamaño.'
+    },
+    frames: [
+      { l: 'Gatillo', v: 'H1 / M15', n: 'con confirmación en H4. Faltan M15 y volumen de NinjaTrader' },
+      { l: 'Contexto', v: 'H4 / D' },
+      { l: 'Niveles', v: 'D / W' }
+    ],
+    bands: [],
+    levels: [
+      { p: 6505, lbl: '6.505', cls: 'res', t: 'Siguiente objetivo si rompe' },
+      { p: 5960, lbl: '5.960', cls: 'res', t: 'Techo: directriz, Genial D, túnel amarillo D' },
+      { p: 5908, lbl: '5.908', cls: 'res', t: 'Máximo semanal (rechazo)' },
+      { p: 5577, lbl: '5.577', cls: 'now', t: 'Cacao, hoy 12:14' },
+      { p: 5431, lbl: '5.431', cls: 'sup', t: 'Mínimo semanal' },
+      { p: 5362, lbl: '5.362', cls: 'sup', t: 'Invalidación: cierre H4 bajo' },
+      { p: 5051, lbl: '5.051', cls: 'sup', t: 'Mínimo del 1 oct (martillo)' },
+      { p: 4918, lbl: '4.918', cls: 'sup', t: 'Soporte' }
+    ],
+    table: [
+      ['7.213', 'Resistencia', 'Nivel y FVG semanal (~7.100‑7.200). Objetivo de la tesis alcista a medio‑largo plazo'],
+      ['6.505', 'Resistencia', 'Siguiente objetivo si supera 5.960. Antes, FVG diario ~6.320‑6.400'],
+      ['5.960', 'Techo clave', 'Directriz bajista (~5.850 hoy y cayendo), Genial diaria (~5.850), túnel amarillo diario (~5.800‑5.900) y túnel azul semanal (~5.700‑5.930)'],
+      ['5.908', 'Máximo semanal', 'El objetivo de 5.900 se cumplió el lunes 5 con rechazo en la directriz'],
+      ['5.640‑5.740', 'Resistencia corta', 'EMA 8 diaria (~5.640) y borde alto del túnel rosa diario (~5.740)'],
+      ['5.400‑5.431', 'Soporte', 'Mínimo semanal 5.431, borde bajo del túnel rosa diario (~5.400) y FVG H4 (~5.380‑5.400)'],
+      ['5.362', 'Soporte clave', 'Línea roja, túnel amarillo H4 (~5.290‑5.380) y túnel rosa H1 (~5.290‑5.370). Un cierre H4 por debajo invalida el rebote'],
+      ['~5.310', 'Túnel azul diario', 'Estrangulado en una línea fina bajo el precio. Convergencia de las medias 123 y 188, pendiente del cruce'],
+      ['5.051', 'Soporte', 'Mínimo del 1 de octubre (martillo semanal)'],
+      ['4.918', 'Soporte', 'Con el FVG diario 4.700‑4.880 por debajo'],
+      ['4.327', 'Soporte profundo', 'Línea roja semanal con el túnel amarillo y el FVG semanal (~4.330‑4.850)']
+    ],
+    scenarios: [
+      { cls: 'up', tag: 'Alcista', title: '1. Ruptura y cambio alcista sobre 5.960', pct: 35, text: 'Cierre H4 y diario sobre 5.960 (directriz, Genial D y túnel amarillo), idealmente con IN institucional al cierre y cruce alcista del túnel azul diario. Objetivos 6.320‑6.400 y 6.505; si pasa, 7.213. Pide colores de fuerza alcista (azul marino o verde oscuro). Se invalida con un cierre diario de vuelta bajo 5.740.' },
+      { cls: 'flat', tag: 'Lateral', title: '2. Rango 5.360‑5.910', pct: 40, text: 'El precio gira dentro del túnel rosa diario sin color de fuerza, como esta semana. El estrangulamiento diario sigue sin cruzar. Deja de valer con un cierre H4 fuera del rango.' },
+      { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 5.362', pct: 25, text: 'Cierre H4 y diario bajo 5.362 (con el túnel azul diario en ~5.310): primero 5.051 y después 4.918 y el FVG 4.700‑4.880. Se invalida si recupera 5.570 con color de fuerza.' }
+    ],
+    plan: [
+      { k: 'Viernes 9 de octubre', wide: true, text: 'Sin confirmación ni color de fuerza. El precio está en el medio del rango (5.431‑5.908) y bajo la Genial y la EMA 8 de D, H4 y H1. No operaría en el medio. Hoy cierra la semana: esperaría al cierre para ver cómo queda la mecha de 5.908 frente a la directriz.' },
+      { k: 'Largos', text: 'Dos vías. Retroceso: zona 5.360‑5.450 con confirmación en H4 (color de fuerza alcista, no marrón ni fosforito) y volumen en M5; invalidación con cierre H4 bajo 5.362. Ruptura: cierre H4 y diario sobre 5.960 con retest que aguante, sin perseguir. En ambos casos, tamaño reducido mientras el diario siga sin color alcista.' },
+      { k: 'Cortos', text: 'Solo con cierre H4 y diario bajo 5.362, sin anticiparlo. Objetivos 5.051 y 4.918. No iría contra la estructura semanal sin ese cierre.' },
+      { k: 'Pirámide', text: 'Solo a favor y tras superar 5.960, nunca promediando.' },
+      { k: 'Idea de fondo', text: 'Sesgo alcista a medio plazo sin confirmar. Mientras no haya cruce del túnel azul diario y cierre sobre 5.960, es rango 5.360‑5.910 con los extremos como únicas entradas.' }
+    ],
+    tecnica: [
+      { k: 'Comparación con el análisis del 2 de octubre', text: 'El plan del viernes 2 miraba hacia 5.750‑5.780 y 5.900. Se cumplió: el lunes 5 llegó a 5.908 y fue rechazado en la directriz. La ruptura (cierre sobre 5.950) no se produjo y el fallo (cierre diario bajo 5.360) tampoco: el precio devolvió el movimiento hasta 5.431 y rebotó. El retroceso del plan (5.500‑5.550) se visitó después del máximo, no antes.' },
+      { k: 'Semanal', text: 'Vela en curso: abre 5.658, máximo 5.908, mínimo 5.431, precio 5.577. Mecha superior larga (rechazo de la directriz) y cierre en la mitad baja. Colores: amarillo, azul claro, azul claro y amarillo en las cuatro últimas, tras tres verde oscuro en julio y agosto: pérdida de fuerza. No hay fucsia ni azul marino semanal, así que ni secuencia bajista ni alcista confirmada. El precio está bajo el borde inferior del túnel azul semanal (~5.700) y sobre la EMA 8 (~5.370). En agosto la directriz se rompió (6.800) y falló; ahora es el segundo toque desde abajo. La estructura es de recuperación desde los mínimos de mayo, así que el escenario alcista de largo plazo es plausible, pero sin confirmar.' },
+      { k: 'Diario', text: 'Precio dentro del túnel rosa (~5.400‑5.740), bajo la EMA 8 (~5.640) y la Genial Line (~5.850), con la directriz (~5.850) encima. Colores: marrón y verde fosforito en la caída del 30 de septiembre y 1 de octubre (fuerza bajista impulsiva), y después cian, cian, naranja, naranja, cian y naranja hoy: rebote sin color de fuerza alcista. El túnel azul diario (123/188) está estrangulado en ~5.310 bajo el precio: las dos medias convergen y se espera el cruce. El estrangulamiento solo marca que se acerca un cruce, no su dirección; la confirma el cruce y el cierre.' },
+      { k: 'H4', text: 'Precio pegado a la Genial Line y la EMA 8 (~5.560‑5.590), en el borde inferior del túnel azul H4 (~5.550‑5.670) y bajo el rosa (~5.600‑5.830). Debajo, túnel amarillo (~5.290‑5.380) con la línea 5.362. Colores: verde y verde oscuro el lunes 5 (impulso a 5.908), después amarillo y azul claro: pérdida de fuerza. Hubo un OUT institucional hacia el 17 de septiembre y un IN a principios de agosto; ninguno nuevo. Un IN al cierre sobre 5.960 sería la confirmación.' },
+      { k: 'H1', text: 'Precio bajo la EMA 8 (~5.590) y la Genial Line (~5.690), con el túnel amarillo H1 pegado debajo (~5.530‑5.560). Más abajo, túnel rosa H1 (~5.290‑5.370) y FVG 5.200‑5.360 como suelo. Rebote en V desde 5.051 (1 oct) hasta 5.908 (5 oct), luego caída a 5.431 y rebote a ~5.650. Las velas H1 son demasiado pequeñas para leer el color con fiabilidad.' },
+      { k: 'Límites de la lectura', text: 'Los valores de medias, túneles y huecos están leídos a ojo de las capturas, así que son aproximados. Los colores los extraje de los píxeles de la captura y los cruzo con tu leyenda. La vela de hoy puede cambiar hasta el cierre. La captura es de las 12:14 y el precio puede haberse movido. No hay M15 ni volumen de NinjaTrader.' }
+    ],
+    tables: [
+      {
+        title: 'Oferta, existencias y demanda',
+        intro: 'Datos del 8 de octubre en Yahoo Finance (texto de Barchart) y de Trading Economics (7 de octubre). No los he contrastado con la fuente original.',
+        head: ['Factor', 'Dato', 'Lectura'],
+        rows: [
+          ['Existencias ICE', '3.559.258 sacos el 8 oct (3.481.504 el 30 sep)', 'Máximo en 2,25 años. Bajista: presiona el precio'],
+          ['Llegadas a puerto en Costa de Marfil', '2,18 M t hasta el 27 sep (+19,8% interanual); 18.000 t en la semana al 4 oct', 'Bajista por volumen acumulado. Las lluvias cortaron carreteras y frenaron las entregas, lo que es alcista a corto plazo'],
+          ['Cosecha 2026/27', 'Costa de Marfil ~1,75 M t (−20%), Ghana ~650.000 t (−13%)', 'Alcista a medio plazo. Se compara con ~2,2 M t de la campaña anterior'],
+          ['Clima', 'El Niño podría ser de los más fuertes en más de 75 años; mazorca negra', 'Alcista: reduce los rendimientos en África Occidental'],
+          ['Molturación Q2', 'Europa −4,6% (316.366 t, mínimo para un Q2 en 6 años), Norteamérica +7,7%, Asia +25%', 'Demanda desigual: Europa débil, Asia fuerte'],
+          ['Curva (análisis del 2 oct)', 'Contango suave hasta mitad de 2027', 'Sin señal de escasez inmediata. No actualizada']
+        ],
+        note: 'Lectura: el mercado compensa un presente con mucha oferta y existencias altas con un 2026/27 recortado por el clima. Eso encaja con un precio que sube con titulares de clima y se devuelve con las existencias, como esta semana.'
+      },
+      {
+        title: 'Correlaciones con el cacao',
+        intro: 'Lectura de la semana, no un coeficiente estadístico. Las fuentes difieren en algunas cifras, así que uso niveles aproximados.',
+        head: ['Activo', 'Nivel (aprox.)', 'Relación con el cacao', 'Lectura'],
+        rows: [
+          ['Cacao Londres (dic)', '+1,41% el jueves 8', 'Mismo sentido', 'Cerró al alza el jueves, igual que Nueva York (+1,49%). Mercado alineado'],
+          ['Café (KC)', '287,65 c/lb', 'Débil, por flujo de fondos en softs', 'Ambos rechazaron máximos el 5‑7 de octubre y hoy bajan (KC −0,5%, cacao −1,6%), con colores de poca fuerza en los dos'],
+          ['Dólar (DXY)', '≈ 102,1‑102,2', 'Habitualmente inversa', 'Un dólar firme resta apoyo a las materias primas blandas. Las fuentes no coinciden en su dirección del jueves'],
+          ['Nasdaq / NQ', 'Nasdaq 100 −1,4% el jueves (una fuente)', 'Débil e indirecta', 'El jueves el cacao subió con las acciones a la baja. Sin captura del NQ no saco conclusiones'],
+          ['VIX', 'Sin dato fiable', '—', 'Pásame la captura si quieres incluirlo']
+        ],
+        note: 'Hipótesis de trabajo: el cacao se mueve sobre todo por su propio clima y existencias, así que las correlaciones son de contexto y no deberían decidir una entrada.'
+      }
+    ],
+    noticias: [
+      { k: 'Jueves 8: lluvias y existencias', text: 'El cacao cerró al alza (Nueva York dic +1,49%, Londres dic +1,41%) tras recuperarse de pérdidas iniciales por previsiones de lluvias continuas en Costa de Marfil. Las existencias de ICE, en su nivel más alto en 2,25 años, siguen presionando.' },
+      { k: 'Miércoles 7: retirada de máximos', text: 'Los futuros bajaron hacia 5.640 tras tocar máximos de tres semanas, y el mercado sigue en rango. Las llegadas a puerto sumaron 18.000 t en la semana al 4 de octubre, con 54.500 t en la campaña, y se estima que el cierre de la campaña principal de Costa de Marfil sea un 17% menor (Trading Economics).' },
+      { k: '1 de octubre: mínimo', text: 'Los futuros cayeron hacia 5.100, su nivel más bajo desde el 27 de julio, por la abundancia de oferta. Ese es el barrido de 5.051 del martillo semanal.' }
+    ],
+    vigilar: [
+      { k: 'Cierre semanal de hoy', text: 'Cómo queda la mecha de 5.908 frente a la directriz y si cierra por debajo del túnel azul semanal (~5.700).' },
+      { k: 'Cruce del túnel azul diario', text: 'El estrangulamiento en ~5.310 se resuelve con el cruce de las medias 123 y 188. Mira la dirección y el cierre, no solo el cruce.' },
+      { k: 'Jueves 15 de octubre', text: 'Molturaciones del tercer trimestre de Europa y Norteamérica, según Trading Economics.' },
+      { k: 'Costa de Marfil', text: 'Llegadas a puerto semanales y lluvias que frenan las entregas. También el clima de la próxima campaña y El Niño.' },
+      { k: 'Existencias ICE', text: 'Cifra diaria; la tendencia al alza presiona el precio.' },
+      { k: 'Roll Dic → Mar', text: 'Cuando la continua pase de diciembre a marzo puede aparecer un salto de ~110 puntos que no es movimiento real. No confundirlo con una ruptura.' }
+    ],
+    sources: [
+      { t: 'Cocoa – Price, Chart, Historical Data, News – Trading Economics', u: 'https://tradingeconomics.com/commodity/cocoa' },
+      { t: 'Cocoa Prices Climb as Ivory Coast Rains Slow Deliveries – Yahoo Finance (8 oct)', u: 'https://finance.yahoo.com/markets/commodities/articles/cocoa-prices-climb-ivory-coast-182259194.html' },
+      { t: 'Financial & Forex Market Recap, 8 oct 2026 – BabyPips (dólar y Nasdaq)', u: 'https://www.babypips.com/news/financial-forex-market-recap-2026-10-08' }
+    ]
+  },
+  {
+    asset: 'WTI',
+    date: '2026-10-04',
+    title: 'Análisis del petróleo (WTI)',
+    operativa: 'Swing',
+    quotes: [
+      { l: 'WTI', v: '91,11', s: 'cierre del viernes' },
+      { l: 'Brent', v: '102,25', s: 'cierre del viernes' },
+      { l: 'Brent − WTI', v: '11,14', s: 'datos a 4 de octubre de 2026' }
+    ],
+    conclusion: {
+      lead: 'No lo veo indeciso, lo veo en rango con sesgo alcista de fondo.',
+      text: 'La tesis (rango 79‑97, subida a 102 y luego 86/79 si hay paz) se sostiene bastante bien. Lo que cambia es el orden: antes de ir a 102 tiene que superar 93,51 y 97,11, y las noticias de esta semana juegan a la vez en contra y a favor.'
+    },
+    frames: [
+      { l: 'Gatillo', v: 'H1 / M15', n: 'con confirmación en H4' },
+      { l: 'Contexto', v: 'H4 / D' },
+      { l: 'Niveles', v: 'D / W' }
+    ],
+    bands: [
+      { lo: 97, hi: 101, label: 'FVG 97‑101' },
+      { lo: 88, hi: 89, label: 'Túnel amarillo H4' },
+      { lo: 83, hi: 85, label: 'Túnel rosa ~83‑85' }
+    ],
+    levels: [
+      { p: 102.38, cls: 'res', t: 'Objetivo de la tesis' },
+      { p: 97.11, cls: 'res', t: 'Reacción principal' },
+      { p: 93.51, cls: 'res', t: 'Gatillo largo' },
+      { p: 91.11, cls: 'now', t: 'WTI, cierre del viernes' },
+      { p: 86.14, cls: 'sup', t: 'FVG y túnel azul diarios' },
+      { p: 80.00, cls: 'sup', t: 'Objetivo si hay acuerdo' },
+      { p: 74.43, cls: 'sup', t: 'Solo con Hormuz abierto' }
+    ],
+    table: [
+      ['102,38', 'Resistencia', 'Objetivo de la tesis; directriz bajista (~105) justo encima'],
+      ['97,11 / FVG 97‑101', 'Resistencia + imán', 'Zona de reacción principal del rebote'],
+      ['93,51', 'Resistencia / gatillo', 'Ruptura con retesteo = gatillo largo'],
+      ['88‑89', 'Soporte (túnel amarillo H4)', 'Mínimo del viernes 88,06; rebote desde el túnel 416/618'],
+      ['86,14', 'Soporte', 'Confluencia con FVG diario 88‑84 y túnel azul diario (~84‑86)'],
+      ['80,00', 'Soporte', 'Objetivo del escenario de acuerdo; túnel rosa (~83‑85) como colchón'],
+      ['74,43', 'Soporte profundo', 'Solo con reapertura real de Hormuz']
+    ],
+    scenarios: [
+      { cls: 'up', tag: 'Alcista', title: '1. Rebote a 93,51 → 97,11', pct: 55, text: 'H4 cierra sobre Genial Line y EMA 8 con velas de fuerza compradora; luego supera 93,51. El 97,11 y el FVG 97‑101 son zona de reacción. Llegar a 102,38 exige catalizador (escalada o más tensión física).' },
+      { cls: 'flat', tag: 'Lateral', title: '2. Lateral 88‑93', pct: 25, text: 'Titulares contradictorios (reservas frente a tensión física) mantienen el precio atrapado mientras no haya un titular claro.' },
+      { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 88', pct: 20, text: 'Cierre H4 bajo el túnel amarillo: primero 86,14 y después 80. Es el escenario de acuerdo o alto el fuego; si Hormuz se reabre de verdad, el 74,43 entra en juego.' }
+    ],
+    plan: [
+      { k: 'Domingo 4 de octubre', wide: true, text: 'No hay precio y no hay nada que operar. Esperaría a ver cómo reacciona al soporte de 88‑89 tras la reapertura.' },
+      { k: 'Largos', text: 'Solo con confluencia H1/H4: cierre H4 sobre Genial/EMA 8, colores de vela con fuerza compradora y volumen en M5. Gatillo: ruptura de 93,51 con retesteo.' },
+      { k: 'Cortos', text: 'Solo si H4 cierra bajo 88. Objetivo 86,14 y luego 80. No iría contra el semanal sin esa confirmación.' },
+      { k: 'Pirámide', text: 'Solo a favor y tras superar niveles (93,51 y 97,11), nunca promediando.' },
+      { k: 'Idea de fondo', text: 'Compras en 86‑88 y ventas en 97‑102 es lo más coherente con el rango, con los titulares como motor de cada tramo.' }
+    ],
+    tecnica: [
+      { k: 'Semanal', text: 'Estructura alcista desde las señales IN de enero, con mínimos crecientes (67 → 74 → 80). La vela de esta semana es roja, pero sigue sobre la EMA 8 y la Genial Line (~86‑87). Es corrección dentro de tendencia, no giro.' },
+      { k: 'Diario', text: 'Precio bajo la EMA 8 (~95‑96) y apoyado sobre la Genial Line (~89‑90). Debajo, FVG de 88 a 84 y túnel azul (~84‑86), muy cerca de 86,14. La directriz bajista desde marzo está ahora en ~105: refuerza 102,38 como techo, pero hoy no está en juego.' },
+      { k: 'H4', text: 'El viernes tocó el túnel amarillo (416/618, ~87‑88), dejó mínimo en 88,06 y rebotó. Ahora está pegado al borde inferior del túnel azul (123/188), bajo la Genial Line y la EMA 8 (~91‑92). Zona de corrección con varios toques: apoya el lateral, pero según la regla no decide.' },
+      { k: 'Estructura de niveles', text: 'Bloque de FVG de 97 a 101 que actúa como imán y resistencia; por debajo, 86,14 y 80 como soportes y el túnel rosa (~83‑85) como último colchón.' }
+    ],
+    noticias: [
+      { k: 'Brent y WTI muy separados', text: 'El viernes WTI cerró en 91,11 y Brent en 102,25: una prima de más de 11 dólares para el crudo internacional. Un spread así suele cerrarse y el WTI tiene más recorrido al alza que el Brent.' },
+      { k: 'El físico, más tenso que los futuros', text: 'El Dated Brent superó los 120 mientras el Brent de ICE bajaba hacia 101. Avala la idea de suelo: el petróleo físico escasea.' },
+      { k: 'Quieren bajar el precio', text: 'El WTI cayó casi un 4% el viernes porque Europa estudia otra liberación coordinada de reservas, presionada por Washington. El G7 también valora liberar hasta 100 millones de barriles. Corrobora que no pueden dejarlo muy alto por inflación y datos macro. Es presión bajista a corto plazo y explica por qué cuesta romper 93‑97.' },
+      { k: 'Catalizadores alcistas', text: 'El jueves subió el crudo cuando las refinerías chinas suspendieron las exportaciones de producto para octubre y se supo que EEUU enviaba más fuerzas a Oriente Medio.' }
+    ],
+    extra: {
+      title: 'El escenario del 54 y el 48‑72',
+      paras: [
+        'Aunque haya paz, no veo el 54 pronto. La OPEP+ advirtió que el daño a la infraestructura energética puede afectar a la oferta incluso después de que cese el conflicto. Eso frena la vuelta rápida a precios bajos. La idea de vender caro un tiempo antes de normalizar es coherente.',
+        'El 79 como objetivo en caso de acuerdo me parece razonable, incluso prudente. Antes ya se vio una caída de cerca del 10% en una semana, hasta la zona de 75, cuando creció el optimismo por un acuerdo para reabrir Hormuz. Si el acuerdo es real y los barcos pasan, el 79 podría no aguantar y el 74,43 entra en juego.',
+        'El 48‑72 solo lo veo tras meses, con inventarios normalizados. No lo usaría para operar ahora.'
+      ],
+      note: 'La mayoría de pronósticos que he visto sitúan el WTI entre 71 y 100 para octubre, y Standard Chartered apunta a un promedio de 86 para 2026. Encaja con la banda.'
+    },
+    sources: [
+      { t: 'Brent oil – Trading Economics', u: 'https://tradingeconomics.com/commodity/brent-crude-oil' },
+      { t: 'WTI Crude Oil Futures Contracts – OilPrice', u: 'https://oilprice.com/futures/wti' },
+      { t: 'WTI Sinks Nearly 4% as EU Weighs Emergency Stockpile Release', u: 'https://oilprice.com/Latest-Energy-News/World-News/WTI-Sinks-Nearly-4-as-EU-Weighs-Emergency-Stockpile-Release.html' },
+      { t: 'Oil Ends Volatile Week Mixed… – EnergyNow', u: 'https://energynow.com/2026/10/oil-ends-volatile-week-mixed-as-emergency-reserve-release-knocks-wti-lower-but-brent-holds-above-102/' },
+      { t: 'Oil Holds Decline on Hormuz Deal Hopes – Trading Economics', u: 'https://tradingeconomics.com/commodity/crude-oil/news/572707' },
+      { t: 'Brent Trims Gains on Ceasefire Hopes – Trading Economics', u: 'https://tradingeconomics.com/commodity/brent-crude-oil/news/539242' },
+      { t: 'Oil (USCrude) Price Forecast – LiteFinance', u: 'https://www.litefinance.org/blog/analysts-opinions/oil-price-prediction-forecast/daily-and-weekly/' }
+    ]
+  }
+];
+
+/* ---------------------------------------------------------------------------
+   RENDER
+   --------------------------------------------------------------------------- */
+(function () {
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function fmt(p, o) {
+    o = o || {};
+    var s = p.toFixed(o.dec != null ? o.dec : 2);
+    return o.th ? s.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : s.replace('.', ',');
+  }
+  function longDate(iso) {
+    var d = new Date(iso + 'T12:00:00');
+    try { return d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
+    catch (e) { return iso; }
+  }
+  function shortDate(iso) {
+    var p = iso.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+
+  var entries = ENTRIES.slice().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+  var assets = [];
+  entries.forEach(function (e) { if (assets.indexOf(e.asset) < 0) assets.push(e.asset); });
+  // Activo con el análisis más reciente primero
+  var state = { asset: assets[0], date: entries[0].date };
+
+  function byAsset(a) { return entries.filter(function (e) { return e.asset === a; }); }
+  function find(a, d) { return entries.filter(function (e) { return e.asset === a && e.date === d; })[0]; }
+
+  // Deep link: #WTI-2026-10-04 o #WTI
+  try {
+    var h = (location.hash || '').replace('#', '');
+    if (h) {
+      var m = h.match(/^([A-Za-z0-9]+)(?:-(\d{4}-\d{2}-\d{2}))?$/);
+      if (m && assets.indexOf(m[1]) >= 0) {
+        state.asset = m[1];
+        var list = byAsset(m[1]);
+        state.date = (m[2] && find(m[1], m[2])) ? m[2] : list[0].date;
+      }
+    }
+  } catch (e) {}
+
+  function setHash() {
+    try { history.replaceState(null, '', '#' + state.asset + '-' + state.date); } catch (e) {}
+  }
+
+  function renderNav() {
+    var a = document.getElementById('assets');
+    a.innerHTML = assets.map(function (x) {
+      return '<button type="button" class="chip" data-asset="' + esc(x) + '" aria-pressed="' + (x === state.asset) + '">' + esc(ASSET_NAMES[x] || x) + '</button>';
+    }).join('');
+    var list = byAsset(state.asset);
+    var d = document.getElementById('dates');
+    d.innerHTML = list.map(function (e, i) {
+      return '<button type="button" class="chip date" data-date="' + esc(e.date) + '" aria-pressed="' + (e.date === state.date) + '">' + shortDate(e.date) + (i === 0 ? '<span class="new">último</span>' : '') + '</button>';
+    }).join('');
+  }
+
+  function ladder(e) {
+    var lv = e.levels || [];
+    if (!lv.length) return '';
+    var ps = lv.map(function (l) { return l.p; });
+    (e.bands || []).forEach(function (b) { ps.push(b.lo, b.hi); });
+    var lo = Math.min.apply(null, ps), hi = Math.max.apply(null, ps);
+    var pad = Math.max(2, 0.04 * (hi - lo));
+    var min = Math.floor(lo - pad), max = Math.ceil(hi + pad);
+    var range = max - min;
+    var sorted = lv.map(function (l) { return l.p; }).sort(function (a, b) { return a - b; });
+    var minGap = range;
+    for (var i = 1; i < sorted.length; i++) { var g = sorted[i] - sorted[i - 1]; if (g > 0 && g < minGap) minGap = g; }
+    var height = Math.min(1000, Math.max(560, Math.ceil(22 * range / minGap)));
+    function top(p) { return ((max - p) / range) * 100; }
+    var html = '<div class="ladder" style="height:' + height + 'px" role="img" aria-label="Escala de precios con resistencias y soportes">';
+    (e.bands || []).forEach(function (b) {
+      html += '<div class="band" style="top:' + top(b.hi) + '%;height:' + (top(b.lo) - top(b.hi)) + '%"><span>' + esc(b.label) + '</span></div>';
+    });
+    lv.forEach(function (l) {
+      html += '<div class="lv ' + esc(l.cls) + '" style="top:' + top(l.p) + '%"><span class="p">' + (l.lbl || fmt(l.p)) + '</span><span class="ln"></span><span class="t">' + esc(l.t) + '</span></div>';
+    });
+    return html + '</div>';
+  }
+
+  function rows(list) {
+    return '<div class="rows">' + list.map(function (r) {
+      return '<div class="row"><span class="k">' + esc(r.k) + '</span><p>' + esc(r.text) + '</p></div>';
+    }).join('') + '</div>';
+  }
+  function sec(id, title, body) {
+    return '<section aria-labelledby="h-' + id + '"><h2 id="h-' + id + '">' + esc(title) + '</h2>' + body + '</section>';
+  }
+
+  function renderEntry() {
+    var e = find(state.asset, state.date);
+    var latest = byAsset(state.asset)[0].date === e.date;
+    var out = '';
+
+    out += '<header><h2 style="color:var(--fg);font-size:clamp(22px,4vw,30px);letter-spacing:-0.01em;text-transform:none;font-weight:600">' + esc(e.title) + '</h2>';
+    out += '<div class="meta"><span class="when">' + esc(longDate(e.date)) + '</span>' +
+      (e.operativa ? '<span>Operativa ' + esc(e.operativa.toLowerCase()) + '</span>' : '') +
+      '<span class="badge' + (latest ? '' : ' old') + '">' + (latest ? 'Último análisis' : 'Análisis anterior') + '</span></div>';
+    if (e.quotes && e.quotes.length) {
+      out += '<div class="quotes">' + e.quotes.map(function (q) {
+        return '<div class="quote"><span class="lbl">' + esc(q.l) + '</span><span class="val">' + esc(q.v) + '</span>' + (q.s ? '<span class="sub">' + esc(q.s) + '</span>' : '') + '</div>';
+      }).join('') + '</div>';
+    }
+    out += '</header>';
+
+    if (e.conclusion) {
+      var c = '<div class="conclusion"><p class="lead">' + esc(e.conclusion.lead) + '</p>' + (e.conclusion.text ? '<p>' + esc(e.conclusion.text) + '</p>' : '') + '</div>';
+      if (e.frames && e.frames.length) {
+        c += '<div class="frames">' + e.frames.map(function (f) {
+          return '<div class="frame"><span class="lbl">' + esc(f.l) + '</span><span class="val">' + esc(f.v) + '</span>' + (f.n ? '<span class="note">' + esc(f.n) + '</span>' : '') + '</div>';
+        }).join('') + '</div>';
+      }
+      out += sec('conc', 'Conclusión', c);
+    }
+
+    if (e.levels && e.levels.length) {
+      var t = '<div class="levels">' + ladder(e);
+      if (e.table && e.table.length) {
+        t += '<div class="tablewrap"><table><thead><tr><th>Nivel</th><th>Tipo</th><th>Comentario</th></tr></thead><tbody>' +
+          e.table.map(function (r) { return '<tr><td class="lvl">' + esc(r[0]) + '</td><td class="typ">' + esc(r[1]) + '</td><td class="cm">' + esc(r[2]) + '</td></tr>'; }).join('') +
+          '</tbody></table></div>';
+      }
+      out += sec('niv', 'Niveles clave', t + '</div>');
+    }
+
+    if (e.scenarios && e.scenarios.length) {
+      out += sec('esc', 'Escenarios', '<div class="scen">' + e.scenarios.map(function (s) {
+        return '<article class="sc ' + esc(s.cls) + '"><span class="tag">' + esc(s.tag) + '</span><div class="top"><h3>' + esc(s.title) + '</h3><span class="pct">' + esc(s.pct) + '%</span></div><div class="bar" aria-hidden="true"><i style="width:' + Number(s.pct) + '%"></i></div><p>' + esc(s.text) + '</p></article>';
+      }).join('') + '</div>');
+    }
+
+    if (e.plan && e.plan.length) {
+      out += sec('plan', 'Qué haría', '<div class="plan">' + e.plan.map(function (p) {
+        return '<div class="pl' + (p.wide ? ' wide' : '') + '"><span class="k">' + esc(p.k) + '</span><p>' + esc(p.text) + '</p></div>';
+      }).join('') + '</div>');
+    }
+
+    if (e.tecnica && e.tecnica.length) out += sec('tec', 'Lectura técnica con el indicador', rows(e.tecnica));
+
+    (e.tables || []).forEach(function (t, i) {
+      var h = (t.intro ? '<p class="note">' + esc(t.intro) + '</p>' : '');
+      h += '<div class="tablewrap"><table class="dt"><thead><tr>' + t.head.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        t.rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') +
+        '</tbody></table></div>';
+      if (t.note) h += '<p class="note">' + esc(t.note) + '</p>';
+      out += sec('tb' + i, t.title, h);
+    });
+
+    if ((e.noticias && e.noticias.length) || e.extra) {
+      var n = '';
+      if (e.noticias && e.noticias.length) n += rows(e.noticias);
+      if (e.extra) {
+        n += '<h3 style="margin-top:8px">' + esc(e.extra.title) + '</h3><div class="paras">' +
+          (e.extra.paras || []).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') +
+          (e.extra.note ? '<p class="note">' + esc(e.extra.note) + '</p>' : '') + '</div>';
+      }
+      out += sec('not', 'Lo que dicen las noticias', n);
+    }
+
+    if (e.vigilar && e.vigilar.length) out += sec('vig', 'Qué vigilar', rows(e.vigilar));
+
+    if (e.sources && e.sources.length) {
+      out += sec('src', 'Fuentes', '<ul class="src">' + e.sources.map(function (s) {
+        return '<li><a href="' + esc(s.u) + '" target="_blank" rel="noopener">' + esc(s.t) + '</a></li>';
+      }).join('') + '</ul>');
+    }
+
+    document.getElementById('entry').innerHTML = out;
+  }
+
+  function render() { renderNav(); renderEntry(); setHash(); }
+
+  document.addEventListener('click', function (ev) {
+    var b = ev.target.closest ? ev.target.closest('button.chip') : null;
+    if (!b) return;
+    if (b.getAttribute('data-asset')) {
+      state.asset = b.getAttribute('data-asset');
+      state.date = byAsset(state.asset)[0].date;
+    } else if (b.getAttribute('data-date')) {
+      state.date = b.getAttribute('data-date');
+    }
+    render();
+  });
+
+  render();
+})();
+</script>
+
+</html>
