@@ -186,6 +186,366 @@ var ASSET_NAMES = { WTI: 'Petróleo (WTI)', KC: 'Café (KC)', CC: 'Cacao (CC)' }
 var ENTRIES = [
   {
     asset: 'WTI',
+    date: '2026-10-10',
+    title: 'Análisis del petróleo (WTI), cierre de semana',
+    operativa: 'Swing',
+    quotes: [
+      { l: 'WTI', v: '91,85', s: 'cierre del viernes 9 (DTN). Abre la semana en 91,77' },
+      { l: 'Rango semanal', v: '86,86 – 93,20', s: 'semana +0,81% según el gráfico. Mín. martes 6, máx. jueves 8' },
+      { l: 'Brent − WTI', v: '≈ 12,9', s: 'Brent 104,72 al cierre (DTN)' }
+    ],
+    conclusion: {
+      lead: 'La semana cierra en rango y sin ruptura: abrió en 91,77 y cerró en 91,85. El acuerdo del diésel con Rusia es bajista de fondo, pero en el precio pesó poco.',
+      text: 'La vela semanal tiene mechas largas a los dos lados (86,86 y 93,20) y un cuerpo mínimo: indecisión, con color azul claro (pérdida de fuerza) tras dos semanas amarillas. El diario cierra en verde fosforito (fuerza bajista impulsiva según tu leyenda) pese a subir: a mediodía lo leí fucsia, así que el color cambió en el cierre. En H4 el color es amarillo y en H1 azul claro, y el precio vuelve a quedar sobre la Genial Line y la EMA 8 de H1. Sobre tu pregunta: el acuerdo con Rusia puede ser bajista, pero de forma indirecta y limitada (ver Noticias). Lo que decide sigue siendo el gráfico: cierre H4 sobre 93,51 o bajo 86,86. Hay conflicto entre marcos (semanal alcista, diario bajo la EMA 8 y sin color de fuerza alcista, H4 y H1 sin dirección): esperar o reducir tamaño.'
+    },
+    frames: [
+      { l: 'Gatillo', v: 'H1 / M15', n: 'con confirmación en H4. Falta la captura de M15' },
+      { l: 'Contexto', v: 'H4 / D' },
+      { l: 'Niveles', v: 'D / W' }
+    ],
+    bands: [
+      { lo: 97.5, hi: 101, label: 'FVG 97,5‑101' },
+      { lo: 87.1, hi: 88.7, label: 'Túnel amarillo H4 ~87‑89' }
+    ],
+    levels: [
+      { p: 102.38, cls: 'res', t: 'Techo de la tesis alcista' },
+      { p: 97.11, cls: 'res', t: 'Reacción principal' },
+      { p: 93.51, cls: 'res', t: 'Doble rechazo, gatillo largo' },
+      { p: 91.85, cls: 'now', t: 'WTI, cierre del viernes' },
+      { p: 86.86, cls: 'sup', t: 'Mínimo semanal' },
+      { p: 86.14, cls: 'sup', t: 'FVG y túnel azul diarios' }
+    ],
+    table: [
+      ['106,86 / ~105‑106', 'Resistencia mayor', 'Máximo de septiembre y directriz bajista desde marzo. En W el rechazo fue justo ahí. Fuera de juego mientras no pase 97‑102'],
+      ['102,38', 'Resistencia', 'Techo de la tesis alcista'],
+      ['97,11 / FVG 97,5‑101', 'Resistencia + imán', 'FVG en D y H4. Zona de reacción principal si rompe 93,51'],
+      ['93,51', 'Resistencia / gatillo', 'Rechazado hacia el 2 de octubre y de nuevo el 8 (máx. 93,20). Cierre H4 encima con retesteo = gatillo largo'],
+      ['91,5‑92', 'Resistencia inmediata', 'Genial Line diaria (~92), borde alto del túnel azul H4 (~91,8) y túnel amarillo H1 (~91,5‑91,9)'],
+      ['89,4‑89,6 / 88,6', 'Soporte corto (FVG H1)', 'Huecos de H1 y borde bajo del túnel rosa H1'],
+      ['87‑89', 'Soporte (túnel amarillo H4)', 'Tocado el martes 6. El precio lo recuperó'],
+      ['86,86', 'Soporte clave', 'Mínimo semanal. Un cierre H4 por debajo es la pérdida del rango'],
+      ['86,14', 'Soporte', 'FVG diario 84‑86 y túnel azul diario (~84‑86). Túnel rosa H4 (~83‑85) como colchón'],
+      ['80,00', 'Soporte', 'Objetivo del escenario de acuerdo'],
+      ['74,43', 'Soporte profundo', 'Solo con reapertura real de Hormuz']
+    ],
+    scenarios: [
+      { cls: 'up', tag: 'Alcista', title: '1. Ruptura de 93,51 → 97,11', pct: 25, text: 'H4 cierra sobre 93,51 y la retestea, con H1 y H4 sobre Genial Line y EMA 8, velas de fuerza compradora (verde oscuro o azul marino) y volumen en M5. Objetivo 97,11 y el FVG 97,5‑101. Se invalida con un cierre H4 de vuelta bajo 91. Llegar a 102,38 pide catalizador (Irán, Hormuz, huracán o recortes de inventarios).' },
+      { cls: 'flat', tag: 'Lateral', title: '2. Rango 86,86‑93,20', pct: 45, text: 'Los titulares se compensan (Irán, Hormuz e Isaías frente a reservas y diésel ruso) y el precio sigue girando entre 87 y 93. Es lo que ha pasado dos semanas seguidas. Deja de valer con un cierre H4 fuera de ese rango.' },
+      { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 86,86', pct: 30, text: 'Cierre H4 bajo 86,86: primero 86,14 (FVG y túnel azul diarios) y después 80. Es la vía del acuerdo, más oferta de producto (diésel ruso, China) o alto el fuego; con Hormuz abierto de verdad entra el 74,43. Se invalida si recupera 88.' }
+    ],
+    plan: [
+      { k: 'Lunes 12 de octubre', wide: true, text: 'Semana cerrada sin ruptura ni confirmación, y con conflicto entre marcos. No abriría swing nuevo el lunes por hueco del fin de semana (Irán, huracán, diésel ruso) y por ser festivo en EE. UU. (Columbus Day), con menos volumen. Reevalúo con H4 y M15 cuando haya volumen en M5.' },
+      { k: 'Largos', text: 'Dos vías. Ruptura: cierre H4 sobre 93,51 con retesteo, H1 y H4 sobre Genial/EMA 8, color de vela con fuerza alcista (verde oscuro o azul marino, que hoy no están) y volumen en M5. Rebote: recuperación de 88‑89 o de 86,86 tras barrido, con el mismo filtro H4 y el volumen en M5.' },
+      { k: 'Cortos', text: 'Solo con cierre H4 bajo 86,86. Objetivo 86,14 y luego 80. La referencia del 4 de octubre (cierre H4 bajo 88) se quedó corta: el 88 se pinchó y se recuperó. No iría contra el semanal sin ese cierre.' },
+      { k: 'Pirámide', text: 'Solo a favor y tras superar 93,51 y 97,11, nunca promediando.' },
+      { k: 'Idea de fondo', text: 'Mientras no haya cierre H4 fuera de 86,86‑93,51 es rango: compras en 86‑89 con confirmación y parciales o ventas en 93‑97, con los titulares de Irán y las reservas como motor de cada tramo.' }
+    ],
+    tecnica: [
+      { k: 'Comparación con el 9 de octubre', text: 'El escenario lateral se confirmó: la semana cierra a 7 céntimos de la apertura. Ni 93,51 ni 86,86 se cerraron en H4. La referencia de ese día (esperar al cierre y reducir tamaño) funcionó. Cambia el color del diario (de fucsia a mediodía a verde fosforito al cierre) y H1 recupera Genial y EMA 8.' },
+      { k: 'Semanal', text: 'Estructura alcista con mínimos crecientes (~67 → 74 → 80) y precio sobre los tres túneles (azul ~75‑77, amarillo ~71‑73, rosa ~62‑67) y sobre la EMA 8 (~85). Vela de la semana: abre 91,77, máximo 93,20, mínimo 86,86 y cierre 91,85, con mecha inferior (rechazo del 87) y superior (rechazo del 93). Color azul claro tras dos amarillas: pérdida de fuerza. En septiembre el rechazo fue en 106,86, sobre la directriz bajista. Sigue siendo corrección dentro de tendencia.' },
+      { k: 'Diario', text: 'Precio bajo la EMA 8 (~93,5) y pegado a la Genial Line y a los puntos marrones (~91‑92), en zona de corrección. Rango de siete sesiones (87‑93,2). Debajo, FVG 84‑86 y túnel azul (~83,5‑86,5), cerca de 86,14. Encima, FVG 97,5‑101. Colores: naranja y azul claro la mayoría de días, verde fosforito el 8 y el 9 (fuerza bajista impulsiva, aunque las velas subieron). No hay azul marino ni verde oscuro que apoye una ruptura.' },
+      { k: 'H4', text: 'Precio en el borde alto del túnel azul (123/188, ~90,5‑91,8), sobre la EMA 8 (~90,8) y la Genial Line (~90,3). Debajo, túnel amarillo (416/618, ~87‑89) y túnel rosa (882/1223, ~83‑85). Color amarillo: pérdida de fuerza. El jueves se frenó en 93,20, bajo 93,51. La zona de corrección no decide por sí sola.' },
+      { k: 'H1', text: 'Precio sobre la EMA 8 y la Genial Line (~91,3), dentro del túnel amarillo (~91,5‑91,8) y sobre el azul y el rosa (~89,6‑90,7). Color azul claro. Debajo hay huecos (FVG) en ~89,4 y ~88,7. Encima, 92,2 (máximo del viernes) y 93,20.' },
+      { k: 'Límites de la lectura', text: 'Los valores de medias, túneles y huecos están leídos a ojo de las capturas, así que son aproximados. Los colores son los de la etiqueta de precio de cada gráfico, cruzados con tu leyenda. La captura es del sábado 10 a las 17:42 y recoge el cierre del viernes. No hay captura de M15 ni volumen de NinjaTrader.' }
+    ],
+    tables: [
+      {
+        title: 'Inventarios de crudo (EIA)',
+        intro: 'Informe semanal del miércoles 7 de octubre, con datos de la semana al 2 de octubre.',
+        head: ['Concepto', 'Dato', 'Cambio semanal', 'Lectura'],
+        rows: [
+          ['Crudo comercial', '424,1 M barriles', '−3,2 M (esperado +1,7 M)', 'Sorpresa alcista. 1% sobre la media de 5 años'],
+          ['Gasolina', '204,7 M', '+0,4 M', '6% bajo la media de 5 años'],
+          ['Destilados', '105,1 M', '≈ 0 (−0,04 M)', '12% bajo la media de 5 años: producto tenso'],
+          ['Total petróleo comercial', '—', '−6,9 M', 'Recorte mayor que el del crudo'],
+          ['Reserva estratégica (SPR)', '283,0 M', '−0,8 M', 'Sigue saliendo crudo de las reservas'],
+          ['Cushing', '24,7 M', '+0,4 M', 'Dato solo de Admirals, sin verificar en la EIA'],
+          ['Refinerías', 'Utilización 92,7%', 'Insumos 16,5 M b/d (+223 mil)', 'Refino fuerte'],
+          ['Importaciones de crudo', '6,8 M b/d', '+1,1 M b/d', 'Entra más crudo y aun así hay recorte']
+        ],
+        note: 'Lectura: el titular es alcista (recorte frente a la subida esperada) y los productos siguen por debajo de la media. Pero el recorte llega con refino fuerte y más importaciones, y el SPR sigue liberando barriles (hipótesis: eso alimenta la presión de los titulares de reservas). No cambia el rango y apoya los soportes. Próximo informe: jueves 15 de octubre a las 18:00 (hora de Madrid), con datos de la semana al 9; se retrasa un día por el festivo del lunes 12.'
+      },
+      {
+        title: 'Correlaciones con el WTI',
+        intro: 'No es un coeficiente estadístico: es la lectura de cómo se movieron estos activos con el petróleo el viernes 9. Solo incluyo datos que he podido contrastar; el resto lo dejo sin dato.',
+        head: ['Activo', 'Nivel (cierre del viernes)', 'Relación con el WTI', 'Lectura'],
+        rows: [
+          ['Brent', '104,72 (−0,28)', 'Mismo sentido, con spread al alza', 'Brent − WTI ≈ 12,9. El Brent resistió el viernes mejor que el WTI en la cifra del día, y el WTI sigue rezagado'],
+          ['Gasóleo (ULSD)', '4,73 $/gal (−4,6%)', 'Mismo sentido, pero se movió mucho más', 'Cayó con el anuncio del diésel ruso y el crudo apenas se movió. El margen de refino entre diésel y crudo sigue muy alto'],
+          ['Gasolina (RBOB)', '3,295 $/gal (−0,0455)', 'Mismo sentido', 'Baja suave, sin señal propia'],
+          ['Dólar (DXY)', 'Sin dato fiable del viernes', 'Habitualmente inversa', 'Las fuentes no coincidían en la dirección del jueves. Pásame la captura si quieres incluirlo'],
+          ['Bono a 10 años', 'Sin dato fiable del viernes', 'Mismo sentido esta semana', 'Hipótesis: un diésel y un crudo más baratos alivian el miedo a inflación. Sin cifra, no lo uso para decidir'],
+          ['Nasdaq / NQ', 'Sin captura', 'Inversa en los días de crudo al alza', 'Hipótesis sin datos. Pásame el NQ si quieres cruzarlo'],
+          ['VIX', 'Sin dato fiable', '—', 'Pásame la captura si quieres incluirlo']
+        ],
+        note: 'Hipótesis de trabajo: el crudo se movió menos que el diésel porque el acuerdo ruso afecta al producto antes que al barril. Si el diésel sigue cayendo, el margen de refino baja y eso, con el tiempo, resta apoyo al crudo.'
+      }
+    ],
+    noticias: [
+      { k: 'Viernes 9: acuerdo del diésel con Rusia', text: 'Tras una llamada con Putin, Trump anunció que Rusia suministrará de inmediato más de 300.000 toneladas de diésel, otras 500.000 en noviembre y 1 millón después (publicación de Trump; un medio habla de 3 millones adicionales, cifra que no cuadra). El Tesoro emitió la licencia general 135, que permite vender e importar diésel ruso hasta el 7 de abril de 2027. El gasóleo cayó un 4,6% y el WTI llegó a 90,00 antes de cerrar en 91,85.' },
+      { k: 'Respuesta a tu pregunta', text: 'Sí puede ser bajista, pero con matices. Las 300.000 toneladas son unos 2,2 millones de barriles, medio día de demanda de destilados de EE. UU., así que el efecto directo es pequeño. El efecto posible es indirecto: más diésel barato reduce el margen de refino y, con el tiempo, el incentivo a pagar por el crudo. Además, es una señal política más (tras el G7, las reservas de la UE y la propuesta de restringir exportaciones) de que Washington quiere bajar precios. Todo esto es hipótesis: el precio apenas reaccionó.' },
+      { k: 'Lo que lo compensa', text: 'Los destilados siguen un 13,5% por debajo del año anterior (105,1 M barriles). El huracán Isaías cerró 130 plataformas en el Golfo, unos 1,3 M b/d de crudo según DTN (otra fuente hablaba de cerca del 63% de la producción). Si las refinerías de la costa quedan paradas, baja la demanda de crudo WTI: efecto bajista a corto plazo, que puede ensanchar el spread con el Brent.' },
+      { k: 'Otros factores', text: 'Hay reportes de que China levantaría su prohibición de exportar combustible, y la propuesta de EE. UU. de restringir exportaciones de diésel sigue abierta. Irán: Trump dice que no atacará antes del 3 de noviembre y el bloqueo continúa.' },
+      { k: 'Tipos y bono', text: 'Las actas de la Fed y las declaraciones de Waller y Musalem apuntan a más subidas de tipos, y el 10 años ronda el 5,2‑5,3% (dato del jueves). Un crudo caro alimenta ese temor.' }
+    ],
+    extra: {
+      title: 'Previsiones',
+      paras: [
+        'La encuesta de Reuters de septiembre (30 analistas) da un promedio de 83,90 dólares para el WTI en 2026 y de 89,05 para el Brent. El WTI actual está por encima, lo que encaja con una prima de riesgo por Ormuz.'
+      ]
+    },
+    vigilar: [
+      { k: 'Lunes 12 de octubre', text: 'Festivo en EE. UU. (Columbus Day): menos volumen y riesgo de hueco por lo ocurrido el fin de semana. Retrasa un día el informe de inventarios.' },
+      { k: 'Diésel ruso', text: 'Primeros cargamentos y cómo se aplica la licencia 135. Si el gasóleo sigue cayendo, mira el margen de refino y el efecto en el crudo.' },
+      { k: 'Huracán Isaías', text: 'Reapertura de plataformas y refinerías del Golfo: define si pesa más la oferta parada o la demanda perdida.' },
+      { k: 'Irán y Ormuz', text: 'Titulares del Pentágono, ataques a petroleros y tráfico por Ormuz.' },
+      { k: 'Jueves 15, 18:00', text: 'Inventarios EIA de la semana al 9 de octubre (hora de Madrid), con el efecto de Isaías.' },
+      { k: 'Fed y bono a 10 años', text: 'El 10 años en 5,2‑5,3% es el termómetro de si el crudo caro empieza a pasar factura a las acciones.' },
+      { k: '3 de noviembre', text: 'Elecciones en EE. UU., el plazo que Trump citó para no atacar a Irán.' }
+    ],
+    sources: [
+      { t: 'ULSD Futures Fall 4% After US-Russia Diesel Deal – DTN (cierres de WTI, Brent, ULSD y RBOB; Isaías)', u: 'https://www.dtnpf.com/agriculture/web/ag/news/world-policy/article/2026/10/09/ulsd-futures-fall-4-us-russia-diesel' },
+      { t: 'Trump announces Russian diesel deal amid soaring US fuel prices – Al Jazeera', u: 'https://www.aljazeera.com/economy/2026/10/9/trump-announces-russian-diesel-deal-amid-soaring-us-fuel-prices' },
+      { t: 'Crude Oil drops on Trumps Russian diesel plan – FXStreet (licencia 135 y reacción intradía)', u: 'https://www.fxstreet.com/news/crude-oil-drops-on-trumps-russian-diesel-plan-202610091923' },
+      { t: 'EIA Crude Oil Inventories Preview, 15 October 2026 Report – Admirals', u: 'https://admiralmarkets.com/analytics/traders-blog/eia-crude-oil-inventories-october-2026' },
+      { t: 'EIA: US crude oil inventories down 3.2 million bbl – Oil & Gas Journal', u: 'https://www.ogj.com/general-interest/economics-markets/news/55410217/eia-us-crude-oil-inventories-down-32-million-bbl' },
+      { t: 'Financial & Forex Market Recap, 8 oct 2026 – BabyPips', u: 'https://www.babypips.com/news/financial-forex-market-recap-2026-10-08' },
+      { t: 'Global Economy Briefing, 8 oct 2026 – Rio Times (sus cifras de petróleo son inconsistentes; solo uso las de bono y dólar)', u: 'https://www.riotimesonline.com/global-economy-briefing-october-8-2026/' },
+      { t: 'Oil Price Forecasts Jump as Hormuz Disruption Drags On – OilPrice (30 sept)', u: 'https://oilprice.com/Energy/Oil-Prices/Oil-Price-Forecasts-Jump-as-Hormuz-Disruption-Drags-On.html' },
+      { t: 'Oil prices fall as IEA members agree to prioritize release of diesel stocks – CNBC (solo el titular; no pude abrir el artículo)', u: 'https://www.cnbc.com/2026/10/07/oil-prices-today-brent-wti-hormuz.html' },
+      { t: 'Cierre del WTI y Brent del viernes 9 – The National (una sola fuente)', u: 'https://www.thenationalnews.com/business/energy/' },
+      { t: 'Oil Prices Today: WTI y Brent – OneValor (precio del Brent, a partir del extracto de búsqueda)', u: 'https://www.onevalor.com/oil-gas-prices/' }
+    ]
+  },
+  {
+    asset: 'KC',
+    date: '2026-10-10',
+    title: 'Análisis del café (KC), cierre de semana',
+    operativa: 'Swing',
+    quotes: [
+      { l: 'KC diciembre', v: '286,95', s: 'cierre diario en el gráfico. Último dato intradía: 285,15' },
+      { l: 'Semana', v: '284,25 – 308,35', s: 'abre en 293,15 · cierra −0,62% · mínimo nuevo' },
+      { l: 'Nivel defendido', v: '285,45', s: 'el cierre diario aguantó. H4 e H1 cerraron en 285,15' }
+    ],
+    conclusion: {
+      lead: 'Plano, como lo ves: perdió 293 y cierra la semana pegado a 285,45, sin color de fuerza en ningún marco.',
+      text: 'Coincido con tu lectura. La semana abrió en 293,15, llegó a 308,35 y cerró en 286,95 en el gráfico diario, con mínimo nuevo en 284,25 (antes 286,00). Ese mínimo toca la zona de compra A del plan (284‑286,5) sin que se den sus condiciones. Los colores no apoyan largos: semanal, diario y H4 en naranja (falta de fuerza clara) y H1 en verde fosforito (fuerza bajista impulsiva). H4 e H1 ya cierran en 285,15, bajo 285,45, mientras diario y semanal cerraron sobre ella: conflicto entre marcos. El nivel que decide es 283: un cierre H4 bajo 283 abre 278,5‑275; mientras tanto, esperar o reducir tamaño. Ojo: el diario del gráfico cierra en 286,95 y las fuentes de cotización dan 285,17 (CFD); conviene confirmar el cierre real en NinjaTrader.'
+    },
+    frames: [
+      { l: 'Gatillo', v: 'H1 / M15', n: 'con confirmación en H4. Falta la captura de M15' },
+      { l: 'Contexto', v: 'H4 / D' },
+      { l: 'Niveles', v: 'D / W' }
+    ],
+    bands: [
+      { lo: 296, hi: 298.5, label: 'Techo múltiple 296‑298,5' }
+    ],
+    levels: [
+      { p: 308.95, cls: 'res', t: 'Histórico. Máx. 308,35 rechazado' },
+      { p: 293.5, cls: 'res', t: 'Genial Line H1 y diaria' },
+      { p: 289.0, cls: 'mid', t: 'POC, imán sin ventaja' },
+      { p: 286.95, cls: 'now', t: 'KC, cierre diario (último 285,15)' },
+      { p: 285.45, cls: 'sup', t: 'Línea defendida, EMA 8 diaria' },
+      { p: 283.0, cls: 'sup', t: 'Cierre H4 bajo = pérdida' },
+      { p: 269.85, cls: 'sup', t: 'Soporte semanal' }
+    ],
+    table: [
+      ['316‑328,80', 'FVG + resistencia', 'FVG diario, directriz bajista gris (~325 hoy) y nivel 328,80'],
+      ['308,95', 'Resistencia histórica', 'Confluencia con túneles amarillo y rosa H4. El 7 de octubre llegó a 308,35 y fue rechazado'],
+      ['300‑307', 'Vacío de volumen', 'Según el plan del lunes. La ruptura de 299‑300 no se sostuvo'],
+      ['296‑298,5', 'Techo múltiple', 'Túnel azul H4 (~295‑298), borde bajo de los túneles diarios azul y amarillo (~297‑308) y VAH de los perfiles grandes (plan)'],
+      ['293,5‑294', 'Resistencia / Genial', 'Genial Line H1 y diaria (~293,5) y VAH de la semana. Se perdió el 8 de octubre'],
+      ['~289', 'POC (imán)', 'Zona sin ventaja: no operar entre 289 y 293'],
+      ['285,45', 'Soporte', 'Línea defendida varias veces. EMA 8 diaria (~286) y túnel azul H1 en la zona'],
+      ['283‑286,5', 'Zona de compra A (plan)', 'VAL, nodo de volumen y spring en 283,3'],
+      ['283 / ~282', 'Soporte clave', 'Un cierre H4 bajo 283 es la pérdida del VAL. Borde alto del túnel rosa diario (~282)'],
+      ['275‑278,5', 'Soporte', 'Primer objetivo si se pierde 283 (plan)'],
+      ['269,85', 'Soporte', 'Zona de mínimos de septiembre. Túnel rosa diario (~262‑282) y demanda 262‑270 (plan)'],
+      ['244,35', 'Soporte profundo', 'Mínimo de junio']
+    ],
+    scenarios: [
+      { cls: 'up', tag: 'Alcista', title: '1. Rebote en 283‑286,5 (A del plan)', pct: 30, text: 'Rebote en H1 (vela de rechazo o Genial H1 recuperada), H4 saliendo del naranja a color de fuerza y vela de volumen de NinjaTrader en M5 con compradores. Objetivos 289 (parcial), 293,5‑294 y 296‑298,5. Se invalida con un cierre H4 bajo 283.' },
+      { cls: 'flat', tag: 'Lateral', title: '2. Indecisión 283‑294', pct: 45, text: 'El precio gira entre el POC y la zona de compra sin confirmar. Es lo que muestran la semana y los cuatro marcos, con colores naranja. Deja de valer con un cierre H4 fuera de ese rango.' },
+      { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 283 (D del plan)', pct: 25, text: 'Cierre H4 bajo 283: se abre 275‑278,5 y después la demanda 262‑270 (túnel rosa diario). Se invalida si recupera 289. Una ruptura alcista exige cierre H4 sobre 299‑300 y retest de 296‑298 que aguante, y hoy está lejos.' }
+    ],
+    plan: [
+      { k: 'Lunes 12 de octubre', wide: true, text: 'El precio ya está en la zona A, pero sin las condiciones del plan: la Genial H1 no está recuperada y H4 sigue en naranja. Entre 289 y 293 no hay ventaja y bajo 289 tampoco hasta la zona. Esperaría al lunes y a la reacción en 283‑285,45: sin vela de rechazo ni volumen, no entro.' },
+      { k: 'Largos', text: 'Solo en 284‑286,5 y con las condiciones del plan: rechazo en H1 o Genial H1 recuperada, H4 en color de fuerza y volumen de NinjaTrader en M5 con compradores. Stop bajo 282,5. La subida del 7 se borró y el diario tiene una vela fucsia reciente, así que reduciría tamaño.' },
+      { k: 'Cortos', text: 'Solo con cierre H4 bajo 283, sin anticiparlo. Objetivos 278,5‑275 y luego 270. El corto táctico de rechazo del plan se movió: el techo que rechazó fue 308, no 296‑298.' },
+      { k: 'Pirámide', text: 'Solo a favor, al mantener sobre 289 o superar 294. Nunca promediando a la baja si el pullback falla.' },
+      { k: 'Idea de fondo', text: 'Rango 283‑298,5 con extremos como únicos puntos de entrada. No operaría en el medio ni perseguiría el 300 sin cierre H4 y volumen.' }
+    ],
+    tecnica: [
+      { k: 'Comparación con el 9 de octubre', text: 'El escenario lateral se confirmó: el precio no recuperó 293 y tocó la zona A, con mínimo semanal 284,25. El corto bajo 283 no se activó. A mediodía del viernes los cuatro marcos eran naranja; al cierre H1 pasa a verde fosforito.' },
+      { k: 'Semanal', text: 'Vela de la semana: abre 293,15, máximo 308,35, mínimo 284,25 y cierre 286,95. Mecha superior larga (rechazo del 308) y cierre en la mitad baja. Color naranja (falta de fuerza clara) tras una vela azul claro. El precio está dentro del túnel azul semanal (~278‑296), bajo la EMA 8 (~293) y la Genial Line (~291). La directriz bajista gris sigue por encima.' },
+      { k: 'Diario', text: 'Cierra en 286,95, con apertura 289,05, máximo 291,80 y mínimo 284,25. Color naranja. El precio está pegado a la EMA 8 (~286,5) y a la línea 286,95, con los puntos marrones y la Genial Line (~290) por encima. Debajo, 285,45 y el túnel rosa (~262‑284,5). La vela fucsia del 7 y la naranja del 8 siguen marcando falta de fuerza.' },
+      { k: 'H4', text: 'Precio en 285,15, bajo la EMA 8 (~287,5) y los puntos marrones, y sobre la Genial Line (~283,5). Cierra bajo 285,45 por primera vez, pero sin cerrar bajo 283. Encima, túnel azul (~293‑297), amarillo (~299‑306) y rosa (~308‑310) juntos, que explican el rechazo del 7. Color naranja: sin fuerza.' },
+      { k: 'H1', text: 'Precio bajo la EMA 8 (~287,5) y la Genial Line (~292), justo bajo el túnel azul H1 y la línea 285,45. Color verde fosforito (fuerza bajista impulsiva). Hay huecos H1 arriba, en ~290‑293 y ~297‑300.' },
+      { k: 'Límites de la lectura', text: 'Los valores de medias, túneles y huecos están leídos a ojo de las capturas, así que son aproximados. Los colores son los de la etiqueta de precio de cada gráfico, cruzados con tu leyenda. Las capturas son del sábado 10 a las 17:41. El cierre del diario (286,95) y el último precio de H1 y H4 (285,15) no coinciden: puede ser liquidación frente a última operación, y no lo he podido confirmar. No hay M15 ni volumen de NinjaTrader.' }
+    ],
+    tables: [
+      {
+        title: 'Oferta, existencias y clima',
+        intro: 'Datos que mueven el KC. Los de oferta vienen de Trading Economics (7 de octubre) y no he podido contrastarlos con la fuente original.',
+        head: ['Factor', 'Dato', 'Lectura'],
+        rows: [
+          ['Existencias certificadas ICE', 'Mínimo de 27 años en septiembre, con recuperación parcial', 'Alcista, da soporte a los vencimientos cercanos. No encontré la cifra actual'],
+          ['Cosecha de Brasil 2026', 'Récord estimado de 67,6 M sacos (+19,6% interanual)', 'Bajista. Limita las subidas'],
+          ['Exportaciones de Brasil', 'Septiembre, el nivel más alto en 20 meses', 'Bajista'],
+          ['Balance mundial', 'Hedgepoint estima un excedente de 8,9 M sacos', 'Bajista'],
+          ['Clima', 'Lluvias escasas en Minas Gerais durante la floración, y preocupación por El Niño', 'Alcista. Condiciona la cosecha 2027/28'],
+          ['Calidad de la cosecha', 'Lluvias intensas retrasaron la recolección y el secado (2 de octubre)', 'Alcista a corto plazo'],
+          ['COT de fondos', 'Sin dato', 'No he podido leerlo. Revísalo hoy']
+        ],
+        note: 'Lectura: hay factores opuestos. La oferta de este año es abundante, pero los inventarios en bolsa están escasos y el clima de floración amenaza la próxima cosecha. Eso encaja con un precio que sube con titulares y se devuelve, como esta semana.'
+      },
+      {
+        title: 'Correlaciones con el KC',
+        intro: 'Lectura de la semana, no un coeficiente estadístico. Las fuentes difieren en algunas cifras, así que uso niveles aproximados.',
+        head: ['Activo', 'Nivel (aprox.)', 'Relación con el KC', 'Lectura'],
+        rows: [
+          ['Real brasileño (USD/BRL)', '≈ 5,02 (real +4,1% en 7 días)', 'Real fuerte apoya al KC; real débil lo presiona', 'Coherente con tu idea de que el real impulsó la subida. La fuente no da el día exacto, así que conviene confirmarlo en el gráfico USD/BRL'],
+          ['Dólar (DXY)', '≈ 102,1‑102,2', 'Habitualmente inversa', 'Un dólar firme resta apoyo al KC. Las fuentes no coinciden en su dirección del jueves'],
+          ['Nasdaq / NQ', 'Nasdaq 100 −1,4% el jueves (una fuente)', 'Vía real y apetito por riesgo (hipótesis)', 'El jueves el KC cayó 1,25% con las acciones a la baja. Con una sola sesión no concluyo. Sin captura del NQ'],
+          ['WTI', '91,85 (cierre del viernes)', 'Sin relación clara', 'El jueves el WTI subió y el KC cayó. No lo usaría como guía'],
+          ['VIX', 'Sin dato fiable', '—', 'Pásame la captura si quieres incluirlo']
+        ],
+        note: 'Hipótesis de trabajo: el real es el primer activo que vigilar para el KC. Si el real revierte, el 283 queda expuesto aunque el café por sí solo no lo muestre.'
+      }
+    ],
+    noticias: [
+      { k: 'Oferta récord en Brasil', text: 'El 7 de octubre el arábica bajó de 295 c/lb tras su máximo desde septiembre. Pesan la cosecha récord estimada de Brasil, las exportaciones de septiembre más altas en 20 meses y el excedente mundial previsto. El Niño sigue sosteniendo los precios (Trading Economics).' },
+      { k: 'Calidad y clima', text: 'El 2 de octubre el arábica subió por problemas de calidad: las lluvias intensas retrasaron la recolección y el secado. También preocupan las lluvias escasas en Minas Gerais durante la floración.' },
+      { k: 'La semana', text: 'El 6 de octubre el KC llegó a su nivel más alto desde septiembre (300,55 en el cierre según la fuente) y el 8 cerró en 289,05, un 1,25% menos. Hoy ronda 287,65.' },
+      { k: 'Real brasileño', text: 'El real se apreció alrededor de un 4% en siete días (USD/BRL en 5,02 aproximadamente). Es coherente con tu lectura de la subida del 6 y 7, aunque no he podido confirmar el día exacto del movimiento.' }
+    ],
+    vigilar: [
+      { k: 'Reacción en 283‑285,45', text: 'El cierre semanal quedó pegado a 285,45 y sobre 283. Decide la vela del lunes y su volumen en M5.' },
+      { k: 'Lluvia en Minas Gerais', text: 'Floración: condiciona la cosecha 2027/28. Atención a los titulares de El Niño.' },
+      { k: 'Real brasileño y dólar', text: 'Un real que revierta es la señal de peligro para el 283.' },
+      { k: 'Existencias certificadas ICE', text: 'En mínimos de 27 años en septiembre con recuperación parcial. Revisar la cifra diaria.' },
+      { k: 'COT del viernes', text: 'Posición de fondos. No he podido leerlo; revísalo.' },
+      { k: 'Contrato', text: 'Sin cambio de contrato esta semana (KC diciembre), según el plan.' }
+    ],
+    sources: [
+      { t: 'Coffee – Trading Economics (285,17 es la cotización CFD del viernes 9; el gráfico de futuros cierra en 286,95)', u: 'https://tradingeconomics.com/commodity/coffee' },
+      { t: 'Coffee – Price, Chart, Historical Data, News – Trading Economics', u: 'https://tradingeconomics.com/commodity/coffee' },
+      { t: 'BRL/USD – FxFeed (cotización del real, agregador)', u: 'https://fxfeed.io/currencies/pairs/brl-usd' },
+      { t: 'Financial & Forex Market Recap, 8 oct 2026 – BabyPips (dólar y Nasdaq)', u: 'https://www.babypips.com/news/financial-forex-market-recap-2026-10-08' }
+    ]
+  },
+  {
+    asset: 'CC',
+    date: '2026-10-10',
+    title: 'Análisis del cacao (CC), cierre de semana',
+    operativa: 'Swing',
+    quotes: [
+      { l: 'Cacao ICE US', v: '5.665', s: 'USD/t, cierre del viernes en el gráfico (≈ 5.670 en Trading Economics)' },
+      { l: 'Semana', v: '5.431 – 5.908', s: 'abre 5.658 y cierra 5.665: cuerpo casi nulo' },
+      { l: 'Túnel azul diario', v: '≈ 5.310', s: 'estrangulado bajo el precio, sin cruce' }
+    ],
+    conclusion: {
+      lead: 'La semana cierra en un doji sobre la directriz y bajo el túnel azul semanal: tu lectura se cumple, pero el cambio alcista aún no se confirma.',
+      text: 'Cumplió tu objetivo de 5.900 (máximo 5.908) y rechazó en la directriz, como esperabas. Luego devolvió todo hasta 5.431 y recuperó hasta cerrar en 5.665: la vela semanal abre en 5.658, cierra en 5.665 y deja mechas largas a ambos lados. Es indecisión. Los colores no confirman el giro alcista: semanal amarillo (pérdida de fuerza), H4 y H1 amarillo y diario fucsia (inicio o confirmación de secuencia bajista) en el cierre. El estrangulamiento del túnel azul diario (~5.310) y la posibilidad alcista en semanal siguen siendo una hipótesis: falta el cruce y un cierre H4 y diario sobre 5.960. Mientras tanto, esperar o reducir tamaño.'
+    },
+    frames: [
+      { l: 'Gatillo', v: 'H1 / M15', n: 'con confirmación en H4. Faltan M15 y volumen de NinjaTrader' },
+      { l: 'Contexto', v: 'H4 / D' },
+      { l: 'Niveles', v: 'D / W' }
+    ],
+    bands: [],
+    levels: [
+      { p: 6505, lbl: '6.505', cls: 'res', t: 'Siguiente objetivo si rompe' },
+      { p: 5960, lbl: '5.960', cls: 'res', t: 'Techo: directriz, Genial D, túnel amarillo D' },
+      { p: 5908, lbl: '5.908', cls: 'res', t: 'Máximo semanal (rechazo)' },
+      { p: 5665, lbl: '5.665', cls: 'now', t: 'Cacao, cierre del viernes' },
+      { p: 5431, lbl: '5.431', cls: 'sup', t: 'Mínimo semanal' },
+      { p: 5362, lbl: '5.362', cls: 'sup', t: 'Invalidación: cierre H4 bajo' },
+      { p: 5051, lbl: '5.051', cls: 'sup', t: 'Mínimo del 1 oct (martillo)' },
+      { p: 4918, lbl: '4.918', cls: 'sup', t: 'Soporte' }
+    ],
+    table: [
+      ['7.213', 'Resistencia', 'Nivel y FVG semanal (~7.100‑7.200). Objetivo de la tesis alcista a medio‑largo plazo'],
+      ['6.505', 'Resistencia', 'Siguiente objetivo si supera 5.960. Antes, FVG diario ~6.320‑6.400'],
+      ['5.960', 'Techo clave', 'Directriz bajista (~5.850 hoy y cayendo), Genial diaria (~5.850), túnel amarillo diario (~5.800‑5.900) y túnel azul semanal (~5.700‑5.930)'],
+      ['5.908', 'Máximo semanal', 'El objetivo de 5.900 se cumplió el lunes 5 con rechazo en la directriz'],
+      ['5.640‑5.740', 'Resistencia corta', 'EMA 8 diaria (~5.640) y borde alto del túnel rosa diario (~5.740)'],
+      ['5.400‑5.431', 'Soporte', 'Mínimo semanal 5.431, borde bajo del túnel rosa diario (~5.400) y FVG H4 (~5.380‑5.400)'],
+      ['5.362', 'Soporte clave', 'Línea roja, túnel amarillo H4 (~5.290‑5.380) y túnel rosa H1 (~5.290‑5.370). Un cierre H4 por debajo invalida el rebote'],
+      ['~5.310', 'Túnel azul diario', 'Estrangulado en una línea fina bajo el precio. Convergencia de las medias 123 y 188, pendiente del cruce'],
+      ['5.051', 'Soporte', 'Mínimo del 1 de octubre (martillo semanal)'],
+      ['4.918', 'Soporte', 'Con el FVG diario 4.700‑4.880 por debajo'],
+      ['4.327', 'Soporte profundo', 'Línea roja semanal con el túnel amarillo y el FVG semanal (~4.330‑4.850)']
+    ],
+    scenarios: [
+      { cls: 'up', tag: 'Alcista', title: '1. Ruptura y cambio alcista sobre 5.960', pct: 35, text: 'Cierre H4 y diario sobre 5.960 (directriz, Genial D y túnel amarillo), idealmente con IN institucional al cierre y cruce alcista del túnel azul diario. Objetivos 6.320‑6.400 y 6.505; si pasa, 7.213. Pide colores de fuerza alcista (azul marino o verde oscuro). Se invalida con un cierre diario de vuelta bajo 5.740.' },
+      { cls: 'flat', tag: 'Lateral', title: '2. Rango 5.360‑5.910', pct: 40, text: 'El precio gira dentro del túnel rosa diario sin color de fuerza, como esta semana. El estrangulamiento diario sigue sin cruzar. Deja de valer con un cierre H4 fuera del rango.' },
+      { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 5.362', pct: 25, text: 'Cierre H4 y diario bajo 5.362 (con el túnel azul diario en ~5.310): primero 5.051 y después 4.918 y el FVG 4.700‑4.880. Se invalida si recupera 5.570 con color de fuerza.' }
+    ],
+    plan: [
+      { k: 'Lunes 12 de octubre', wide: true, text: 'Sin confirmación ni color de fuerza. El precio está en el medio del rango (5.431‑5.908), bajo la Genial y la EMA 8 diarias y justo bajo el túnel azul semanal. No operaría en el medio. Esperaría a ver si H4 y diario cierran sobre 5.960 o vuelven a 5.360‑5.450 con confirmación.' },
+      { k: 'Largos', text: 'Dos vías. Retroceso: zona 5.360‑5.450 con confirmación en H4 (color de fuerza alcista, no marrón ni fosforito) y volumen en M5; invalidación con cierre H4 bajo 5.362. Ruptura: cierre H4 y diario sobre 5.960 con retest que aguante, sin perseguir. En ambos casos, tamaño reducido mientras el diario siga sin color alcista.' },
+      { k: 'Cortos', text: 'Solo con cierre H4 y diario bajo 5.362, sin anticiparlo. Objetivos 5.051 y 4.918. No iría contra la estructura semanal sin ese cierre.' },
+      { k: 'Pirámide', text: 'Solo a favor y tras superar 5.960, nunca promediando.' },
+      { k: 'Idea de fondo', text: 'Sesgo alcista a medio plazo sin confirmar. Mientras no haya cruce del túnel azul diario y cierre sobre 5.960, es rango 5.360‑5.910 con los extremos como únicas entradas.' }
+    ],
+    tecnica: [
+      { k: 'Comparación con el 9 de octubre', text: 'La lectura de mediodía (5.577, bajo el túnel azul semanal) cambió: el viernes recuperó hasta 5.665 y cerró en la zona del túnel. El escenario lateral siguió cumpliéndose: ni 5.960 ni 5.362 se cerraron en H4. El color del diario pasa a fucsia en el cierre.' },
+      { k: 'Semanal', text: 'Vela: abre 5.658, máximo 5.908, mínimo 5.431, cierre 5.665. Mecha superior larga (rechazo de la directriz) y mecha inferior notable (rechazo de 5.431). Color amarillo (pérdida de fuerza), tras azul claro, azul claro y amarillo en las cuatro últimas. No hay fucsia ni azul marino semanal. El precio está en el borde inferior del túnel azul semanal (~5.700‑5.930) y sobre la EMA 8 (~5.350). Los mínimos de la estructura vienen subiendo desde mayo (hipótesis de recuperación). La directriz, que se rompió en agosto y falló, está ahora en ~5.900.' },
+      { k: 'Diario', text: 'Precio bajo la EMA 8 (~5.750) y la Genial Line (~5.850), en el borde alto del túnel rosa (~5.400‑5.740), con la directriz (~5.850) y el túnel amarillo (~5.800‑5.900) encima. Colores recientes: cian el 5, naranja el 6 y el 7, cian el 8 y fucsia el 9. No hay verde ni azul marino. El túnel azul diario (123/188) está estrangulado en ~5.310, bajo el precio: las medias convergen y se espera el cruce. El estrangulamiento solo marca que se acerca un cruce, no su dirección; la confirma el cruce y el cierre.' },
+      { k: 'H4', text: 'Precio sobre la Genial Line (~5.570) y la EMA 8 (~5.630), dentro del túnel azul H4 (~5.570‑5.690) y bajo el rosa (~5.600‑5.830). Debajo, túnel amarillo (~5.290‑5.380) con la línea 5.362. Color amarillo. Hubo un OUT institucional hacia el 17 de septiembre y un IN a principios de agosto; ninguno nuevo. Un IN al cierre sobre 5.960 sería la confirmación.' },
+      { k: 'H1', text: 'Precio entre la EMA 8 (~5.620) y la Genial Line (~5.650), dentro de los túneles azul y amarillo H1 (~5.550‑5.700), con huecos (FVG) en ~5.700‑5.750 y ~5.100‑5.350. La directriz queda en ~5.820. Color amarillo.' },
+      { k: 'Límites de la lectura', text: 'Los valores de medias, túneles y huecos están leídos a ojo de las capturas, así que son aproximados. Los colores son los de la etiqueta de precio de cada gráfico, cruzados con tu leyenda. Las capturas son del sábado 10 a las 17:41. No hay M15 ni volumen de NinjaTrader.' }
+    ],
+    tables: [
+      {
+        title: 'Oferta, existencias y demanda',
+        intro: 'Datos del 8 de octubre en Yahoo Finance (texto de Barchart) y de Trading Economics (7 de octubre). No los he contrastado con la fuente original.',
+        head: ['Factor', 'Dato', 'Lectura'],
+        rows: [
+          ['Existencias ICE', '3.559.258 sacos el 8 oct (3.481.504 el 30 sep)', 'Máximo en 2,25 años. Bajista: presiona el precio'],
+          ['Llegadas a puerto en Costa de Marfil', '2,18 M t hasta el 27 sep (+19,8% interanual); 18.000 t en la semana al 4 oct', 'Bajista por volumen acumulado. Las lluvias cortaron carreteras y frenaron las entregas, lo que es alcista a corto plazo'],
+          ['Cosecha 2026/27', 'Costa de Marfil ~1,75 M t (−20%), Ghana ~650.000 t (−13%)', 'Alcista a medio plazo. Se compara con ~2,2 M t de la campaña anterior'],
+          ['Clima', 'El Niño podría ser de los más fuertes en más de 75 años; mazorca negra', 'Alcista: reduce los rendimientos en África Occidental'],
+          ['Molturación Q2', 'Europa −4,6% (316.366 t, mínimo para un Q2 en 6 años), Norteamérica +7,7%, Asia +25%', 'Demanda desigual: Europa débil, Asia fuerte'],
+          ['Curva (análisis del 2 oct)', 'Contango suave hasta mitad de 2027', 'Sin señal de escasez inmediata. No actualizada']
+        ],
+        note: 'Lectura: el mercado compensa un presente con mucha oferta y existencias altas con un 2026/27 recortado por el clima. Eso encaja con un precio que sube con titulares de clima y se devuelve con las existencias, como esta semana.'
+      },
+      {
+        title: 'Correlaciones con el cacao',
+        intro: 'Lectura de la semana, no un coeficiente estadístico. Las fuentes difieren en algunas cifras, así que uso niveles aproximados.',
+        head: ['Activo', 'Nivel (aprox.)', 'Relación con el cacao', 'Lectura'],
+        rows: [
+          ['Cacao Londres (dic)', '+1,41% el jueves 8', 'Mismo sentido', 'Cerró al alza el jueves, igual que Nueva York (+1,49%). Mercado alineado'],
+          ['Café (KC)', '286,95 c/lb (cierre diario)', 'Débil, por flujo de fondos en softs', 'Ambos rechazaron máximos el 5‑7 de octubre y cierran la semana sin color de fuerza (KC naranja, cacao amarillo en semanal)'],
+          ['Dólar (DXY)', '≈ 102,1‑102,2', 'Habitualmente inversa', 'Un dólar firme resta apoyo a las materias primas blandas. Las fuentes no coinciden en su dirección del jueves'],
+          ['Nasdaq / NQ', 'Nasdaq 100 −1,4% el jueves (una fuente)', 'Débil e indirecta', 'El jueves el cacao subió con las acciones a la baja. Sin captura del NQ no saco conclusiones'],
+          ['VIX', 'Sin dato fiable', '—', 'Pásame la captura si quieres incluirlo']
+        ],
+        note: 'Hipótesis de trabajo: el cacao se mueve sobre todo por su propio clima y existencias, así que las correlaciones son de contexto y no deberían decidir una entrada.'
+      }
+    ],
+    noticias: [
+      { k: 'Jueves 8: lluvias y existencias', text: 'El cacao cerró al alza (Nueva York dic +1,49%, Londres dic +1,41%) tras recuperarse de pérdidas iniciales por previsiones de lluvias continuas en Costa de Marfil. Las existencias de ICE, en su nivel más alto en 2,25 años, siguen presionando.' },
+      { k: 'Miércoles 7: retirada de máximos', text: 'Los futuros bajaron hacia 5.640 tras tocar máximos de tres semanas, y el mercado sigue en rango. Las llegadas a puerto sumaron 18.000 t en la semana al 4 de octubre, con 54.500 t en la campaña, y se estima que el cierre de la campaña principal de Costa de Marfil sea un 17% menor (Trading Economics).' },
+      { k: '1 de octubre: mínimo', text: 'Los futuros cayeron hacia 5.100, su nivel más bajo desde el 27 de julio, por la abundancia de oferta. Ese es el barrido de 5.051 del martillo semanal.' }
+    ],
+    vigilar: [
+      { k: 'Túnel azul semanal', text: 'El precio cerró en su borde inferior (~5.700). Un cierre semanal sobre él, con la directriz rota, sería la primera señal del giro.' },
+      { k: 'Cruce del túnel azul diario', text: 'El estrangulamiento en ~5.310 se resuelve con el cruce de las medias 123 y 188. Mira la dirección y el cierre, no solo el cruce.' },
+      { k: 'Jueves 15 de octubre', text: 'Molturaciones del tercer trimestre de Europa y Norteamérica, según Trading Economics (la fecha no la he confirmado en otra fuente).' },
+      { k: 'Costa de Marfil', text: 'Llegadas a puerto semanales y lluvias que frenan las entregas. También el clima de la próxima campaña y El Niño.' },
+      { k: 'Existencias ICE', text: 'Cifra diaria; la tendencia al alza presiona el precio.' },
+      { k: 'Roll Dic → Mar', text: 'Cuando la continua pase de diciembre a marzo puede aparecer un salto de ~110 puntos que no es movimiento real. No confundirlo con una ruptura.' }
+    ],
+    sources: [
+      { t: 'Cocoa – Price, Chart, Historical Data, News – Trading Economics', u: 'https://tradingeconomics.com/commodity/cocoa' },
+      { t: 'Cocoa Prices Climb as Ivory Coast Rains Slow Deliveries – Yahoo Finance (8 oct)', u: 'https://finance.yahoo.com/markets/commodities/articles/cocoa-prices-climb-ivory-coast-182259194.html' },
+      { t: 'Financial & Forex Market Recap, 8 oct 2026 – BabyPips (dólar y Nasdaq)', u: 'https://www.babypips.com/news/financial-forex-market-recap-2026-10-08' }
+    ]
+  },
+  {
+    asset: 'WTI',
     date: '2026-10-09',
     title: 'Análisis del petróleo (WTI)',
     operativa: 'Swing',
