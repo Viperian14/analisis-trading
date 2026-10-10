@@ -808,91 +808,6 @@ var ENTRIES = [
       { t: 'Gold, silver, precious metals, 9 oct 2026 – Rio Times (solo como contraste: sus cifras son inconsistentes)', u: 'https://www.riotimesonline.com/gold-silver-precious-metals-friday-october-9-2026/' },
       { t: 'FOMC Minutes October 2026 – Admirals (fecha del FOMC y CPI)', u: 'https://admiralmarkets.com/analytics/traders-blog/fomc-minutes-october-2026' }
     ]
-  },
-  {
-    asset: 'WTI',
-    date: '2026-10-04',
-    title: 'Análisis del petróleo (WTI)',
-    operativa: 'Swing',
-    mode: 'swing',
-    quotes: [
-      { l: 'WTI', v: '91,11', s: 'cierre del viernes' },
-      { l: 'Brent', v: '102,25', s: 'cierre del viernes' },
-      { l: 'Brent − WTI', v: '11,14', s: 'datos a 4 de octubre de 2026' }
-    ],
-    conclusion: {
-      lead: 'No lo veo indeciso, lo veo en rango con sesgo alcista de fondo.',
-      text: 'La tesis (rango 79‑97, subida a 102 y luego 86/79 si hay paz) se sostiene bastante bien. Lo que cambia es el orden: antes de ir a 102 tiene que superar 93,51 y 97,11, y las noticias de esta semana juegan a la vez en contra y a favor.'
-    },
-    frames: [
-      { l: 'Gatillo', v: 'H1', n: 'con confirmación en H4' },
-      { l: 'Contexto', v: 'H4 / D' },
-      { l: 'Niveles', v: 'D / W' }
-    ],
-    bands: [
-      { lo: 97, hi: 101, label: 'FVG 97‑101' },
-      { lo: 88, hi: 89, label: 'Túnel amarillo H4' },
-      { lo: 83, hi: 85, label: 'Túnel rosa ~83‑85' }
-    ],
-    levels: [
-      { p: 102.38, cls: 'res', t: 'Objetivo de la tesis' },
-      { p: 97.11, cls: 'res', t: 'Reacción principal' },
-      { p: 93.51, cls: 'res', t: 'Gatillo largo' },
-      { p: 91.11, cls: 'now', t: 'WTI, cierre del viernes' },
-      { p: 86.14, cls: 'sup', t: 'FVG y túnel azul diarios' },
-      { p: 80.00, cls: 'sup', t: 'Objetivo si hay acuerdo' },
-      { p: 74.43, cls: 'sup', t: 'Solo con Hormuz abierto' }
-    ],
-    table: [
-      ['102,38', 'Resistencia', 'Objetivo de la tesis; directriz bajista (~105) justo encima'],
-      ['97,11 / FVG 97‑101', 'Resistencia + imán', 'Zona de reacción principal del rebote'],
-      ['93,51', 'Resistencia / gatillo', 'Ruptura con retesteo = gatillo largo'],
-      ['88‑89', 'Soporte (túnel amarillo H4)', 'Mínimo del viernes 88,06; rebote desde el túnel 416/618'],
-      ['86,14', 'Soporte', 'Confluencia con FVG diario 88‑84 y túnel azul diario (~84‑86)'],
-      ['80,00', 'Soporte', 'Objetivo del escenario de acuerdo; túnel rosa (~83‑85) como colchón'],
-      ['74,43', 'Soporte profundo', 'Solo con reapertura real de Hormuz']
-    ],
-    scenarios: [
-      { cls: 'up', tag: 'Alcista', title: '1. Rebote a 93,51 → 97,11', pct: 55, text: 'H4 cierra sobre Genial Line y EMA 8 con velas de fuerza compradora; luego supera 93,51. El 97,11 y el FVG 97‑101 son zona de reacción. Llegar a 102,38 exige catalizador (escalada o más tensión física).' },
-      { cls: 'flat', tag: 'Lateral', title: '2. Lateral 88‑93', pct: 25, text: 'Titulares contradictorios (reservas frente a tensión física) mantienen el precio atrapado mientras no haya un titular claro.' },
-      { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 88', pct: 20, text: 'Cierre H4 bajo el túnel amarillo: primero 86,14 y después 80. Es el escenario de acuerdo o alto el fuego; si Hormuz se reabre de verdad, el 74,43 entra en juego.' }
-    ],
-    plan: [
-      { k: 'Domingo 4 de octubre', wide: true, text: 'No hay precio y no hay nada que operar. Esperaría a ver cómo reacciona al soporte de 88‑89 tras la reapertura.' },
-      { k: 'Largos', text: 'Solo con confluencia H1/H4: cierre H4 sobre Genial/EMA 8, colores de vela con fuerza compradora y volumen en M5. Gatillo: ruptura de 93,51 con retesteo.' },
-      { k: 'Cortos', text: 'Solo si H4 cierra bajo 88. Objetivo 86,14 y luego 80. No iría contra el semanal sin esa confirmación.' },
-      { k: 'Idea de fondo', text: 'Compras en 86‑88 y ventas en 97‑102 es lo más coherente con el rango, con los titulares como motor de cada tramo.' }
-    ],
-    tecnica: [
-      { k: 'Semanal', text: 'Estructura alcista desde las señales IN de enero, con mínimos crecientes (67 → 74 → 80). La vela de esta semana es roja, pero sigue sobre la EMA 8 y la Genial Line (~86‑87). Es corrección dentro de tendencia, no giro.' },
-      { k: 'Diario', text: 'Precio bajo la EMA 8 (~95‑96) y apoyado sobre la Genial Line (~89‑90). Debajo, FVG de 88 a 84 y túnel azul (~84‑86), muy cerca de 86,14. La directriz bajista desde marzo está ahora en ~105: refuerza 102,38 como techo, pero hoy no está en juego.' },
-      { k: 'H4', text: 'El viernes tocó el túnel amarillo (416/618, ~87‑88), dejó mínimo en 88,06 y rebotó. Ahora está pegado al borde inferior del túnel azul (123/188), bajo la Genial Line y la EMA 8 (~91‑92). Zona de corrección con varios toques: apoya el lateral, pero según la regla no decide.' },
-      { k: 'Estructura de niveles', text: 'Bloque de FVG de 97 a 101 que actúa como imán y resistencia; por debajo, 86,14 y 80 como soportes y el túnel rosa (~83‑85) como último colchón.' }
-    ],
-    noticias: [
-      { k: 'Brent y WTI muy separados', text: 'El viernes WTI cerró en 91,11 y Brent en 102,25: una prima de más de 11 dólares para el crudo internacional. Un spread así suele cerrarse y el WTI tiene más recorrido al alza que el Brent.' },
-      { k: 'El físico, más tenso que los futuros', text: 'El Dated Brent superó los 120 mientras el Brent de ICE bajaba hacia 101. Avala la idea de suelo: el petróleo físico escasea.' },
-      { k: 'Quieren bajar el precio', text: 'El WTI cayó casi un 4% el viernes porque Europa estudia otra liberación coordinada de reservas, presionada por Washington. El G7 también valora liberar hasta 100 millones de barriles. Corrobora que no pueden dejarlo muy alto por inflación y datos macro. Es presión bajista a corto plazo y explica por qué cuesta romper 93‑97.' },
-      { k: 'Catalizadores alcistas', text: 'El jueves subió el crudo cuando las refinerías chinas suspendieron las exportaciones de producto para octubre y se supo que EEUU enviaba más fuerzas a Oriente Medio.' }
-    ],
-    extra: {
-      title: 'El escenario del 54 y el 48‑72',
-      paras: [
-        'Aunque haya paz, no veo el 54 pronto. La OPEP+ advirtió que el daño a la infraestructura energética puede afectar a la oferta incluso después de que cese el conflicto. Eso frena la vuelta rápida a precios bajos. La idea de vender caro un tiempo antes de normalizar es coherente.',
-        'El 79 como objetivo en caso de acuerdo me parece razonable, incluso prudente. Antes ya se vio una caída de cerca del 10% en una semana, hasta la zona de 75, cuando creció el optimismo por un acuerdo para reabrir Hormuz. Si el acuerdo es real y los barcos pasan, el 79 podría no aguantar y el 74,43 entra en juego.',
-        'El 48‑72 solo lo veo tras meses, con inventarios normalizados. No lo usaría para operar ahora.'
-      ],
-      note: 'La mayoría de pronósticos que he visto sitúan el WTI entre 71 y 100 para octubre, y Standard Chartered apunta a un promedio de 86 para 2026. Encaja con la banda.'
-    },
-    sources: [
-      { t: 'Brent oil – Trading Economics', u: 'https://tradingeconomics.com/commodity/brent-crude-oil' },
-      { t: 'WTI Crude Oil Futures Contracts – OilPrice', u: 'https://oilprice.com/futures/wti' },
-      { t: 'WTI Sinks Nearly 4% as EU Weighs Emergency Stockpile Release', u: 'https://oilprice.com/Latest-Energy-News/World-News/WTI-Sinks-Nearly-4-as-EU-Weighs-Emergency-Stockpile-Release.html' },
-      { t: 'Oil Ends Volatile Week Mixed… – EnergyNow', u: 'https://energynow.com/2026/10/oil-ends-volatile-week-mixed-as-emergency-reserve-release-knocks-wti-lower-but-brent-holds-above-102/' },
-      { t: 'Oil Holds Decline on Hormuz Deal Hopes – Trading Economics', u: 'https://tradingeconomics.com/commodity/crude-oil/news/572707' },
-      { t: 'Brent Trims Gains on Ceasefire Hopes – Trading Economics', u: 'https://tradingeconomics.com/commodity/brent-crude-oil/news/539242' },
-      { t: 'Oil (USCrude) Price Forecast – LiteFinance', u: 'https://www.litefinance.org/blog/analysts-opinions/oil-price-prediction-forecast/daily-and-weekly/' }
-    ]
   }
 ];
 
@@ -940,7 +855,7 @@ var ENTRIES = [
   }
   pickMode('swing');
 
-  // Deep link: #WTI-2026-10-04, #WTI o #intra
+  // Deep link: #WTI-2026-10-10, #WTI o #intra
   try {
     var h = (location.hash || '').replace('#', '');
     if (h === 'intra' || h === 'swing') {
