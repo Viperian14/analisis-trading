@@ -197,6 +197,16 @@ h2 { color: var(--muted); }
 .datesel option { background: #131b15; color: #f3ead2; }
 
 /* Páginas de Indicador y Calendario */
+.fold { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.fold > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 14px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::before { content: ""; width: 7px; height: 7px; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); transition: transform .15s; flex: none; margin-right: 4px; }
+.fold[open] > summary::before { transform: rotate(45deg); }
+.fold > summary em { font-style: normal; font-family: var(--font-num); font-size: 12px; color: var(--muted); background: var(--accent-soft); border-radius: 999px; padding: 1px 8px; letter-spacing: 0; }
+.fold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.fold > .evlist, .fold > .hol, .fold > .src { padding: 0 16px 16px; }
+.fold > .src { margin: 0; }
+
 .sw { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(255,255,255,.4); vertical-align: -2px; margin-right: 8px; }
 .paras strong, .row p strong { color: var(--accent); font-weight: 600; }
 .legend { color: var(--muted); font-size: 14px; max-width: 80ch; }
@@ -1295,9 +1305,9 @@ var CAL_SRC = [
     var past = CAL.filter(function (e) { return !!e.act; }).sort(cmp).reverse();
     var html = '<section><h2>Cómo leerlo</h2><p class="legend">Las horas son de Madrid. 👍 significa que el dato salió mejor de lo esperado para la economía (en inflación, más baja de lo previsto) y 👎 que salió peor. Que eso sea bueno o malo para cada activo está en el comentario de cada dato y es una hipótesis. Las etiquetas indican a qué activos afecta: WTI, GC (oro) y SI (plata). Cuando un dato se publica le añado el resultado y su pulgar.</p></section>';
     html += '<section><h2>Próximos datos</h2><div class="evlist">' + next.map(card).join('') + '</div></section>';
-    html += '<section><h2>Ya publicados</h2><div class="evlist">' + past.map(card).join('') + '</div></section>';
-    html += '<section><h2>Festivos y horarios</h2><div class="hol">' + HOL.map(function (h) { return '<div><b>' + esc(h.d) + ' · ' + esc(h.t) + '</b>' + esc(h.x) + '</div>'; }).join('') + '</div></section>';
-    html += '<section><h2>Fuentes</h2><ul class="src">' + CAL_SRC.map(function (x) { return '<li><a href="' + esc(x.u) + '" target="_blank" rel="noopener">' + esc(x.t) + '</a></li>'; }).join('') + '</ul></section>';
+    html += '<details class="fold"><summary><span>Ya publicados</span><em>' + past.length + '</em></summary><div class="evlist">' + past.map(card).join('') + '</div></details>';
+    html += '<details class="fold"><summary><span>Festivos y horarios</span><em>' + HOL.length + '</em></summary><div class="hol">' + HOL.map(function (h) { return '<div><b>' + esc(h.d) + ' · ' + esc(h.t) + '</b>' + esc(h.x) + '</div>'; }).join('') + '</div></details>';
+    html += '<details class="fold"><summary><span>Fuentes</span><em>' + CAL_SRC.length + '</em></summary><ul class="src">' + CAL_SRC.map(function (x) { return '<li><a href="' + esc(x.u) + '" target="_blank" rel="noopener">' + esc(x.t) + '</a></li>'; }).join('') + '</ul></details>';
     return html;
   }
 
