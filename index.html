@@ -1834,9 +1834,9 @@ var CAL_SRC = [
     var row = document.getElementById('assetrow');
     var drow = document.getElementById('dates').parentNode;
     row.hidden = drow.hidden = !assets.length;
-    document.getElementById('assets').innerHTML = assets.map(function (x) {
-      return '<button type="button" class="chip" data-asset="' + esc(x) + '" aria-pressed="' + (x === state.asset) + '">' + esc(ASSET_NAMES[x] || x) + '</button>';
-    }).join('');
+    document.getElementById('assets').innerHTML = '<select class="datesel assetsel" aria-label="Activo">' + assets.map(function (x) {
+      return '<option value="' + esc(x) + '"' + (x === state.asset ? ' selected' : '') + '>' + esc(ASSET_NAMES[x] || x) + '</option>';
+    }).join('') + '</select>';
     var list = state.asset ? byAsset(state.asset) : [];
     document.getElementById('dates').innerHTML = '<select class="datesel" aria-label="Fecha del análisis">' + list.map(function (e, i) {
       return '<option value="' + esc(e.date) + '"' + (e.date === state.date ? ' selected' : '') + '>' + shortDate(e.date) + (i === 0 ? ' · último' : '') + '</option>';
@@ -2047,7 +2047,14 @@ var CAL_SRC = [
 
   document.addEventListener('change', function (ev) {
     var t = ev.target;
-    if (t && t.classList && t.classList.contains('datesel')) { state.date = t.value; render(); }
+    if (!t || !t.classList || !t.classList.contains('datesel')) return;
+    if (t.classList.contains('assetsel')) {
+      state.asset = t.value;
+      state.date = byAsset(state.asset)[0].date;
+    } else {
+      state.date = t.value;
+    }
+    render();
   });
 
   render();
