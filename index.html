@@ -196,6 +196,24 @@ h2 { color: var(--muted); }
 .datesel option { background: #131b15; color: #f3ead2; }
 
 /* Páginas de Indicador y Calendario */
+.trade { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-top: 14px; }
+.trade .th { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.trade h3 { margin: 0 0 4px; font-size: 17px; line-height: 1.3; }
+.trade .tg2 { font-size: 12px; font-weight: 600; border-radius: 4px; padding: 3px 8px; background: var(--accent-soft); color: var(--accent); }
+.trade .tg2.win { background: var(--up-soft); color: var(--up); }
+.trade .tg2.ap { background: var(--flat-soft); color: var(--flat); }
+.trade .tg2.dn { background: var(--down-soft); color: var(--down); }
+.trade .goals { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+.trade .goal { font-family: var(--font-num); font-size: 13px; border: 1px solid var(--line); border-radius: 4px; padding: 3px 9px; }
+.trade .goal.hit { border-color: var(--up); color: var(--up); }
+.trade .goal.near { border-color: var(--flat); color: var(--flat); }
+.trade .goal.miss { color: var(--muted); }
+.trade .go { margin-top: 10px; font-size: 13px; }
+.trade .go a { color: var(--accent); cursor: pointer; }
+.sumrow { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 0; }
+.sumrow div { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; min-width: 110px; }
+.sumrow b { display: block; font-family: var(--font-num); font-size: 24px; }
+.sumrow span { font-size: 12px; color: var(--muted); }
 .fold { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
 .fold > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 14px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
 .fold > summary::-webkit-details-marker { display: none; }
@@ -262,8 +280,10 @@ h2 { color: var(--muted); }
 #home .b-swing { left: 75%; }
 #home .bubble.mini { bottom: 3.5%; width: 17%; max-width: 260px; font-size: clamp(11px, 1.9cqw, 20px); padding: .8cqw .5cqw; display: flex; align-items: center; justify-content: center; gap: .5em; }
 #home .bubble.mini svg { width: 1.15em; height: 1.15em; flex: none; }
-#home .b-ind { left: 41%; }
-#home .b-cal { left: 59%; }
+#home .bubble.mini { width: 15%; }
+#home .b-ind { left: 34%; }
+#home .b-cal { left: 50%; }
+#home .b-ops { left: 66%; }
 @media (max-aspect-ratio: 4/5) {
   #home .stage { inset: auto; left: -30%; right: -30%; top: 50%; transform: translateY(-50%); aspect-ratio: 3 / 2; }
   #home .pic { background-position: center; background-size: 100% 100%; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent); }
@@ -271,14 +291,16 @@ h2 { color: var(--muted); }
   #home .stage .b-intra { left: 35.6%; }
   #home .stage .b-swing { left: 64.4%; }
   #home .stage .bubble.mini { width: 18%; font-size: 1.8cqw; padding: .8cqw .3cqw; bottom: 4%; }
-  #home .stage .b-ind { left: 35.6%; }
-  #home .stage .b-cal { left: 64.4%; }
+  #home .stage .bubble.mini { width: 19%; font-size: 1.7cqw; }
+  #home .stage .b-ind { left: 29%; }
+  #home .stage .b-cal { left: 50%; }
+  #home .stage .b-ops { left: 71%; }
 }
 .backhome { font: inherit; font-size: 13px; font-weight: 600; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
 .backhome:hover { color: var(--fg); }
 </style>
 
-<div id="home"><div class="bg"></div><div class="stage"><div class="pic" role="img" aria-label="Cursillo de Bolsillo: un toro verde y un oso rojo frente a frente"></div><button type="button" class="bubble b-intra" data-go="intra">Intradía / Scalping</button><button type="button" class="bubble b-swing" data-go="swing">Swing</button><button type="button" class="bubble mini b-ind" data-page="indicador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Indicador</button><button type="button" class="bubble mini b-cal" data-page="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendario</button></div></div>
+<div id="home"><div class="bg"></div><div class="stage"><div class="pic" role="img" aria-label="Cursillo de Bolsillo: un toro verde y un oso rojo frente a frente"></div><button type="button" class="bubble b-intra" data-go="intra">Intradía / Scalping</button><button type="button" class="bubble b-swing" data-go="swing">Swing</button><button type="button" class="bubble mini b-ind" data-page="indicador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Indicador</button><button type="button" class="bubble mini b-cal" data-page="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendario</button><button type="button" class="bubble mini b-ops" data-page="operativas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Operativas</button></div></div>
 
 <template id="tpl-indicador">
 <section>
@@ -2098,7 +2120,7 @@ var CAL_SRC = [
   try {
     var h = (location.hash || '').replace('#', '');
     state.home = !h || h === 'inicio';
-    if (h === 'indicador' || h === 'calendario') { state.page = h; state.home = false; }
+    if (h === 'indicador' || h === 'calendario' || h === 'operativas') { state.page = h; state.home = false; }
     if (h === 'intra' || h === 'swing') {
       pickMode(h);
     } else if (h) {
@@ -2307,11 +2329,66 @@ var CAL_SRC = [
     return html;
   }
 
+
+  var TRADES = [
+    { asset: 'NQ', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', match: 'Exacta',
+      plan: 'Cierre M15 bajo 31.060 con volumen vendedor y retesteo por abajo. Objetivos 31.000, 30.905 y 30.818,75.',
+      goals: [['31.000', 'hit'], ['30.905', 'hit'], ['30.818,75', 'hit']],
+      pasa: 'El NQ perdió 31.060 a mediodía y siguió cayendo: 31.000 hacia las 16:00, 30.905 sobre las 16:30‑17:00 y 30.818,75 hacia la 01:00 del martes 13. El mínimo, ≈30.605 a las 05:00.',
+      res: 'Ganadora. Desde 31.060 hasta el tercer objetivo, ≈240 puntos; hasta el mínimo de hoy, ≈455.' },
+    { asset: 'NQ', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de retesteo', match: 'Aproximada',
+      plan: 'Rebote a 31.097‑31.140 rechazado con vela de fuerza bajista y volumen vendedor. Stop sobre 31.200. Objetivos 31.040‑31.000, 30.905 y 30.818,75.',
+      goals: [['31.000', 'hit'], ['30.905', 'hit'], ['30.818,75', 'hit']],
+      pasa: 'El rebote de la apertura de EE. UU. llegó a ≈31.075, unos 22 puntos por debajo de la zona, con marca OUT de M15 hacia las 15:30‑16:00, y se giró. El stop (31.200) no se tocó.',
+      res: 'Ganadora aproximada: el retesteo no llegó a entrar en la zona, pero el movimiento fue el previsto. Desde ≈31.075 hasta el tercer objetivo, ≈255 puntos.' },
+    { asset: 'GC', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', match: 'Aproximada',
+      plan: 'Cierre M5 y M15 bajo 4.196,7 con retesteo por abajo y volumen. Objetivos 4.193 y 4.176.',
+      goals: [['4.193', 'hit'], ['4.176', 'near']],
+      pasa: 'El oro perdió 4.196,7 y bajó a ≈4.178 hacia las 14:30‑15:00 del lunes. El segundo objetivo se tocó con el mínimo de la madrugada del martes (≈4.174).',
+      res: 'Ganadora aproximada. Desde 4.196,7 hasta 4.176, ≈21 puntos. El análisis no definía stop en este escenario.' },
+    { asset: 'ES', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', match: 'Parcial',
+      plan: 'Cierre M15 bajo 7.855 con volumen y retesteo por abajo. Objetivos 7.849‑7.841 y 7.828‑7.815.',
+      goals: [['7.849‑7.841', 'hit'], ['7.828‑7.815', 'miss']],
+      pasa: 'El ES perdió 7.855 entre la tarde y la noche del lunes y bajó a ≈7.836 hacia las 04:30‑05:00 del martes. No llegó a 7.828. Ya ha vuelto a 7.859.',
+      res: 'Ganadora parcial: solo el primer objetivo. Desde 7.855 hasta 7.841, ≈14 puntos. El análisis no definía stop en este escenario.' }
+  ];
+
+  function renderTrades() {
+    var DAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    var MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    function dlabel(d) { var p = d.split('-'); var dt = new Date(+p[0], +p[1] - 1, +p[2]); return DAYS[dt.getDay()] + ' ' + p[2].replace(/^0/, '') + ' de ' + MONTHS[+p[1] - 1]; }
+    var ex = TRADES.filter(function (t) { return t.match === 'Exacta'; }).length;
+    var ap = TRADES.filter(function (t) { return t.match === 'Aproximada'; }).length;
+    var pa = TRADES.filter(function (t) { return t.match === 'Parcial'; }).length;
+    var html = '<section><h2>Qué es esta página</h2><p class="legend">Aquí van las operativas de mis análisis que se han cumplido sobre el gráfico y habrían sido ganadoras, aunque el precio no clavara los niveles: las marco como exactas, aproximadas o parciales. Son resultados teóricos medidos sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «cumplida» significa que el precio hizo el recorrido previsto, no que se confirmaran todas las condiciones. Los niveles de la captura los leo a ojo.</p>'
+      + '<div class="sumrow"><div><b>' + TRADES.length + '</b><span>cumplidas y ganadoras</span></div><div><b>' + ex + '</b><span>exactas</span></div><div><b>' + ap + '</b><span>aproximadas</span></div><div><b>' + pa + '</b><span>parciales</span></div></div></section>';
+    html += '<section><h2>Cumplidas</h2>';
+    TRADES.slice().sort(function (a, b) { var o = { Exacta: 0, Aproximada: 1, Parcial: 2 }; return a.date !== b.date ? (a.date < b.date ? 1 : -1) : o[a.match] - o[b.match]; }).forEach(function (t) {
+      var tag = t.match === 'Exacta' ? 'win' : t.match === 'Aproximada' ? 'ap' : '';
+      var goals = t.goals.map(function (g) {
+        var cls = g[1] === 'hit' ? 'hit' : g[1] === 'near' ? 'near' : 'miss';
+        var mark = g[1] === 'hit' ? '✓ ' : g[1] === 'near' ? '≈ ' : '✗ ';
+        return '<span class="goal ' + cls + '">' + mark + esc(g[0]) + '</span>';
+      }).join('');
+      html += '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[t.asset] || t.asset) + '</span><span class="tg2">' + esc(MODES[t.mode] || t.mode) + '</span><span class="tg2 ' + tag + '">' + esc(t.match) + '</span></div>'
+        + '<h3>' + esc(t.setup) + ' · análisis del ' + esc(dlabel(t.date)) + '</h3>'
+        + '<div class="rows"><div class="row"><span class="k">Plan</span><p>' + esc(t.plan) + '</p></div>'
+        + '<div class="row"><span class="k">Qué pasó</span><p>' + esc(t.pasa) + '</p></div>'
+        + '<div class="row"><span class="k">Resultado</span><p>' + esc(t.res) + '</p></div></div>'
+        + '<div class="goals" aria-label="Objetivos">' + goals + '</div>'
+        + '<p class="go"><a data-tr="' + esc(t.asset + '-' + t.date) + '">Ver el análisis completo →</a></p></div>';
+    });
+    html += '</section>';
+    html += '<section><h2>En curso (todavía no cuentan)</h2><div class="trade"><h3>Nasdaq · tu tesis swing hacia 30.078‑30.190</h3><div class="rows"><div class="row"><span class="k">Estado</span><p>Desde la línea verde 31.291,50 el NQ ha bajado hasta ≈30.605, unos 690 puntos. Faltan ≈415 puntos para el techo de tu zona (30.190). Sigue abierta: no la cuento hasta que llegue o se invalide.</p></div></div></div></section>';
+    html += '<section><h2>Cómo lo mido</h2><p class="legend">Cuento una operativa como cumplida si el precio alcanzó al menos el primer objetivo sin tocar el stop (cuando el análisis lo define). «Exacta» es que la entrada y los objetivos coinciden con el plan; «aproximada», que la entrada o algún objetivo se quedó a pocos puntos; «parcial», que solo se cumplió una parte de los objetivos. Voy añadiendo operativas a medida que haya gráficos para comprobarlas. De momento solo he evaluado los análisis intradía del lunes 12 de octubre.</p></section>';
+    return html;
+  }
+
   function renderInfo() {
-    var isInd = state.page === 'indicador';
-    document.getElementById('infoeyebrow').textContent = isInd ? 'Indicador' : 'Calendario';
-    document.getElementById('infotitle').textContent = isInd ? 'VIPERIANDICATOR14' : 'Datos y festivos';
-    document.getElementById('infobody').innerHTML = isInd ? document.getElementById('tpl-indicador').innerHTML : renderCalendar();
+    var pg = state.page;
+    document.getElementById('infoeyebrow').textContent = pg === 'indicador' ? 'Indicador' : pg === 'operativas' ? 'Operativas' : 'Calendario';
+    document.getElementById('infotitle').textContent = pg === 'indicador' ? 'VIPERIANDICATOR14' : pg === 'operativas' ? 'Operativas realizadas' : 'Datos y festivos';
+    document.getElementById('infobody').innerHTML = pg === 'indicador' ? document.getElementById('tpl-indicador').innerHTML : pg === 'operativas' ? renderTrades() : renderCalendar();
   }
 
   function render() {
@@ -2325,6 +2402,13 @@ var CAL_SRC = [
   }
 
   document.addEventListener('click', function (ev) {
+    var tr = ev.target.closest ? ev.target.closest('[data-tr]') : null;
+    if (tr) {
+      var pr = tr.getAttribute('data-tr').split('-'), ta = pr[0], td = pr.slice(1).join('-'), ent = null;
+      ENTRIES.forEach(function (e) { if (e.asset === ta && e.date === td) ent = e; });
+      if (ent) { pickMode(modeOf(ent)); state.asset = ta; state.date = td; state.home = false; state.page = null; render(); }
+      return;
+    }
     var g = ev.target.closest ? ev.target.closest('[data-go],[data-home],[data-page]') : null;
     if (g) {
       if (g.getAttribute('data-home')) { state.home = true; state.page = null; }
