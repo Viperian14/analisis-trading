@@ -110,8 +110,8 @@ header { display: flex; flex-direction: column; gap: 18px; }
 .lv .p { width: 56px; text-align: right; font-family: var(--font-num); font-variant-numeric: tabular-nums; font-weight: 600; font-size: 14px; flex: none; background: var(--surface); }
 .lv .ln { flex: 1 1 24px; height: 0; border-top: 1px solid var(--line); min-width: 12px; }
 .lv .t { font-size: 12.5px; color: var(--muted); text-align: right; max-width: 52%; line-height: 1.25; }
-.lv.res .p { color: var(--down); } .lv.res .ln { border-top-color: var(--down); }
-.lv.sup .p { color: var(--up); } .lv.sup .ln { border-top-color: var(--up); }
+.lv.res .p { color: var(--up); } .lv.res .ln { border-top-color: var(--up); }
+.lv.sup .p { color: var(--down); } .lv.sup .ln { border-top-color: var(--down); }
 .lv.now .p { background: var(--accent); color: var(--surface); border-radius: 3px; padding: 1px 4px; width: auto; min-width: 56px; }
 .lv.now .ln { border-top: 2px solid var(--accent); }
 .lv.now .t { color: var(--accent); font-weight: 600; }
@@ -278,25 +278,7 @@ h2 { color: var(--muted); }
 .backhome:hover { color: var(--fg); }
 </style>
 
-<style>
-#home .pic.l, #home .pic.r, #home .pic.t, #home .fx, #home .skip { display: none; }
-#home.intro .pic:not(.l):not(.r):not(.t) { display: none; }
-#home.intro .pic.l, #home.intro .pic.r, #home.intro .pic.t { display: block; will-change: transform, opacity; opacity: 0; }
-#home.intro .pic.l { clip-path: inset(var(--cut, 33%) calc(50% - 1px) 0 0); }
-#home.intro .pic.r { clip-path: inset(var(--cut, 33%) 0 0 calc(50% - 1px)); }
-#home.intro .pic.t { clip-path: inset(0 0 calc(100% - var(--cut, 33%) - 1px) 0); }
-#home.intro .pic.l, #home.intro .pic.r { --f: 14%; -webkit-mask-composite: source-in; mask-composite: intersect; }
-#home.intro .pic.l { -webkit-mask-image: linear-gradient(to bottom, transparent var(--cut, 33%), #000 calc(var(--cut, 33%) + 7%), #000 92%, transparent), linear-gradient(to right, #000 calc(50% - var(--f)), transparent 50%); mask-image: linear-gradient(to bottom, transparent var(--cut, 33%), #000 calc(var(--cut, 33%) + 7%), #000 92%, transparent), linear-gradient(to right, #000 calc(50% - var(--f)), transparent 50%); }
-#home.intro .pic.r { -webkit-mask-image: linear-gradient(to bottom, transparent var(--cut, 33%), #000 calc(var(--cut, 33%) + 7%), #000 92%, transparent), linear-gradient(to right, transparent 50%, #000 calc(50% + var(--f))); mask-image: linear-gradient(to bottom, transparent var(--cut, 33%), #000 calc(var(--cut, 33%) + 7%), #000 92%, transparent), linear-gradient(to right, transparent 50%, #000 calc(50% + var(--f))); }
-#home.intro .fx { display: block; position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
-#home.intro .bg { opacity: 0; animation: hbgx 1.6s .8s both; }
-#home.intro .bubble { opacity: 0; pointer-events: none; animation: hb .8s 4.2s both; }
-#home .skip { position: absolute; z-index: 5; right: 16px; top: 16px; font: inherit; font-size: 14px; color: #e1d3a8; background: rgba(10,15,12,.55); border: 1px solid #e1d3a8; border-radius: 20px; padding: 6px 14px; cursor: pointer; }
-#home.intro .skip { display: block; }
-@keyframes hbgx { from { opacity: 0; } to { opacity: 1; } }
-@keyframes hb { from { opacity: 0; } to { opacity: 1; } }
-</style>
-<div id="home"><div class="bg"></div><div class="stage"><div class="pic" role="img" aria-label="Cursillo de Bolsillo: un toro verde y un oso rojo frente a frente"></div><div class="pic l" aria-hidden="true"></div><div class="pic r" aria-hidden="true"></div><div class="pic t" aria-hidden="true"></div><canvas class="fx" aria-hidden="true"></canvas><button type="button" class="bubble b-intra" data-go="intra">Intradía / Scalping</button><button type="button" class="bubble b-swing" data-go="swing">Swing</button><button type="button" class="bubble mini b-ind" data-page="indicador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Indicador</button><button type="button" class="bubble mini b-cal" data-page="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendario</button></div><button type="button" class="skip">Saltar</button></div>
+<div id="home"><div class="bg"></div><div class="stage"><div class="pic" role="img" aria-label="Cursillo de Bolsillo: un toro verde y un oso rojo frente a frente"></div><button type="button" class="bubble b-intra" data-go="intra">Intradía / Scalping</button><button type="button" class="bubble b-swing" data-go="swing">Swing</button><button type="button" class="bubble mini b-ind" data-page="indicador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Indicador</button><button type="button" class="bubble mini b-cal" data-page="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendario</button></div></div>
 
 <template id="tpl-indicador">
 <section>
@@ -424,98 +406,6 @@ h2 { color: var(--muted); }
   <footer>Análisis de seguimiento con el método VIPERIANDICATOR14. Contenido informativo, no es asesoramiento financiero.</footer>
 </div>
 
-<script>(function () {
-  var home = document.getElementById('home'); if (!home) return;
-  function seen() { try { return sessionStorage.getItem('introSeen') === '1'; } catch (e) { return false; } }
-  var mq = window.matchMedia;
-  if (location.hash.length > 1 || seen() || (mq && mq('(prefers-reduced-motion: reduce)').matches)) return;
-  var st = home.querySelector('.stage'), L = home.querySelector('.pic.l'), R = home.querySelector('.pic.r'), T = home.querySelector('.pic.t'), cv = home.querySelector('.fx'), ctx = cv.getContext('2d');
-  var W, H, sx, sy, ox, oy, dpr, OL, OR, OT;
-  function P(ix, iy) { return [ox + ix * sx, oy + iy * sy]; }
-  function layout() {
-    W = st.clientWidth; H = st.clientHeight;
-    if (mq && mq('(max-aspect-ratio: 4/5)').matches) { sx = W / 1400; sy = H / 933; ox = 0; oy = 0; }
-    else { sx = sy = Math.max(W / 1400, H / 933); ox = (W - 1400 * sx) / 2; oy = (H - 933 * sy) * 0.18; }
-    home.style.setProperty('--cut', (oy + 318 * sy) + 'px');
-    dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    OL = P(300, 800); OR = P(1000, 800); OT = P(700, 300);
-    L.style.transformOrigin = OL[0] + 'px ' + OL[1] + 'px'; R.style.transformOrigin = OR[0] + 'px ' + OR[1] + 'px'; T.style.transformOrigin = OT[0] + 'px ' + OT[1] + 'px';
-  }
-  layout(); window.addEventListener('resize', layout);
-  home.classList.add('intro');
-  var DUR = 5.0, CH = 2.6, t0 = null, raf = 0, done = false, parts = [], rnd = Math.random;
-  function cl(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
-  function map(pt, O, s, dx, dy) { return [O[0] + s * (pt[0] - O[0]) + dx, O[1] + s * (pt[1] - O[1]) + dy]; }
-  function bolt(x1, y1, x2, y2, disp, col, w) {
-    var pts = [[x1, y1], [x2, y2]], i, j, n;
-    for (i = 0; i < 6; i++) { n = [pts[0]]; for (j = 1; j < pts.length; j++) { var a = pts[j - 1], b = pts[j]; n.push([(a[0] + b[0]) / 2 + (rnd() - .5) * disp, (a[1] + b[1]) / 2 + (rnd() - .5) * disp * .6]); n.push(b); } pts = n; disp *= .55; }
-    function stroke(c, lw, blur) { ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (var q = 1; q < pts.length; q++) ctx.lineTo(pts[q][0], pts[q][1]); ctx.strokeStyle = c; ctx.lineWidth = lw; ctx.shadowColor = col; ctx.shadowBlur = blur; ctx.lineJoin = 'round'; ctx.stroke(); }
-    stroke(col, w * 2.2, 24); stroke('rgba(255,255,255,.95)', w, 8);
-    if (disp > 1 && rnd() < .9) { var m = pts[Math.floor(pts.length * (.3 + rnd() * .3))]; bolt(m[0], m[1], m[0] + (rnd() - .3) * W * .12, m[1] + H * (.08 + rnd() * .1), disp * 3, col, w * .5); }
-    ctx.shadowBlur = 0;
-  }
-  var evs = [{ a: .15, d: .14, k: 'e' }, { a: .95, d: .1, k: 'e' }, { a: CH, d: .1, k: 'i' }, { a: CH + .17, d: .09, k: 'i' }, { a: CH + .36, d: .26, k: 'i' }];
-  function drawFx(t) {
-    ctx.clearRect(0, 0, W, H);
-    var i, p;
-    for (i = parts.length - 1; i >= 0; i--) { p = parts[i]; p.l += 1 / 60; if (p.l > p.m) { parts.splice(i, 1); continue; } p.x += p.vx; p.y += p.vy; p.vy *= .985; p.vx *= .985; p.r += p.g; var a = p.a * (1 - p.l / p.m); var gr = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r); gr.addColorStop(0, 'rgba(' + p.c + ',' + a.toFixed(3) + ')'); gr.addColorStop(1, 'rgba(' + p.c + ',0)'); ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill(); }
-    for (i = 0; i < evs.length; i++) {
-      var e = evs[i]; if (t < e.a || t > e.a + e.d) continue;
-      if (!e.b) {
-        e.b = true; e.seed = [];
-      }
-      var k = 1 - (t - e.a) / e.d;
-      if (!e.g) { e.g = true; e.shots = []; }
-      if (!e.done) {
-        e.done = true; e.shots = e.k === 'e' ? [[W * 1.02, -10, W * .86, H * .26, 'rgba(255,70,40,1)', 2]] : [[-10, -10, W * .24, H * .34, 'rgba(90,255,150,1)', 3], [W * .22, -10, W * .36, H * .30, 'rgba(90,255,150,1)', 2], [W * 1.02, -10, W * .76, H * .38, 'rgba(255,70,40,1)', 3], [W * .86, -10, W * .70, H * .30, 'rgba(255,70,40,1)', 2]];
-      }
-      for (var q = 0; q < e.shots.length; q++) { var s = e.shots[q]; bolt(s[0], s[1], s[2], s[3], W * .08, s[4], s[5]); }
-      if (e.k === 'i') {
-        var g1 = ctx.createRadialGradient(W * .3, H * .4, 0, W * .3, H * .4, W * .5); g1.addColorStop(0, 'rgba(100,255,160,' + (.35 * k) + ')'); g1.addColorStop(1, 'rgba(100,255,160,0)'); ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
-        var g2 = ctx.createRadialGradient(W * .72, H * .4, 0, W * .72, H * .4, W * .5); g2.addColorStop(0, 'rgba(255,90,60,' + (.35 * k) + ')'); g2.addColorStop(1, 'rgba(255,90,60,0)'); ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
-      }
-    }
-  }
-  function dust(x, y, n, spread, big) { for (var i = 0; i < n; i++) parts.push({ x: x + (rnd() - .5) * spread, y: y + (rnd() - .5) * spread * .3, vx: (rnd() - .5) * (big ? 6 : 2.2), vy: -rnd() * (big ? 2.4 : 1.2), r: (big ? 14 : 6) * sx * (.6 + rnd()), g: (big ? .7 : .35) * sx, a: big ? .45 : .35, c: rnd() < .5 ? '120,100,80' : '90,80,70', l: 0, m: (big ? 1.4 : .8) * (.6 + rnd() * .6) }); }
-  function end() {
-    if (done) return; done = true; cancelAnimationFrame(raf); window.removeEventListener('resize', layout);
-    L.style.cssText = R.style.cssText = T.style.cssText = ''; ctx.clearRect(0, 0, W, H);
-    try { sessionStorage.setItem('introSeen', '1'); } catch (e) {} home.classList.remove('intro');
-  }
-  function frame(now) {
-    if (done) return; if (t0 === null) t0 = now; var t = (now - t0) / 1000;
-    if (t >= DUR) { end(); return; }
-    var u = cl(t / CH), p = u * u * (1.35 - .35 * u);
-    var cam = 1 + .05 * Math.pow(1 - cl(t / DUR), 2);
-    var ts = t - CH, shx = 0, shy = 0, pul = 1;
-    if (ts > 0 && ts < .7) { var k = Math.pow(1 - ts / .7, 2); shx = (rnd() - .5) * H * .035 * k; shy = (rnd() - .5) * H * .035 * k; pul = 1 + .035 * k; }
-    var amp = u < 1 ? H * .02 * Math.sin(Math.PI * u) : 0;
-    var op = cl(t / .7);
-    var sL = (.5 + .5 * p) * cam * pul, sR = sL;
-    var dxL = -W * .30 * (1 - p) + shx, dxR = W * .30 * (1 - p) + shx;
-    var dyL = Math.sin(t * 19) * amp + shy, dyR = Math.sin(t * 15 + 1.3) * amp * .9 + shy;
-    var rL = Math.sin(t * 19 + .5) * .8 * (u < 1 ? 1 - u : 0), rR = Math.sin(t * 15) * .6 * (u < 1 ? 1 - u : 0);
-    L.style.opacity = op; R.style.opacity = op; var fv = (14 * (1 - p)).toFixed(2) + '%'; L.style.setProperty('--f', fv); R.style.setProperty('--f', fv);
-    L.style.transform = 'translate(' + dxL.toFixed(1) + 'px,' + dyL.toFixed(1) + 'px) rotate(' + rL.toFixed(2) + 'deg) scale(' + sL.toFixed(4) + ')';
-    R.style.transform = 'translate(' + dxR.toFixed(1) + 'px,' + dyR.toFixed(1) + 'px) rotate(' + rR.toFixed(2) + 'deg) scale(' + sR.toFixed(4) + ')';
-    var ot = cl((t - 2.9) / 1.0);
-    T.style.opacity = ot; T.style.transform = 'translate(' + shx.toFixed(1) + 'px,' + shy.toFixed(1) + 'px) scale(' + ((1 + .08 * (1 - ot)) * cam).toFixed(4) + ')';
-    if (t < CH && t > .25) {
-      var feetL = [[330, 745], [200, 705]], feetR = [[860, 725], [1000, 790]], f, m;
-      for (var n = 0; n < 2; n++) {
-        f = feetL[Math.floor(rnd() * 2)]; m = map(P(f[0], f[1]), OL, sL, dxL, dyL); dust(m[0], m[1], 1, 20 * sx * sL, false);
-        f = feetR[Math.floor(rnd() * 2)]; m = map(P(f[0], f[1]), OR, sR, dxR, dyR); dust(m[0], m[1], 1, 20 * sx * sR, false);
-      }
-    }
-    if (!evs.burst && t >= CH) { evs.burst = true; var c = P(700, 780); dust(c[0], c[1], 90, W * .3, true); }
-    drawFx(t);
-    raf = requestAnimationFrame(frame);
-  }
-  home.querySelector('.skip').addEventListener('click', function (e) { e.stopPropagation(); end(); });
-  home.addEventListener('click', function () { if (home.classList.contains('intro')) end(); });
-  raf = requestAnimationFrame(frame);
-})();
-</script>
 <script>
 /* ---------------------------------------------------------------------------
    DATOS. Cada análisis es un objeto de ENTRIES. Para añadir uno, se agrega otro
@@ -2030,10 +1920,10 @@ var ENTRIES = [
       { p: 31291.5, lbl: '31.291,50', cls: 'res', t: 'Línea verde de H4' },
       { p: 31097.25, lbl: '31.097,25', cls: 'res', t: 'Línea roja; túnel azul de H1 y FVG (≈30.865 en NAS100)' },
       { p: 31000, lbl: '31.000', cls: 'res', t: 'FVG de H1 y H4 y techo del túnel rosa de M15' },
-      { p: 30870, lbl: '30.870', cls: 'res', t: 'FVG apilados de M5, M15 y H1 (30.840‑30.895)' },
-      { p: 30818.75, lbl: '30.818,75', cls: 'res', t: 'Línea roja, FVG de H1 y H4 y EMA 8 de H1 (≈30.586)' },
+      { p: 30870, lbl: '30.870', cls: 'res', t: 'FVG apilados M5, M15 y H1' },
+      { p: 30818.75, lbl: '30.818,75', cls: 'res', t: 'Línea roja, FVG H1/H4 (≈30.586)' },
       { p: 30760.5, lbl: '30.760,5', cls: 'now', t: 'NQ ahora (≈30.528)' },
-      { p: 30700, lbl: '30.700', cls: 'sup', t: 'FVG de M5 y M15, Genial y EMA 8 de M5' },
+      { p: 30700, lbl: '30.700', cls: 'sup', t: 'FVG M5/M15 y Genial M5' },
       { p: 30605, lbl: '30.605', cls: 'sup', t: 'Mínimo de hoy (≈30.373)' },
       { p: 30480, lbl: '30.480', cls: 'sup', t: 'FVG de H1 (30.460‑30.510)' },
       { p: 30401.25, lbl: '30.401,25', cls: 'sup', t: 'Línea roja; base del túnel azul de H4 (≈30.169)' },
