@@ -395,6 +395,7 @@ span.usd { display: inline-block; text-align: center; line-height: 24px; }
 .modal .mx { position: absolute; top: 8px; right: 10px; font: inherit; font-size: 22px; color: var(--accent); background: none; border: 0; cursor: pointer; }
 .modal .note { color: var(--muted); font-size: 13px; }
 .catchips { margin: 10px 0 14px; }
+.trtabs { margin: 4px 0 16px; }
 .actgrp[hidden], .actcat[hidden] { display: none; }
 </style>
 
@@ -2755,23 +2756,77 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     ['NQ', '2026-10-13', 'Largo de ruptura (sobre 30.818,75)', 'El máximo fue ≈30.810, sin cierre M15 por encima.']
   ];
 
-  function renderTrades() {
+
+  var SWING = [
+    { asset: 'NQ', date: '2026-10-11', mode: 'swing', dir: 'Corto', setup: 'Corto de ruptura y retesteo', out: 'win', match: 'Aproximada',
+      plan: 'Cierre H4 bajo 31.097,25 y sobre todo bajo 30.818,75 con retesteo, color de fuerza bajista y volumen vendedor en M5. Objetivos 30.401,25 y 30.190‑30.078.',
+      goals: [['30.401,25', 'hit'], ['30.190‑30.078', 'near']],
+      pasa: 'El NQ perdió 31.097,25, retesteó 30.818,75 por debajo (velas naranja y turquesa con mechas hasta ≈30.850) y cayó con una vela H4 grande hasta ≈30.190. Ahora cotiza 30.223,25 (−1,84%), en el borde superior de tu zona 30.190‑30.078.',
+      res: 'A favor: de ≈30.818 a ≈30.223, unos 600 puntos. Primer objetivo cumplido y segundo tocado en el borde. Aproximada porque la zona objetivo solo se ha rozado. Desde la línea 31.200 de tu idea son ≈1.000 puntos.' },
+    { asset: 'SI', date: '2026-10-10', mode: 'swing', dir: 'Corto', setup: 'Corto de ruptura', out: 'win', match: 'Parcial',
+      plan: 'Cierre H4 bajo 59,535 con retesteo, colores de fuerza bajista y volumen vendedor en M5. Objetivos 56,245 y 53,285. Con el CPI cerca, tamaño reducido.',
+      goals: [['56,245', 'hit'], ['53,285 (pendiente)', 'miss']],
+      pasa: 'La plata cerró en H4 bajo 59,535, hizo un rebote corto bajo el nivel (≈59,3, con marca OUT) y cayó en una sola vela H4 hasta ≈56,5. Ahora cotiza 55,855 (−6,17%), con mínimo ≈55,65, por debajo de 56,245.',
+      res: 'A favor: de ≈59,3 a 55,86, unos 3,4 (≈6%). Primer objetivo cumplido; el segundo sigue pendiente, así que está en curso. El retesteo se quedó ≈0,2 por debajo de 59,535.' },
+    { asset: 'KC', date: '2026-10-10', mode: 'swing', dir: 'Largo', setup: 'Largo de rebote en zona', out: 'win', match: 'Exacta',
+      plan: 'Solo en 284‑286,5 con rechazo en H1 o Genial H1 recuperada, H4 en color de fuerza y volumen comprador en M5. Stop bajo 282,5. Rango 283‑298,5 con los extremos como únicas entradas; reducir tamaño.',
+      goals: [['Stop 282,5 sin tocar', 'hit'], ['298,5 (techo del rango)', 'hit']],
+      pasa: 'Hacia el 12‑13 de octubre el KC bajó a la zona (mínimo H4 ≈284,4, sin tocar el stop) y rebotó con velas verdes y azules hasta ≈303 de máximo. Ahora cotiza 297,55.',
+      res: 'Acierto: ≈+13 puntos desde el mínimo de la zona hasta el techo del rango. A ojo: no puedo confirmar el rechazo en H1 ni el volumen en M5.' },
+    { asset: 'WTI', date: '2026-10-10', mode: 'swing', dir: 'Largo', setup: 'Largo de ruptura', out: 'open', match: 'Aproximada',
+      plan: 'Cierre H4 sobre 93,51 con retesteo, H1 y H4 sobre Genial y EMA 8, color de fuerza alcista (verde oscuro o azul marino) y volumen en M5. El análisis no definía objetivo ni stop.',
+      goals: [],
+      pasa: 'El WTI cerró en H4 sobre 93,51 con velas verde oscuro, retesteó la zona 93,9‑94 sin llegar a 93,51 y subió a ≈95,71 (máximo ≈96). La resistencia 97,11 no se ha tocado.',
+      res: 'A favor y en curso: ≈+2,2 desde 93,51 sin invalidación. Aproximada porque el retesteo se quedó ≈0,5 por encima del nivel. No puedo confirmar el volumen en M5.' },
+    { asset: 'NG', date: '2026-10-11', mode: 'swing', dir: 'Corto', setup: 'Corto de rechazo', out: 'open', match: 'Exacta',
+      plan: 'Rechazo en 3,305 con colores de fuerza bajista y volumen vendedor en M5, o pérdida de 3,03 con retesteo. Objetivos 3,127 y después 2,922. Tamaño reducido y gestión rápida.',
+      goals: [['3,127 (pendiente)', 'miss'], ['2,922', 'miss']],
+      pasa: 'El NG subió a ≈3,33 (mecha), cerró dos velas H4 sobre 3,305 y volvió a perderlo: vela roja, amarilla grande y ahora fucsia (fuerza bajista). Cotiza 3,168 (−3,50%), a ≈0,04 del primer objetivo.',
+      res: 'A favor y en curso: de 3,305 a 3,168, ≈0,14. Falta el objetivo 3,127. No puedo confirmar el volumen en M5.' },
+    { asset: 'NG', date: '2026-10-11', mode: 'swing', dir: 'Largo', setup: 'Largo de ruptura', out: 'loss', match: 'Exacta',
+      plan: 'Cierre H4 sobre 3,305 con retesteo. Objetivo 3,535‑3,7. El análisis no definía stop.',
+      goals: [['3,535‑3,7', 'miss']],
+      pasa: 'Hubo dos cierres H4 sobre 3,305 (≈3,32), pero el retesteo no aguantó: el precio volvió bajo 3,305, perdió el nivel con una vela amarilla grande y ahora está en 3,168.',
+      res: 'Fallida: falsa ruptura. La invalidación razonable (cierre H4 de nuevo bajo 3,305) se dio antes de cualquier objetivo. Es el mismo movimiento que hace ganador al corto de rechazo.' }
+  ];
+  var NOACT_SW = [
+    ['ES', '2026-10-11', 'Largo de retroceso (7.734,75‑7.638,50)', 'El mínimo H4 fue ≈7.763, unos 28 puntos por encima de la zona. Todavía no ha llegado.'],
+    ['ES', '2026-10-11', 'Largo de ruptura (sobre 7.901,75)', 'Máximo ≈7.886, sin cierre H4 por encima.'],
+    ['ES', '2026-10-11', 'Corto (pérdida de 7.542,25 en diario)', 'El precio no ha llegado (mínimo ≈7.763).'],
+    ['NQ', '2026-10-11', 'Largo en 30.190‑30.078', 'El precio está en el borde superior (≈30.19). Falta el rechazo en H1 y la confirmación en H4, que no puedo comprobar con estas capturas. Stop bajo 29.768,75.'],
+    ['NQ', '2026-10-11', 'Largo de ruptura (sobre 31.291,50)', 'No hubo cierre H4 por encima.'],
+    ['GC', '2026-10-10', 'Largo (cierre H4 sobre 4.260)', 'Máximo ≈4.240, sin cierre sobre 4.260. La invalidación (cierre H4 bajo 4.190) se dio.'],
+    ['GC', '2026-10-10', 'Corto de rechazo (4.250‑4.265)', 'El precio no llegó a la zona (máximo ≈4.240). El oro bajó sin gatillo: el objetivo 4.095 se tocó (mecha ≈4.094), pero sin entrada no cuenta.'],
+    ['GC', '2026-10-10', 'Corto de ruptura (cierre H4 bajo 4.095,5)', 'La mecha llegó a ≈4.094, pero la vela H4 sigue abierta con precio 4.104,9. Pendiente del cierre y del retesteo.'],
+    ['SI', '2026-10-10', 'Largo (cierre H4 sobre 62,4‑62,5)', 'Máximo ≈61,7.'],
+    ['SI', '2026-10-10', 'Corto de rechazo (62,4‑64,96)', 'El precio no llegó a la zona.'],
+    ['KC', '2026-10-10', 'Corto (cierre H4 bajo 283)', 'El mínimo fue ≈284,4.'],
+    ['CC', '2026-10-10', 'Largo de retroceso (5.360‑5.450)', 'Mínimo reciente ≈5.550, lejos de la zona.'],
+    ['CC', '2026-10-10', 'Largo de ruptura (cierre H4 y diario sobre 5.960)', 'Mecha hasta ≈6.020, pero los cierres H4 se quedaron bajo 5.960 (≈5.930): falsa ruptura sin activación. El precio vuelve al medio del rango (5.748).'],
+    ['CC', '2026-10-10', 'Corto (cierre bajo 5.362)', 'No ha llegado.'],
+    ['WTI', '2026-10-10', 'Largo de rebote (88‑89 o 86,86)', 'No llegó (mínimo reciente ≈90).'],
+    ['WTI', '2026-10-10', 'Corto (cierre H4 bajo 86,86)', 'No ha llegado.'],
+    ['NG', '2026-10-11', 'Largo de retroceso (3,127‑3,08)', 'Todavía no llegó (mínimo ≈3,16). Ahora está más cerca.'],
+    ['NG', '2026-10-11', 'Corto (pérdida de 3,03)', 'No ha llegado.']
+  ];
+  var TRST = { tab: 'intra' };
+  function renderTradesSet(TR, NA, kind) {
     function dlabel(d) { var p = d.split('-'), dt = new Date(+p[0], +p[1] - 1, +p[2]); return DIAS[dt.getDay()] + ' ' + p[2].replace(/^0/, '') + ' de ' + MESES[+p[1] - 1]; }
     function pc(n, t) { return t ? Math.round(100 * n / t) : 0; }
-    var W = TRADES.filter(function (t) { return t.out === 'win'; }), F = TRADES.filter(function (t) { return t.out === 'loss'; }), N = W.length + F.length;
+    var W = TR.filter(function (t) { return t.out === 'win' || t.out === 'open'; }), F = TR.filter(function (t) { return t.out === 'loss'; }), N = W.length + F.length, OP = TR.filter(function (t) { return t.out === 'open'; }).length;
     function by(list, m) { return list.filter(function (t) { return t.match === m; }).length; }
-    var total = N + NOACT.length;
-    var html = '<section><h2>Resumen</h2><div class="bigstat"><div class="bs win"><b>' + pc(W.length, N) + '%</b><span>aciertos · ' + W.length + ' de ' + N + '</span></div><div class="bs loss"><b>' + pc(F.length, N) + '%</b><span>fallos · ' + F.length + ' de ' + N + '</span></div><div class="bs"><b>' + N + '</b><span>activadas de ' + total + ' planteadas (' + pc(N, total) + '%)</span></div></div>' +
+    var total = N + NA.length;
+    var html = '<section><h2>Resumen</h2><div class="bigstat"><div class="bs win"><b>' + pc(W.length, N) + '%</b><span>aciertos · ' + W.length + ' de ' + N + (OP ? ' (' + (W.length - OP) + ' con objetivo alcanzado + ' + OP + ' en curso a favor)' : '') + '</span></div><div class="bs loss"><b>' + pc(F.length, N) + '%</b><span>fallos · ' + F.length + ' de ' + N + '</span></div><div class="bs"><b>' + N + '</b><span>activadas de ' + total + ' planteadas (' + pc(N, total) + '%)</span></div></div>' +
       '<div class="split"><div class="sp"><h3>Desglose de los aciertos</h3><div class="sumrow"><div><b>' + by(W, 'Exacta') + '</b><span>exactos · ' + pc(by(W, 'Exacta'), W.length) + '%</span></div><div><b>' + by(W, 'Aproximada') + '</b><span>aproximados · ' + pc(by(W, 'Aproximada'), W.length) + '%</span></div><div><b>' + by(W, 'Parcial') + '</b><span>parciales · ' + pc(by(W, 'Parcial'), W.length) + '%</span></div></div></div>' +
       '<div class="sp"><h3>Desglose de los fallos</h3><div class="sumrow"><div><b>' + by(F, 'Exacta') + '</b><span>exactos · ' + pc(by(F, 'Exacta'), F.length) + '%</span></div><div><b>' + by(F, 'Aproximada') + '</b><span>aproximados · ' + pc(by(F, 'Aproximada'), F.length) + '%</span></div><div><b>' + by(F, 'Parcial') + '</b><span>parciales · ' + pc(by(F, 'Parcial'), F.length) + '%</span></div></div></div></div>' +
-      '<p class="legend">Muestra pequeña (' + N + ' operativas de los días 12 y 13 de octubre): los porcentajes son orientativos. Son resultados teóricos medidos a ojo sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «activada» significa que el precio hizo el recorrido del plan, no que se confirmaran todas las condiciones.</p></section>';
+      '<p class="legend">Muestra pequeña (' + N + (kind === 'swing' ? ' operativas swing de los análisis del 10 y 11 de octubre, medidas con tus gráficos H4 de las 19:20 del miércoles 14' : ' operativas de los días 12 y 13 de octubre') + '): los porcentajes son orientativos. Son resultados teóricos medidos a ojo sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «activada» significa que el precio hizo el recorrido del plan, no que se confirmaran todas las condiciones.</p></section>';
     function tradeHtml(t) {
-      var tag = t.out === 'win' ? (t.match === 'Exacta' ? 'win' : t.match === 'Aproximada' ? 'ap' : '') : 'dn';
+      var tag = t.out !== 'loss' ? (t.match === 'Exacta' ? 'win' : t.match === 'Aproximada' ? 'ap' : '') : 'dn';
       var goals = t.goals.map(function (g) {
         var cls = g[1] === 'hit' ? 'hit' : g[1] === 'near' ? 'near' : 'miss', mark = g[1] === 'hit' ? '✓ ' : g[1] === 'near' ? '≈ ' : '✗ ';
         return '<span class="goal ' + cls + '">' + mark + esc(g[0]) + '</span>';
       }).join('');
-      return '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[t.asset] || t.asset) + '</span><span class="tg2">' + esc(MODES[t.mode] || t.mode) + '</span><span class="tg2 ' + tag + '">' + (t.out === 'win' ? 'Acierto ' : 'Fallo ') + esc(t.match.toLowerCase()) + '</span></div>' +
+      return '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[t.asset] || t.asset) + '</span><span class="tg2">' + esc(MODES[t.mode] || t.mode) + '</span><span class="tg2 ' + tag + '">' + (t.out === 'win' ? 'Acierto ' : t.out === 'open' ? 'Acierto en curso · ' : 'Fallo ') + esc(t.match.toLowerCase()) + '</span></div>' +
         '<h3>' + esc(t.setup) + ' · análisis del ' + esc(dlabel(t.date)) + '</h3><div class="rows"><div class="row"><span class="k">Plan</span><p>' + esc(t.plan) + '</p></div><div class="row"><span class="k">Qué pasó</span><p>' + esc(t.pasa) + '</p></div><div class="row"><span class="k">Resultado</span><p>' + esc(t.res) + '</p></div></div>' +
         '<div class="goals" aria-label="Objetivos">' + goals + '</div><p class="go"><a data-tr="' + esc(t.asset + '-' + t.date) + '">Ver el análisis completo →</a></p></div>';
     }
@@ -2779,11 +2834,16 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     function sorted(l) { return l.slice().sort(function (a, b) { return a.date !== b.date ? (a.date < b.date ? 1 : -1) : o[a.match] - o[b.match]; }); }
     html += '<details class="fold" open><summary><span>Aciertos</span><em>' + W.length + '</em></summary><div class="elist">' + sorted(W).map(tradeHtml).join('') + '</div></details>';
     html += '<details class="fold" open><summary><span>Fallos</span><em>' + F.length + '</em></summary><div class="elist">' + sorted(F).map(tradeHtml).join('') + '</div></details>';
-    html += '<details class="fold"><summary><span>No se activaron o no se pueden comprobar (no cuentan en los porcentajes)</span><em>' + NOACT.length + '</em></summary><div class="elist">' +
-      NOACT.map(function (n) { return '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[n[0]] || n[0]) + '</span><span class="tg2">' + esc(dlabel(n[1])) + '</span></div><h3>' + esc(n[2]) + '</h3><p>' + esc(n[3]) + '</p></div>'; }).join('') + '</div></details>';
-    html += '<section><h2>En curso (todavía no cuentan)</h2><div class="trade"><h3>Nasdaq · tu tesis swing hacia 30.078‑30.190</h3><div class="rows"><div class="row"><span class="k">Estado</span><p>Desde la línea verde 31.291,50 el NQ ha bajado hasta ≈30.590, unos 700 puntos. Faltan ≈400 puntos para el techo de tu zona (30.190). Sigue abierta: no la cuento hasta que llegue o se invalide.</p></div></div></div></section>';
-    html += '<section><h2>Cómo lo mido</h2><div class="paras"><p><b>Acierto:</b> el precio alcanzó al menos el primer objetivo sin tocar antes el stop (o la invalidación, cuando el análisis no define stop). <b>Exacto:</b> entrada y objetivos coinciden con el plan. <b>Aproximado:</b> la entrada o algún objetivo se quedó a pocos puntos. <b>Parcial:</b> solo se cumplió una parte de los objetivos.</p><p><b>Fallo:</b> el stop o la invalidación se dieron antes del primer objetivo. <b>Exacto:</b> el plan falló tal como estaba escrito. <b>Aproximado:</b> falló por pocos puntos o el precio fue al objetivo justo después. <b>Parcial:</b> llegó a algún objetivo pero la operación acabó en pérdida.</p><p><b>No se activó:</b> el precio no llegó a la zona o no hubo gatillo comprobable; no cuenta como acierto ni como fallo.</p><p>Solo evalúo las operativas de intradía y scalping (NQ, ES y oro) de los días 12 y 13 de octubre, con los gráficos M15 de las 19:35 del martes 13. Las de swing no se miden aquí.</p></div></section>';
+    html += '<details class="fold"><summary><span>No se activaron o no se pueden comprobar (no cuentan en los porcentajes)</span><em>' + NA.length + '</em></summary><div class="elist">' +
+      NA.map(function (n) { return '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[n[0]] || n[0]) + '</span><span class="tg2">' + esc(dlabel(n[1])) + '</span></div><h3>' + esc(n[2]) + '</h3><p>' + esc(n[3]) + '</p></div>'; }).join('') + '</div></details>';
+    html += '<section><h2>Cómo lo mido</h2><div class="paras"><p><b>Acierto:</b> el precio alcanzó al menos el primer objetivo sin tocar antes el stop (o la invalidación, cuando el análisis no define stop). <b>Exacto:</b> entrada y objetivos coinciden con el plan. <b>Aproximado:</b> la entrada o algún objetivo se quedó a pocos puntos. <b>Parcial:</b> solo se cumplió una parte de los objetivos.</p><p><b>Fallo:</b> el stop o la invalidación se dieron antes del primer objetivo. <b>Exacto:</b> el plan falló tal como estaba escrito. <b>Aproximado:</b> falló por pocos puntos o el precio fue al objetivo justo después. <b>Parcial:</b> llegó a algún objetivo pero la operación acabó en pérdida.</p><p><b>No se activó:</b> el precio no llegó a la zona o no hubo gatillo comprobable; no cuenta como acierto ni como fallo.</p><p>' + (kind === 'swing' ? '<b>En curso a favor:</b> el gatillo se activó y el precio va a favor, pero aún no ha llegado al primer objetivo o el análisis no definía objetivo; cuenta como acierto mientras no se invalide y se indica aparte. Las velas H4 de las capturas se cierran a las 20:00 (hora de España): lo que dependa de ese cierre puede cambiar. Solo evalúo los análisis de swing del 10 y 11 de octubre con tus gráficos H4 de las 19:20 del miércoles 14.' : 'Solo evalúo las operativas de intradía y scalping (NQ, ES y oro) de los días 12 y 13 de octubre, con los gráficos M15 de las 19:35 del martes 13.') + '</p></div></section>';
     return html;
+  }
+
+  function renderTrades() {
+    var t = TRST.tab;
+    return '<div class="tabs trtabs" role="group" aria-label="Tipo de operativa"><button type="button" class="tab" data-trtab="intra" aria-pressed="' + (t === 'intra') + '">Intradía y scalping</button><button type="button" class="tab" data-trtab="swing" aria-pressed="' + (t === 'swing') + '">Swing</button></div>' +
+      (t === 'swing' ? renderTradesSet(SWING, NOACT_SW, 'swing') : renderTradesSet(TRADES, NOACT, 'intra'));
   }
 
   /* ---------- Herramientas: Indicador y Activos ---------- */
@@ -2917,6 +2977,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     if (T) {
       var ca = T.closest('[data-cal]'); if (ca) { calAct(ca.getAttribute('data-cal')); return; }
       var eb = T.closest('[data-evt]'); if (eb) { var rw = eb.closest('.er'), op = rw.classList.toggle('open'); eb.setAttribute('aria-expanded', op ? 'true' : 'false'); return; }
+      var tt = T.closest('[data-trtab]'); if (tt) { TRST.tab = tt.getAttribute('data-trtab'); renderInfo(); return; }
       var ct = T.closest('[data-cat]'); if (ct) { TOOLST.cat = ct.getAttribute('data-cat'); renderInfo(); return; }
       var tl = T.closest('[data-tool]'); if (tl) { TOOLST.tab = tl.getAttribute('data-tool'); renderInfo(); return; }
       var us = T.closest('[data-usd]'); if (us) { openUsd(us.getAttribute('data-usd')); return; }
