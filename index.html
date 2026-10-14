@@ -355,7 +355,7 @@ h2 { color: var(--muted); }
 /* Plan: largos y cortos */
 .recent { background: linear-gradient(90deg, rgba(47,125,70,.14), rgba(19,27,21,.92) 55%, rgba(200,75,32,.10)); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
 .recent .rh { font-weight: 600; color: var(--accent); }
-.seq { border-top: 1px dashed var(--line); padding-top: 8px; display: flex; flex-direction: column; gap: 3px; font-family: var(--font-num); font-size: 14px; }
+.seq { border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 8px; display: flex; flex-direction: column; gap: 3px; font-family: var(--font-num); font-size: 14px; }
 .seq .sh { font-family: var(--font-body); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .lsgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
 .lscol { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
@@ -394,6 +394,7 @@ span.usd { display: inline-block; text-align: center; line-height: 24px; }
 .modal .mb { display: flex; flex-direction: column; gap: 10px; }
 .modal .mx { position: absolute; top: 8px; right: 10px; font: inherit; font-size: 22px; color: var(--accent); background: none; border: 0; cursor: pointer; }
 .modal .note { color: var(--muted); font-size: 13px; }
+.catchips { margin: 10px 0 14px; }
 .actgrp[hidden], .actcat[hidden] { display: none; }
 </style>
 
@@ -414,7 +415,7 @@ span.usd { display: inline-block; text-align: center; line-height: 24px; }
     <div class="row"><span class="k">Genial Line</span><p>Media móvil simple de 34 periodos (SMA 34), dibujada con cruces negros. Es la línea de la tendencia principal: precio por encima es zona alcista, por debajo bajista. Sus cruces (+) con el precio marcan cambios de ritmo.</p></div>
     <div class="row"><span class="k">Zona de corrección</span><p>Es el área entre la EMA 8 y la media de Wilder 8, que se dibuja con puntos marrones. Se rellena en <strong>verde</strong> cuando la EMA 8 está por encima de la de Wilder (momentum alcista) y en <strong>rojo</strong> cuando está por debajo (momentum bajista). Sirve para ver cuándo el precio está corrigiendo dentro de la tendencia.</p></div>
     <div class="row"><span class="k">Cotas históricas</span><p>Líneas automáticas de precio: <strong>A</strong> (apertura anual, amarillo), <strong>T</strong> (niveles trimestrales, azul marino) y <strong>P</strong> (niveles psicológicos redondos, azul oscuro). Solo se dibujan en tickers reconocidos (NQ, NAS100, NAS100, DAX, XAU/oro, DOW/DJ30 y BTC). En el resto de activos los niveles son los que dibujo yo.</p></div>
-    <div class="row"><span class="k">Apertura diaria</span><p>Línea verde «Open Diario» en el precio de apertura del día: a las 8:00 (hora de Madrid) en índices europeos y a las 14:00 en índices americanos y EURUSD. Es una referencia intradía.</p></div>
+    <div class="row"><span class="k">Apertura diaria</span><p>Línea verde «Open Diario» en el precio de apertura del día: a las 8:00 (hora de España) en índices europeos y a las 14:00 en índices americanos y EURUSD. Es una referencia intradía.</p></div>
   </div>
 </section>
 
@@ -634,7 +635,7 @@ var ENTRIES = [
           ['Refinerías', 'Utilización 92,7%', 'Insumos 16,5 M b/d (+223 mil)', 'Refino fuerte'],
           ['Importaciones de crudo', '6,8 M b/d', '+1,1 M b/d', 'Entra más crudo y aun así hay recorte']
         ],
-        note: 'Lectura: el titular es alcista (recorte frente a la subida esperada) y los productos siguen por debajo de la media. Pero el recorte llega con refino fuerte y más importaciones, y el SPR sigue liberando barriles (hipótesis: eso alimenta la presión de los titulares de reservas). No cambia el rango y apoya los soportes. Próximo informe: jueves 15 de octubre a las 18:00 (hora de Madrid), con datos de la semana al 9; se retrasa un día por el festivo del lunes 12.'
+        note: 'Lectura: el titular es alcista (recorte frente a la subida esperada) y los productos siguen por debajo de la media. Pero el recorte llega con refino fuerte y más importaciones, y el SPR sigue liberando barriles (hipótesis: eso alimenta la presión de los titulares de reservas). No cambia el rango y apoya los soportes. Próximo informe: jueves 15 de octubre a las 18:00 (hora de España), con datos de la semana al 9; se retrasa un día por el festivo del lunes 12.'
       },
       {
         title: 'Correlaciones con el WTI',
@@ -670,7 +671,7 @@ var ENTRIES = [
       { k: 'Diésel ruso', text: 'Primeros cargamentos y cómo se aplica la licencia 135. Si el gasóleo sigue cayendo, mira el margen de refino y el efecto en el crudo.' },
       { k: 'Huracán Isaías', text: 'Reapertura de plataformas y refinerías del Golfo: define si pesa más la oferta parada o la demanda perdida.' },
       { k: 'Irán y Ormuz', text: 'Titulares del Pentágono, ataques a petroleros y tráfico por Ormuz.' },
-      { k: 'Jueves 15, 18:00', text: 'Inventarios EIA de la semana al 9 de octubre (hora de Madrid), con el efecto de Isaías.' },
+      { k: 'Jueves 15, 18:00', text: 'Inventarios EIA de la semana al 9 de octubre (hora de España), con el efecto de Isaías.' },
       { k: 'Fed y bono a 10 años', text: 'El 10 años en 5,2‑5,3% es el termómetro de si el crudo caro empieza a pasar factura a las acciones.' },
       { k: '3 de noviembre', text: 'Elecciones en EE. UU., el plazo que Trump citó para no atacar a Irán.' }
     ],
@@ -1219,7 +1220,7 @@ var ENTRIES = [
       { cls: 'down', tag: 'Bajista', title: '3. Pérdida de 3,03 → 2,922', pct: 25, text: 'Cierre H4 bajo 3,03 (túnel rosa H4) con retesteo: 2,922 (3,09) y después 2,784 (2,94). Lo empujarían un clima suave, producción récord y los almacenamientos sobre la media. Se invalida con un cierre H4 sobre 3,19.' }
     ],
     plan: [
-      { k: 'Lunes 12 de octubre', wide: true, text: 'El mercado reabre el domingo a las 18:00 (hora de Nueva York), es decir, a las 00:00 del lunes en Madrid. Lunes festivo en EE. UU. (Columbus Day): menos liquidez, así que confirma el horario del contrato. Sin ruptura ni confirmación y con conflicto entre marcos, no anticiparía: esperaría el gatillo en H1 con volumen en M5.' },
+      { k: 'Lunes 12 de octubre', wide: true, text: 'El mercado reabre el domingo a las 00:00 del lunes (hora de España). Lunes festivo en EE. UU. (Columbus Day): menos liquidez, así que confirma el horario del contrato. Sin ruptura ni confirmación y con conflicto entre marcos, no anticiparía: esperaría el gatillo en H1 con volumen en M5.' },
       { k: 'Largos', text: 'Dos vías. Retroceso: rechazo en 3,127‑3,08 (3,30‑3,20), H1 recuperando la Genial y la EMA 8, H4 saliendo del amarillo o rojo hacia color de fuerza, y volumen comprador en M5. Stop bajo 3,03. Objetivo 3,305 y después 3,535. Ruptura: cierre H4 sobre 3,305 con retesteo. Objetivo 3,535‑3,7.' },
       { k: 'Cortos', text: 'Rechazo en 3,305 (≈3,49) con colores de fuerza bajista y volumen vendedor en M5, o pérdida de 3,03 con retesteo. Objetivos 3,127 y después 2,922. Como el diario tiene fuerza, los cortos serían de menor tamaño y de gestión rápida.' },
       { k: 'Idea de fondo', text: 'Tu idea de tocar 3,535‑3,7 y ver si bajan los contratos de diciembre y enero es coherente con la curva: están +0,33 y +0,75 por encima del noviembre. Ojo con el vencimiento del 28 de octubre: el gráfico continuo pasa al diciembre y salta unos +0,33, sin que sea un movimiento real del precio. No leas ese salto como ruptura.' }
@@ -1270,7 +1271,7 @@ var ENTRIES = [
       { k: 'Invierno', text: 'La EIA ve un invierno con calefacción similar al pasado y precios residenciales un 9% más bajos. Los titulares de NGSA y de Energy Intelligence apuntan a oferta por encima de la demanda.' }
     ],
     vigilar: [
-      { k: 'Lunes 12 de octubre', text: 'Apertura a las 00:00 en Madrid y festivo en EE. UU. (Columbus Day): poca liquidez. Confirma el horario del contrato.' },
+      { k: 'Lunes 12 de octubre', text: 'Apertura a las 00:00 (hora de España) y festivo en EE. UU. (Columbus Day): poca liquidez. Confirma el horario del contrato.' },
       { k: '3,305 y 3,127', text: 'Cierre H4 fuera del rango 3,127‑3,305 con volumen en M5 y color de fuerza: ese es el gatillo.' },
       { k: 'Jueves 15, 16:30', text: 'Almacenamientos de gas de la EIA (semana al 9 de octubre). No localicé la previsión.' },
       { k: 'Pronóstico del clima', text: 'Revisa el pronóstico de 6‑10 y 8‑14 días el lunes. Sin él no puedo valorar tu argumento del clima.' },
@@ -1376,7 +1377,7 @@ var ENTRIES = [
         head: ['Factor', 'Dato', 'Lectura'],
         rows: [
           ['Bono a 10 años', 'Máximo desde 2002 a principios de semana. Subasta de 39.000 M$ al 5,300%, la más alta desde noviembre de 2000, pero por debajo de lo esperado (LPL)', 'Apoya tu idea de rotación hacia bonos: ese rendimiento compite con la bolsa. Hasta ahora ha convivido con máximos del S&P (hipótesis)'],
-          ['Fed', 'Tipos 3,75‑4,00% tras la subida del 16 de septiembre. Las actas muestran mayoría a favor de otra subida antes de fin de año (LPL). Decisión el 28 de octubre a las 20:00 en Madrid (hora de EE. UU. 14:00)', 'Riesgo de mercado más alto: una Fed que sube con la bolsa en máximos'],
+          ['Fed', 'Tipos 3,75‑4,00% tras la subida del 16 de septiembre. Las actas muestran mayoría a favor de otra subida antes de fin de año (LPL). Decisión el 28 de octubre a las 20:00 (hora de España)', 'Riesgo de mercado más alto: una Fed que sube con la bolsa en máximos'],
           ['Dólar y euro', 'Dólar más fuerte y euro más débil esta semana (LPL)', 'Tu idea de EURUSD fuerte aún no se ve en este dato. No tengo captura del EURUSD ni del DXY'],
           ['IPC de septiembre (miércoles 14)', 'Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a (CMC Markets)', 'Un dato más alto de lo esperado refuerza las subidas de tipos: arriesgado para la bolsa'],
           ['Año de midterm (estacionalidad)', 'Caída máxima media dentro del año de ≈19% (16 ciclos, 1962‑2022). En 2026 el S&P corrigió hasta la zona media de 6.500 a finales de marzo (Sequoia)', 'Es solo contexto, no la base de tu escenario: la cercanía de las elecciones puede añadir volatilidad. La caída típica del año ya pudo darse en marzo (hipótesis)'],
@@ -1500,7 +1501,7 @@ var ENTRIES = [
           ['Jueves 8: informe sobre OpenAI', 'El Nasdaq 100 cayó −1,4% hasta 30.725,81. Según el Financial Times, los documentos para inversores muestran unos ingresos anualizados de OpenAI ≈20.000 M$ por debajo de lo indicado. Semiconductores (SOX) −3,4%, Oracle −5%, Nvidia ≈ −3% y AMD ≈ −4% (Stocktwits)', 'Es la caída del H4 y del H1 del jueves. Duda sobre cuánto durará el gasto en IA'],
           ['Gasto en IA', 'Amazon: capex 2026 ≈151.000 M$ y Alphabet ≈132.400 M$ (FXEmpire, 4 de agosto). Preocupa el flujo de caja', 'Contexto de fondo, de agosto. No tengo cifras más recientes'],
           ['Bono a 10 años', 'Máximo desde 2002 a principios de semana. Subasta al 5,300% (LPL)', 'Presiona las valoraciones de tecnología. Hipótesis'],
-          ['Fed', 'Tipos 3,75‑4,00% tras la subida del 16 de septiembre. Mayoría de las actas a favor de otra subida antes de fin de año (LPL). Decisión el 28 de octubre, 20:00 en Madrid', 'El Nasdaq es el más sensible a los tipos (hipótesis)'],
+          ['Fed', 'Tipos 3,75‑4,00% tras la subida del 16 de septiembre. Mayoría de las actas a favor de otra subida antes de fin de año (LPL). Decisión el 28 de octubre, 20:00 (hora de España)', 'El Nasdaq es el más sensible a los tipos (hipótesis)'],
           ['IPC de septiembre (miércoles 14)', 'Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a (CMC Markets)', 'Si sale por encima, más riesgo de bajada hacia tu zona'],
           ['Resultados', 'Bancos del 13 al 16 de octubre. TSMC el jueves 15 (CMC Markets). Las grandes tecnológicas no tienen fecha confirmada: se esperan a finales de octubre o principios de noviembre', 'TSMC es la primera lectura de demanda de chips después del jueves 8'],
           ['Dólar', 'Más fuerte esta semana (LPL)', 'Sin dato del DXY. Pásame la captura si quieres cruzarlo']
@@ -1602,7 +1603,7 @@ var ENTRIES = [
       { k: 'Largo (rebote)', text: 'Rechazo en 4.197‑4.193 con vela de inicio o confirmación alcista en M5 (azul marino o verde) y volumen comprador. Stop bajo 4.185. Objetivos 4.209 y 4.213. Va a favor del H4 (retesteo de la directriz) y en contra del sesgo de fondo, así que gestión rápida.' },
       { k: 'Corto (retesteo)', text: 'Rebote a 4.209‑4.213 rechazado, con vela de fuerza bajista en M5/M15 y volumen vendedor. Stop sobre 4.219 (sobre la EMA 8 de H1). Objetivos 4.197 y 4.193. Va a favor de tu sesgo de fondo y en contra del H4 y del H1.' },
       { k: 'Corto (ruptura)', text: 'Cierre M5 y M15 bajo 4.196,7 con retesteo por abajo y volumen. Objetivos 4.193 y 4.176. Entras en el retesteo, no en la vela de ruptura.' },
-      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 en Madrid. Hoy es Columbus Day, con bonos cerrados y menos liquidez. Esperaría al primer cierre M15 tras la apertura. El miércoles a las 14:30 sale el IPC: no dejaría scalps abiertos hacia ese dato.' }
+      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 (hora de España). Hoy es Columbus Day, con bonos cerrados y menos liquidez. Esperaría al primer cierre M15 tras la apertura. El miércoles a las 14:30 sale el IPC: no dejaría scalps abiertos hacia ese dato.' }
     ],
     tecnica: [
       { k: 'M5', text: 'Naranja (falta de fuerza clara). Precio 4.201,8 bajo la EMA 8 y la Genial (~4.203‑4.205) y dentro del túnel amarillo (~4.198‑4.206). Caída con velas rojas desde 4.225,5 y rebote pequeño desde 4.197. Debajo, el túnel rosa de M5 (~4.188‑4.191) y FVG de M5.' },
@@ -1695,7 +1696,7 @@ var ENTRIES = [
       { k: 'Corto principal (retesteo)', text: 'Rebote a 31.097‑31.140 rechazado en M5/M15, con vela de fuerza bajista (fucsia, marrón o verde fosforito) y volumen vendedor en M5. Stop sobre 31.200. Objetivos 31.040‑31.000, 30.905 y 30.818,75. Tamaño reducido por el conflicto de colores.' },
       { k: 'Corto de ruptura', text: 'Cierre M15 bajo 31.060 con volumen vendedor y retesteo por abajo. Entras en el retesteo, no en la vela de ruptura. Objetivos 31.000 y 30.905.' },
       { k: 'Largo', text: 'Hoy solo contra tendencia: rechazo claro en 31.000‑30.900 (túnel rosa M15) con volumen comprador, para un objetivo corto a 31.097. Más limpio, esperar un cierre M15 sobre 31.150 con la directriz recuperada.' },
-      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 en Madrid. Hoy es Columbus Day: bonos cerrados y menos liquidez. Esperaría al primer cierre M15 tras la apertura. Mañana hay bancos antes de la apertura y el miércoles a las 14:30 el IPC: no dejaría scalps abiertos hacia esos datos.' }
+      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 (hora de España). Hoy es Columbus Day: bonos cerrados y menos liquidez. Esperaría al primer cierre M15 tras la apertura. Mañana hay bancos antes de la apertura y el miércoles a las 14:30 el IPC: no dejaría scalps abiertos hacia esos datos.' }
     ],
     tecnica: [
       { k: 'M5', text: 'Cian (indecisión). Precio 31.089 bajo la EMA 8 y la Genial (~31.120‑31.150, bajando) y bajo los túneles (~31.150‑31.200). FVG de M5 por encima (~31.115‑31.140). Cayó desde ≈31.250 al perder la directriz gris y quedó bajo tu línea 31.097,25.' },
@@ -1774,7 +1775,7 @@ var ENTRIES = [
       { k: 'Corto (retesteo)', text: 'Rebote a 7.873‑7.879 rechazado, con vela de fuerza bajista (fucsia, marrón o verde fosforito) y volumen vendedor en M5. Stop sobre 7.889. Objetivos 7.862, 7.856 y 7.849. Va contra H1 y H4: tamaño pequeño y gestión rápida.' },
       { k: 'Corto de ruptura', text: 'Cierre M15 bajo 7.855 con volumen y retesteo por abajo. Entras en el retesteo, no en la vela de ruptura. Objetivos 7.849‑7.841 y 7.828‑7.815.' },
       { k: 'Tu tesis swing', text: 'Tu plan es no entrar todavía y esperar al rebote en el canal. Estos scalps son operaciones aparte, pequeñas y cerradas dentro del día.' },
-      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 en Madrid. Hoy es Columbus Day: bonos cerrados y menos liquidez. Esperaría al primer cierre M15 tras la apertura. Mañana hay bancos antes de la apertura y el miércoles a las 14:30 el IPC: no dejaría scalps abiertos hacia esos datos.' }
+      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 (hora de España). Hoy es Columbus Day: bonos cerrados y menos liquidez. Esperaría al primer cierre M15 tras la apertura. Mañana hay bancos antes de la apertura y el miércoles a las 14:30 el IPC: no dejaría scalps abiertos hacia esos datos.' }
     ],
     tecnica: [
       { k: 'M5', text: 'Cian (indecisión). Precio 7.871 en la base del túnel azul de M5 (~7.872‑7.878), bajo la EMA 8 y la Genial (~7.877‑7.879) y con FVG de M5 por encima (~7.873‑7.879). Debajo, túnel amarillo (~7.855‑7.861) y rosa (~7.841‑7.849). Marca IN naranja hacia las 09:15 (~7.879): solo vale si la vela cerró fuera de la banda, y el precio no la siguió.' },
@@ -1874,7 +1875,7 @@ var ENTRIES = [
       { k: 'Corto (retesteo)', text: 'Subida a 4.225‑4.234 rechazada, con vela de fuerza bajista (fucsia, marrón o verde fosforito) y volumen vendedor en M5. Stop sobre 4.238. Objetivos 4.213, 4.205 y 4.198. Va a favor de tu sesgo de fondo y en contra del rebote de H1 y H4: tamaño pequeño.' },
       { k: 'Corto (ruptura)', text: 'Cierre M15 bajo 4.198 con volumen y retesteo por abajo. Objetivos 4.192‑4.187 y 4.174. Entras en el retesteo, no en la vela de ruptura.' },
       { k: 'Largo (ruptura)', text: 'Cierre M15 sobre 4.225,5 con color de fuerza y volumen. Objetivos 4.234 y 4.242. Cerca de 4.260 recogería beneficios: es tu techo.' },
-      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 en Madrid; esperaría al primer cierre M15 tras ella. Hoy hay resultados de bancos antes de la apertura y mañana a las 14:30 sale el IPC: no dejaría scalps abiertos hacia ese dato.' }
+      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 (hora de España); esperaría al primer cierre M15 tras ella. Hoy hay resultados de bancos antes de la apertura y mañana a las 14:30 sale el IPC: no dejaría scalps abiertos hacia ese dato.' }
     ],
     tecnica: [
       { k: 'M5', text: 'Velas amarillas y naranjas (sin fuerza clara). Precio 4.211,2 sobre tu línea, con la EMA 8 (~4.211) y la Genial (~4.214) pegadas. FVG pequeño justo encima (~4.213‑4.216) y 4.225‑4.230 más arriba. Debajo, FVG y túnel azul (~4.204‑4.209), túnel amarillo (~4.198‑4.202) y rosa (~4.192‑4.195), y el FVG grande 4.181‑4.187. Marcas naranja, rojo oscuro y amarillo hacia abajo en ≈4.225 sobre las 07:00‑09:00.' },
@@ -1972,7 +1973,7 @@ var ENTRIES = [
       { k: 'Corto (ruptura)', text: 'Cierre M15 bajo 7.845 con volumen y retesteo por abajo. Entras en el retesteo, no en la vela de ruptura. Objetivos 7.836 y 7.828‑7.815.' },
       { k: 'Largo (ruptura)', text: 'Cierre M15 sobre 7.879 con color de fuerza y volumen. Siguiente 7.887 y el máximo semanal 7.897,50; allí solo recogería beneficios: es tu línea 7.901,75 y el techo semanal.' },
       { k: 'Tu tesis swing', text: 'Tu plan es no entrar todavía y esperar al rebote en el canal. Estos scalps son operaciones aparte, pequeñas y cerradas dentro del día.' },
-      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 en Madrid; esperaría al primer cierre M15 tras ella. Hoy hay resultados de bancos antes de la apertura y mañana a las 14:30 sale el IPC: no dejaría scalps abiertos hacia ese dato.' }
+      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 (hora de España); esperaría al primer cierre M15 tras ella. Hoy hay resultados de bancos antes de la apertura y mañana a las 14:30 sale el IPC: no dejaría scalps abiertos hacia ese dato.' }
     ],
     tecnica: [
       { k: 'M5', text: 'Precio 7.859 sobre los tres túneles: azul (~7.848‑7.853), amarillo (~7.852‑7.856) y rosa (~7.845‑7.850), que se han cruzado. Zona de corrección verde (EMA 8 sobre Wilder 8). Encima, FVG de 7.870‑7.879 y el máximo de hoy (~7.862). La marca IN naranja de ayer sobre las 08:30 (~7.879) es de una vela cerrada y el precio no la siguió. No distingo bien el color de las últimas velas en esta escala.' },
@@ -2073,7 +2074,7 @@ var ENTRIES = [
       { k: 'Corto (ruptura)', text: 'Cierre M15 bajo 30.690 con volumen y retesteo por abajo. Entras en el retesteo, no en la vela de ruptura. Objetivos 30.605, 30.480 y 30.401,25.' },
       { k: 'Largo (ruptura)', text: 'Cierre M15 sobre 30.818,75 con color de fuerza y volumen. Objetivos 30.870 y 30.950‑31.000. Con H4 en contra, esperaría el retesteo en lugar de entrar en la vela de ruptura.' },
       { k: 'Tu tesis swing', text: 'Tu zona 30.078‑30.190 sigue siendo el objetivo del swing. Los rebotes hacia 30.800‑30.870 encajan con esa tesis; estos scalps son operaciones aparte, pequeñas y cerradas dentro del día.' },
-      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 en Madrid; esperaría al primer cierre M15 tras ella (ayer apareció una marca OUT justo en esa hora). Hoy hay resultados de bancos antes de la apertura y mañana a las 14:30 sale el IPC: no dejaría scalps abiertos hacia ese dato.' }
+      { k: 'Cuándo', text: 'La apertura de EE. UU. es a las 15:30 (hora de España); esperaría al primer cierre M15 tras ella (ayer apareció una marca OUT justo en esa hora). Hoy hay resultados de bancos antes de la apertura y mañana a las 14:30 sale el IPC: no dejaría scalps abiertos hacia ese dato.' }
     ],
     tecnica: [
       { k: 'M5', text: 'Velas verdes y azul claro de rebote desde las 09:45. Precio 30.760,50 entrando por abajo en el túnel azul de M5 (~30.740‑30.770), sobre la EMA 8 (~30.710) y la Genial (~30.690), con zona de corrección verde. Debajo, FVG 30.725‑30.740 y 30.660‑30.685. Encima, FVG apilados 30.855‑30.895, túnel amarillo (~30.900‑30.970) y rosa (~31.000‑31.100). La caída fue de las 01:00 a las 05:00, de ≈30.880 a ≈30.605.' },
@@ -2149,7 +2150,7 @@ var ENTRIES = [
   }
   function byAsset(a) { return modeEntries(state.mode).filter(function (e) { return e.asset === a; }); }
   function find(a, d) { return modeEntries(state.mode).filter(function (e) { return e.asset === a && e.date === d; })[0]; }
-/* Calendario. Horas de Madrid. Cada evento:
+/* Calendario. Horas de España. Cada evento:
    d fecha, h hora, s importancia (1 a 3 estrellas), k tipo (infl, jobs, growth, housing, crude, gas, fed, cb, auction, oilrep, sent, hol, other),
    a activos afectados, prev anterior, fc previsión, act resultado, res 'up' (mejor de lo previsto) o 'down' (peor), x qué es, n lectura.
    Para añadir un resultado: rellena act y res en el evento. */
@@ -2160,7 +2161,7 @@ var CAL = [
   { d: '2026-10-08', h: '16:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA (semana al 2 de octubre)', a: ['NG'], prev: '+64 Bcf', fc: '', act: '+85 Bcf', n: 'Total 3.500 Bcf: +2,0% sobre la media de 5 años y −3,6% sobre el año anterior. No pude localizar la previsión del mercado, así que no valoro el resultado. Sobre la media de 5 años queda un colchón de 68 Bcf.' },
 
   { d: '2026-10-12', h: '02:00', s: 1, k: 'hol', ev: 'Columbus Day (festivo en EE. UU.)', a: ['ES','NQ','GC','SI','WTI','NG'], prev: '', fc: '', n: 'Bonos cerrados y menos liquidez. En CME había mercados abiertos pero sin liquidación intradía; ICE Futures US (café y cacao) abrió.' },
-  { d: '2026-10-12', h: '18:50', s: 2, k: 'fed', ev: 'Discurso de Hammack (Fed)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'TradingView lo sitúa el lunes 12 a las 18:50 en Madrid. Otras fuentes lo daban el jueves 15; me quedo con la de TradingView. Sin cifra que valorar.' },
+  { d: '2026-10-12', h: '18:50', s: 2, k: 'fed', ev: 'Discurso de Hammack (Fed)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'TradingView lo sitúa el lunes 12 a las 18:50 (hora de España). Otras fuentes lo daban el jueves 15; me quedo con la de TradingView. Sin cifra que valorar.' },
 
   { d: '2026-10-13', h: '09:45', s: 2, k: 'fed', ev: 'Discurso de Waller (Fed)', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: 'Según TradingView. Waller había dicho el 8 de octubre que hacen falta más subidas pero con flexibilidad en el ritmo (InvestingLive). Sin cifra que valorar.' },
   { d: '2026-10-13', h: '12:00', s: 1, k: 'sent', ev: 'Índice de optimismo de la pequeña empresa NFIB (NFIB Business Optimism Index)', a: ['ES','NQ'], prev: '98,7', fc: '98', act: '97,9', res: 'down', n: 'Ligeramente por debajo de lo previsto y del dato anterior.' },
@@ -2176,26 +2177,26 @@ var CAL = [
   { d: '2026-10-13', h: '22:00', s: 2, k: 'fed', ev: 'Discurso de Collins (Fed)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Sin cifra que valorar.' },
   { d: '2026-10-13', h: '—', s: 2, k: 'oilrep', ev: 'Informe mensual de la OPEP (MOMR)', a: ['WTI'], prev: '', fc: '', n: 'Fecha según el calendario de la OPEP en Trading Economics; sin hora localizada. No he podido leer las cifras: revisa las previsiones de demanda y oferta.' },
 
-  { d: '2026-10-14', h: '04:10', s: 2, k: 'cb', ev: 'Lagarde (BCE) habla; otra vez a las 10:30', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Convertido desde las 22:10 del martes y las 04:30 del miércoles en Nueva York (InvestingLive). Confirma las horas.' },
-  { d: '2026-10-14', h: '07:30', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 08:05', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 01:30 y las 02:05 de Nueva York (InvestingLive). Confirma las horas.' },
+  { d: '2026-10-14', h: '04:10', s: 2, k: 'cb', ev: 'Lagarde (BCE) habla; otra vez a las 10:30', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Hora de España según InvestingLive. Confirma las horas.' },
+  { d: '2026-10-14', h: '07:30', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 08:05', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente. Confirma las horas.' },
   { d: '2026-10-14', h: '14:30', s: 3, k: 'infl', ev: 'IPC de EE. UU. (CPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m · 3,4% a/a\nSubyacente +0,3% m/m · 2,4% a/a', fc: 'General +0,6% m/m · 3,6% a/a (otra fuente 3,7%)\nSubyacente +0,2% m/m · 2,5% a/a', n: 'El dato clave de la semana. Uno caliente subiría las apuestas de subida de tipos en octubre (26% el 7 de octubre), con rendimientos y dólar al alza: viento en contra para oro y plata (hipótesis). Uno suave haría lo contrario.' },
   { d: '2026-10-14', h: '16:30', s: 2, k: 'crude', ev: 'Inventarios de crudo de la EIA (semana al 9 de octubre)', a: ['WTI'], prev: '−3,2 M barriles', fc: '', n: 'Informe semanal de los miércoles. Vigila crudo, gasolina y destilados.' },
   { d: '2026-10-14', h: '20:00', s: 2, k: 'fed', ev: 'Beige Book de la Fed', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Hora habitual de publicación; confírmala.' },
   { d: '2026-10-14', h: '—', s: 2, k: 'oilrep', ev: 'Informe mensual de la AIE (Oil Market Report)', a: ['WTI'], prev: '', fc: '', n: 'Fecha según la AIE; sin hora publicada. Mira la demanda y la oferta mundiales de petróleo.' },
 
-  { d: '2026-10-15', h: '02:30', s: 2, k: 'other', ev: 'Empleo de Australia, septiembre', a: [], prev: '+39,5 mil · paro 4,6%', fc: '+20,0 mil · paro 4,6%', n: 'Convertido desde las 20:30 del miércoles en Nueva York (InvestingLive).' },
-  { d: '2026-10-15', h: '06:30', s: 1, k: 'cb', ev: 'Schlegel (SNB) habla', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 00:30 de Nueva York (InvestingLive). Confirma la hora.' },
-  { d: '2026-10-15', h: '08:00', s: 2, k: 'other', ev: 'PIB del Reino Unido, agosto', a: [], prev: '+0,4% m/m', fc: '−0,1% m/m', n: 'Convertido desde las 02:00 de Nueva York (InvestingLive). Bailey habla además a las 09:30.' },
+  { d: '2026-10-15', h: '02:30', s: 2, k: 'other', ev: 'Empleo de Australia, septiembre', a: [], prev: '+39,5 mil · paro 4,6%', fc: '+20,0 mil · paro 4,6%', n: 'Hora de España según InvestingLive.' },
+  { d: '2026-10-15', h: '06:30', s: 1, k: 'cb', ev: 'Schlegel (SNB) habla', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente. Confirma la hora.' },
+  { d: '2026-10-15', h: '08:00', s: 2, k: 'other', ev: 'PIB del Reino Unido, agosto', a: [], prev: '+0,4% m/m', fc: '−0,1% m/m', n: 'Hora de España según la fuente. Bailey habla además a las 09:30.' },
   { d: '2026-10-15', h: '14:30', s: 3, k: 'infl', ev: 'Precios de producción (PPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m\nSubyacente +0,3% m/m', fc: 'General +0,5% m/m\nSubyacente +0,3% m/m', n: 'Lectura de la inflación en origen, un día después del IPC.' },
   { d: '2026-10-15', h: '14:30', s: 3, k: 'growth', ev: 'Ventas minoristas de EE. UU., septiembre', a: ['ES','NQ','GC','SI','WTI'], prev: '+1,2% m/m\nSin autos +1,4%', fc: '+0,3% m/m\nSin autos +0,5%', n: 'Mide el consumo. Una cifra fuerte refuerza la idea de más subidas de tipos (hipótesis).' },
   { d: '2026-10-15', h: '14:30', s: 2, k: 'growth', ev: 'Índice manufacturero de la Fed de Filadelfia, octubre', a: ['ES','NQ'], prev: '37,8', fc: '26,5', n: 'Se publica a la vez que el PPI y las ventas minoristas: jornada de mucha volatilidad.' },
   { d: '2026-10-15', h: '14:30', s: 2, k: 'jobs', ev: 'Peticiones iniciales de subsidio de desempleo (EE. UU.)', a: ['ES','NQ','GC'], prev: '197 mil', fc: '195 mil', n: 'Dato semanal de los jueves.' },
   { d: '2026-10-15', h: '16:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA (semana al 9 de octubre)', a: ['NG'], prev: '+85 Bcf', fc: '', n: 'Informe semanal de los jueves. Total anterior 3.500 Bcf. No localicé la previsión.' },
 
-  { d: '2026-10-16', h: '04:00', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 06:15', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 22:00 del jueves y las 00:15 de Nueva York (InvestingLive).' },
-  { d: '2026-10-16', h: '05:30', s: 3, k: 'fed', ev: 'Warsh (presidente de la Fed) habla', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: 'InvestingLive lo sitúa a las 23:30 del jueves en Nueva York (05:30 del viernes en Madrid). Stocktwits habla de una intervención el jueves 15 en las reuniones del FMI y el Banco Mundial, sin hora. Confirma.' },
+  { d: '2026-10-16', h: '04:00', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 06:15', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente.' },
+  { d: '2026-10-16', h: '05:30', s: 3, k: 'fed', ev: 'Warsh (presidente de la Fed) habla', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: 'InvestingLive lo sitúa a las 05:30 del viernes (hora de España). Stocktwits habla de una intervención el jueves 15 en las reuniones del FMI y el Banco Mundial, sin hora. Confirma.' },
   { d: '2026-10-16', h: '14:30', s: 2, k: 'infl', ev: 'Precios de importación y exportación de EE. UU., septiembre', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Sin cifras previstas localizadas (InvestingLive).' },
-  { d: '2026-10-16', h: '15:15', s: 2, k: 'growth', ev: 'Producción industrial de EE. UU., septiembre', a: ['ES','NQ'], prev: '0,0% m/m · +1,4% a/a\nUtilización de capacidad 76,3%', fc: '', n: 'Convertido desde las 09:15 de Nueva York (FinancialJuice). No localicé la previsión.' },
+  { d: '2026-10-16', h: '15:15', s: 2, k: 'growth', ev: 'Producción industrial de EE. UU., septiembre', a: ['ES','NQ'], prev: '0,0% m/m · +1,4% a/a\nUtilización de capacidad 76,3%', fc: '', n: 'Hora de España según la fuente. No localicé la previsión.' },
 
   { d: '2026-10-19', h: '16:00', s: 2, k: 'housing', ev: 'Índice del mercado de la vivienda NAHB (NAHB Housing Market Index)', a: ['ES','NQ'], prev: '32', fc: '', n: 'Dato de TradingView (semana del 19 al 25 de octubre). Aún sin previsión.' },
   { d: '2026-10-19', h: '17:30', s: 1, k: 'auction', ev: 'Subasta de letras del Tesoro a 3 meses', a: ['ES','NQ','GC'], prev: '4,085%', fc: '', n: '' },
@@ -2232,8 +2233,8 @@ var EARN = [
   { d: '2026-10-13', h: '—', s: 3, co: 'Goldman Sachs', tk: 'GS', epsF: '15,39 $', epsA: '17,01 $', epsP: '12,25 $', revF: '17,42 mil M$', revA: '18,68 mil M$', revP: '15,18 mil M$', res: 'up', n: 'Supera con holgura en beneficio e ingresos (+39% y +23% interanual). Antes de la apertura.' },
   { d: '2026-10-13', h: '—', s: 3, co: 'Wells Fargo', tk: 'WFC', epsF: '', epsA: '1,87 $', epsP: '1,66 $', revF: '', revA: '21,87 mil M$', revP: '21,44 mil M$', n: 'Beneficio por acción +13% e ingresos +2% interanual. No localicé el consenso, así que no valoro el resultado. Antes de la apertura.' },
   { d: '2026-10-13', h: '—', s: 3, co: 'Citigroup', tk: 'C', epsF: '2,68 $', epsA: '2,85 $', epsP: '1,86 $', revF: '23,76 mil M$', revA: '23,85 mil M$', revP: '22,09 mil M$', res: 'up', n: 'Supera en beneficio e ingresos. El año anterior incluía una pérdida por deterioro de Banamex: sin ella, el beneficio por acción de entonces era 2,24 $. Antes de la apertura.' },
-  { d: '2026-10-14', h: '12:45', s: 3, co: 'Bank of America', tk: 'BAC', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Antes de la apertura, sobre las 12:45 en Madrid según una fuente. Confirma la hora.' },
-  { d: '2026-10-14', h: '15:00', s: 3, co: 'Morgan Stanley', tk: 'MS', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Antes de la apertura, sobre las 15:00 en Madrid según una fuente. Confirma la hora.' },
+  { d: '2026-10-14', h: '12:45', s: 3, co: 'Bank of America', tk: 'BAC', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Antes de la apertura, sobre las 12:45 (hora de España) según una fuente. Confirma la hora.' },
+  { d: '2026-10-14', h: '15:00', s: 3, co: 'Morgan Stanley', tk: 'MS', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Antes de la apertura, sobre las 15:00 (hora de España) según una fuente. Confirma la hora.' },
   { d: '2026-10-14', h: '—', s: 2, co: 'BlackRock', tk: 'BLK', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Antes de la apertura. Confirma la hora.' },
   { d: '2026-10-15', h: '—', s: 3, co: 'TSMC', tk: 'TSM', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Referencia para los tecnológicos y los semiconductores.' },
   { d: '2026-10-15', h: '—', s: 2, co: 'BNY Mellon', tk: 'BK', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: '' },
@@ -2242,7 +2243,7 @@ var EARN = [
 ];
 var HOL = [
   { d: 'Lunes 12 de octubre', t: 'Columbus Day en EE. UU.', x: 'ICE Futures US (café y cacao) abre. En CME hay mercados abiertos pero los bancos cierran y no hay liquidación intradía, así que habrá menos liquidez. En España es Fiesta Nacional y en Brasil es festivo nacional (Nuestra Señora Aparecida), algo que importa para el café. Confirma el horario con tu bróker.' },
-  { d: 'Domingo 25 de octubre', t: 'Cambio de hora en Europa', x: 'Hasta el 1 de noviembre la diferencia con EE. UU. es de 5 horas y no de 6: los datos de las 8:30 (hora de Nueva York) salen a las 13:30 en Madrid.' },
+  { d: 'Domingo 25 de octubre', t: 'Cambio de hora en Europa', x: 'Hasta el 1 de noviembre la diferencia con EE. UU. es de 5 horas y no de 6: los datos de EE. UU. que salen a las 14:30 pasan a publicarse a las 13:30 (hora de España).' },
   { d: 'Domingo 1 de noviembre', t: 'Cambio de hora en EE. UU.', x: 'La diferencia con España vuelve a ser de 6 horas.' },
   { d: 'Miércoles 11 de noviembre', t: 'Veterans Day en EE. UU.', x: 'ICE Futures US (café y cacao) abre.' },
   { d: 'Jueves 26 de noviembre', t: 'Thanksgiving en EE. UU.', x: 'ICE Futures US cierra. Revisa también el horario de CME.' },
@@ -2504,16 +2505,27 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
       else if (!si) oth.push(p);
       else (si.long ? L : S).push({ p: p, si: si });
     });
-    var h = '<p class="note">📈 largo · 📉 corto · ↩️ pullback · 🎯 retesteo · ⚡ ruptura · 🚨 nivel importante · 🛑 stop · 🎯 objetivos</p>';
+    var h = '<p class="note">📈 largo · 📉 corto · ↩️ pullback · 🎯 retesteo · ⚡ ruptura · 🚨 nivel importante · 🛑 stop · 🎯 objetivos · Todas las horas son de España</p>';
     if (rec.length) {
       var tm = (rec[0].k.match(/\((.*?)\)/) || [])[1];
-      var seq = SEQ[key] || L.concat(S).map(function (x) { var q = seqOf(x.p.text); return q ? x.si.icon + ' ' + q : ''; }).filter(Boolean);
       h += '<div class="recent"><div class="rh">🕒 Análisis reciente' + (tm ? ' · ' + esc(tm) : '') + '</div>' + rec.map(function (p) { return '<p>' + esc(p.text) + '</p>'; }).join('') +
-        (seq.length ? '<div class="seq"><span class="sh">Secuencia</span>' + seq.map(function (s) { return '<div>' + esc(s) + '</div>'; }).join('') + '</div>' : '') + '</div>';
+        '</div>';
+    }
+    var man = SEQ[key];
+    function seqFor(x) {
+      var lines = [];
+      if (man) {
+        var side = man.filter(function (m) { return m.indexOf(x.si.long ? '📈' : '📉') === 0; });
+        var same = (x.si.long ? L : S);
+        if (same.length === 1) lines = side;
+        else if (side.length === same.length) lines = [side[same.indexOf(x)]];
+      }
+      if (!lines.length) { var q = seqOf(x.p.text); if (q) lines = [x.si.icon + ' ' + q]; }
+      return lines.length ? '<div class="seq"><span class="sh">Secuencia</span>' + lines.map(function (m) { return '<div>' + esc(m) + '</div>'; }).join('') + '</div>' : '';
     }
     function col(list, cls, title) {
       return '<div class="lscol ' + cls + '"><div class="lsh">' + title + '</div>' + (list.length ? list.map(function (x) {
-        return '<div class="pl"><span class="k">' + x.si.icon + ' ' + esc(x.p.k) + '</span><p>' + esc(x.p.text) + '</p></div>';
+        return '<div class="pl"><span class="k">' + x.si.icon + ' ' + esc(x.p.k) + '</span><p>' + esc(x.p.text) + '</p>' + seqFor(x) + '</div>';
       }).join('') : '<div class="pl none"><p>Sin planteamiento de este lado.</p></div>') + '</div>';
     }
     h += '<div class="lsgrid">' + col(L, 'long', '📈 Largos') + col(S, 'short', '📉 Cortos') + '</div>';
@@ -2648,7 +2660,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
       '<h3 class="calrange">' + range + '</h3></div>';
     html += '<div class="caltabs"><span class="tabs"><button type="button" class="tab" data-cal="tab:eco" aria-pressed="' + (!earn) + '">Económico</button><button type="button" class="tab" data-cal="tab:earn" aria-pressed="' + earn + '">Beneficios</button></span>' +
       '<span class="tabs minf" aria-label="Importancia mínima">' + [1, 2, 3].map(function (n) { return '<button type="button" class="tab" data-cal="min:' + n + '" aria-pressed="' + (CALST.min === n) + '">' + (n === 1 ? 'Todas' : n === 2 ? '★★+' : '★★★') + '</button>'; }).join('') + '</span></div>';
-    html += '<p class="legend">Horas de Madrid. Importancia de 1 a 3 estrellas. En <b style="color:var(--up)">verde</b> el dato salió mejor de lo previsto (o, en inflación, más bajo) y en <b style="color:var(--down)">rojo</b> peor. «Favorece» y «Perjudica» indican qué activos podrían ganar o perder con ese resultado: es una hipótesis, no una señal. Pulsa el nombre de un dato para ver qué es y cómo se lee.</p>';
+    html += '<p class="legend">Horas de España. Importancia de 1 a 3 estrellas. En <b style="color:var(--up)">verde</b> el dato salió mejor de lo previsto (o, en inflación, más bajo) y en <b style="color:var(--down)">rojo</b> peor. «Favorece» y «Perjudica» indican qué activos podrían ganar o perder con ese resultado: es una hipótesis, no una señal. Pulsa el nombre de un dato para ver qué es y cómo se lee.</p>';
     if (!withEv.length) {
       html += '<div class="empty"><h2>Sin datos cargados</h2><p>No tengo ' + (earn ? 'resultados de empresas' : 'datos económicos') + ' para esta semana con esta importancia. Cambia de semana con las flechas o pasa al calendario para saltar a otro día.</p></div>';
     }
@@ -2843,11 +2855,15 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     if (x === 'XETR') return 'xetr';
     return '';
   }
-  var TOOLST = { tab: 'ind' };
+  var TOOLST = { tab: 'ind', cat: 'all' };
   function activosHtml() {
     var h = '<section><h2>Activos de mi lista</h2><p class="legend">Símbolos de mi lista de TradingView agrupados por activo, con la etiqueta <b>FUTURO</b> o <b>CFD</b> (y SPOT, ÍNDICE o ETF cuando no es ninguno de los dos). El símbolo <span class="usd">$</span> marca los que necesitan una suscripción de datos para verse en tiempo real: púlsalo para ver cuál. Los CFD y los datos de TVC no llevan $ porque son del propio bróker o de TradingView, pero no he comprobado cada uno.</p>' +
       '<input type="search" id="actq" class="actq" placeholder="Buscar un activo o símbolo (por ejemplo café, WTI, NQ)" aria-label="Buscar activo"></section>';
+    h += '<div class="tabs catchips" role="group" aria-label="Categoría">' + [['all', 'Todos']].concat(ACT.map(function (c) { return [c[0], c[0]]; })).map(function (c) {
+      return '<button type="button" class="tab" data-cat="' + esc(c[0]) + '" aria-pressed="' + (TOOLST.cat === c[0]) + '">' + esc(c[1]) + '</button>';
+    }).join('') + '</div>';
     ACT.forEach(function (cat) {
+      if (TOOLST.cat !== 'all' && TOOLST.cat !== cat[0]) return;
       h += '<section class="actcat"><h2>' + esc(cat[0]) + '</h2>';
       cat[1].forEach(function (g) {
         h += '<div class="actgrp"><h3>' + esc(g[0]) + '</h3><div class="tablewrap"><table class="dt stack"><thead><tr><th>Símbolo</th><th>Contrato</th><th>Tipo</th><th>Datos</th></tr></thead><tbody>' +
@@ -2901,6 +2917,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     if (T) {
       var ca = T.closest('[data-cal]'); if (ca) { calAct(ca.getAttribute('data-cal')); return; }
       var eb = T.closest('[data-evt]'); if (eb) { var rw = eb.closest('.er'), op = rw.classList.toggle('open'); eb.setAttribute('aria-expanded', op ? 'true' : 'false'); return; }
+      var ct = T.closest('[data-cat]'); if (ct) { TOOLST.cat = ct.getAttribute('data-cat'); renderInfo(); return; }
       var tl = T.closest('[data-tool]'); if (tl) { TOOLST.tab = tl.getAttribute('data-tool'); renderInfo(); return; }
       var us = T.closest('[data-usd]'); if (us) { openUsd(us.getAttribute('data-usd')); return; }
       if (T.closest('[data-mclose]') || T.id === 'usdm') { document.getElementById('usdm').hidden = true; return; }
