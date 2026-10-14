@@ -298,9 +298,106 @@ h2 { color: var(--muted); }
 }
 .backhome { font: inherit; font-size: 13px; font-weight: 600; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
 .backhome:hover { color: var(--fg); }
+
+/* Calendario estilo TradingView */
+.calbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; position: relative; }
+.cbtn { font: inherit; font-size: 15px; font-weight: 600; color: var(--fg); background: rgba(19,27,21,.9); border: 1px solid #4a5040; border-radius: 6px; padding: 7px 14px; cursor: pointer; line-height: 1.2; min-width: 40px; }
+.cbtn:hover, .cbtn:focus-visible { border-color: var(--accent); outline: none; }
+.calrange { font-size: clamp(18px, 3.5vw, 24px); font-family: var(--font-title); color: var(--accent); margin-left: 6px; }
+.pickwrap { position: relative; display: inline-block; }
+.picker { position: absolute; top: calc(100% + 6px); left: 0; z-index: 20; width: 288px; background: #131b15; border: 1px solid var(--accent); border-radius: 8px; padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.6); }
+.picker .ph { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.picker .ph button { font: inherit; font-size: 18px; color: var(--accent); background: none; border: 0; cursor: pointer; padding: 2px 10px; }
+.picker .pg { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; }
+.picker .dh { font-size: 11px; color: var(--muted); padding: 2px 0; }
+.picker .dd { font: inherit; font-family: var(--font-num); font-size: 13px; color: var(--fg); background: none; border: 1px solid transparent; border-radius: 6px; padding: 6px 0; cursor: pointer; }
+.picker .dd.wk { background: var(--accent-soft); }
+.picker .dd.hs::after { content: ""; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin: 1px auto -3px; }
+.picker .dd.td { border-color: var(--accent); }
+.picker .dd:hover { background: var(--accent); color: #0a0f0c; }
+.caltabs { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab { font: inherit; font-size: 14px; font-weight: 600; color: var(--fg); background: rgba(19,27,21,.9); border: 1px solid #4a5040; border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+.tab[aria-pressed="true"] { background: var(--accent); color: #0a0f0c; border-color: var(--accent); }
+.minf .tab { padding: 5px 12px; font-size: 13px; }
+.day > summary span { flex: 1; }
+.elist { display: flex; flex-direction: column; }
+.eh, .er { display: grid; grid-template-columns: 52px 56px minmax(0, 1fr) minmax(70px, 150px) minmax(70px, 150px) minmax(70px, 150px); gap: 4px 12px; align-items: start; }
+.eh { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 4px 12px 8px; }
+.er { padding: 11px 12px; border-top: 1px solid var(--line); }
+.er.past { opacity: .72; }
+.er.up { border-left: 3px solid var(--up); } .er.down { border-left: 3px solid var(--down); }
+.et { font-family: var(--font-num); font-size: 13px; color: var(--muted); padding-top: 2px; }
+.stars { display: inline-flex; gap: 1px; padding-top: 2px; }
+.stars i { font-style: normal; font-size: 13px; color: #4a5040; }
+.stars i.on { color: var(--accent); }
+.enb { font: inherit; font-size: 15px; font-weight: 600; color: var(--fg); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; text-decoration: underline dotted var(--muted); text-underline-offset: 4px; }
+.enb:hover { color: var(--accent); }
+.enb small { color: var(--muted); font-weight: 500; }
+.nv { font-family: var(--font-num); font-size: 13px; line-height: 1.4; color: var(--fg); }
+.nv.rl { font-weight: 600; }
+.nv.rl.up { color: var(--up); } .nv.rl.down { color: var(--down); }
+.ei { grid-column: 3 / -1; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); }
+.ei .ih { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.ei .ben { color: var(--up); font-weight: 600; } .ei .hurt { color: var(--down); font-weight: 600; }
+.ex { grid-column: 3 / -1; display: none; background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; font-size: 14px; color: var(--muted); }
+.ex p + p { margin-top: 6px; }
+.ex b { color: var(--accent); font-weight: 600; margin-right: 4px; }
+.er.open .ex { display: block; }
+@media (max-width: 700px) {
+  .eh { display: none; }
+  .er { grid-template-columns: 48px 56px minmax(0, 1fr); }
+  .er .en { grid-column: 3; }
+  .nv { grid-column: 3; display: flex; gap: 8px; }
+  .nv::before { content: attr(data-l); color: var(--muted); font-family: var(--font-body); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; min-width: 92px; padding-top: 1px; }
+}
+
+/* Plan: largos y cortos */
+.recent { background: linear-gradient(90deg, rgba(47,125,70,.14), rgba(19,27,21,.92) 55%, rgba(200,75,32,.10)); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.recent .rh { font-weight: 600; color: var(--accent); }
+.seq { border-top: 1px dashed var(--line); padding-top: 8px; display: flex; flex-direction: column; gap: 3px; font-family: var(--font-num); font-size: 14px; }
+.seq .sh { font-family: var(--font-body); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lsgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.lscol { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.lsh { font-weight: 700; font-size: 15px; padding: 6px 10px; border-radius: 6px; }
+.lscol.long .lsh { background: var(--up-soft); color: var(--up); } .lscol.short .lsh { background: var(--down-soft); color: var(--down); }
+.lscol.long .pl { border-top: 2px solid var(--up); } .lscol.short .pl { border-top: 2px solid var(--down); }
+.pl.none p { color: var(--muted); }
+@media (max-width: 700px) { .lsgrid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Operativas */
+.bigstat { display: flex; flex-wrap: wrap; gap: 12px; }
+.bs { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 20px; min-width: 150px; }
+.bs b { display: block; font-family: var(--font-num); font-size: 40px; line-height: 1.1; }
+.bs span { font-size: 13px; color: var(--muted); }
+.bs.win b { color: var(--up); } .bs.loss b { color: var(--down); }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.split .sp h3 { margin-bottom: 6px; }
+@media (max-width: 700px) { .split { grid-template-columns: minmax(0, 1fr); } }
+
+/* Herramientas */
+.toolcards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tcard { font: inherit; text-align: left; color: var(--fg); background: rgba(19,27,21,.9); border: 2px solid #4a5040; border-radius: 10px; padding: 16px 18px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; }
+.tcard b { font-family: var(--font-title); font-size: 20px; color: var(--accent); }
+.tcard span { font-size: 13px; color: var(--muted); }
+.tcard[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.actq { font: inherit; color: var(--fg); background: rgba(19,27,21,.9); border: 1px solid #4a5040; border-radius: 6px; padding: 9px 12px; width: 100%; max-width: 460px; }
+.actgrp { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.actgrp h3 { font-size: 15px; color: var(--accent); }
+.ty { font-size: 11px; font-weight: 700; letter-spacing: .06em; border-radius: 4px; padding: 2px 8px; }
+.ty.fu { background: var(--up-soft); color: var(--up); } .ty.cf { background: var(--flat-soft); color: var(--flat); } .ty.ot { background: var(--accent-soft); color: var(--accent); }
+.usd { font: inherit; font-weight: 700; color: #0a0f0c; background: var(--flat); border: 0; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; line-height: 1; }
+span.usd { display: inline-block; text-align: center; line-height: 24px; }
+.modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.65); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.modal[hidden] { display: none; }
+.modal .mc { background: #131b15; border: 1px solid var(--accent); border-radius: 10px; max-width: 560px; width: 100%; max-height: 85vh; overflow: auto; padding: 20px; position: relative; }
+.modal .mb { display: flex; flex-direction: column; gap: 10px; }
+.modal .mx { position: absolute; top: 8px; right: 10px; font: inherit; font-size: 22px; color: var(--accent); background: none; border: 0; cursor: pointer; }
+.modal .note { color: var(--muted); font-size: 13px; }
+.actgrp[hidden], .actcat[hidden] { display: none; }
 </style>
 
-<div id="home"><div class="bg"></div><div class="stage"><div class="pic" role="img" aria-label="Cursillo de Bolsillo: un toro verde y un oso rojo frente a frente"></div><button type="button" class="bubble b-intra" data-go="intra">Intradía / Scalping</button><button type="button" class="bubble b-swing" data-go="swing">Swing</button><button type="button" class="bubble mini b-ind" data-page="indicador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Indicador</button><button type="button" class="bubble mini b-cal" data-page="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendario</button><button type="button" class="bubble mini b-ops" data-page="operativas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Operativas</button></div></div>
+<div id="home"><div class="bg"></div><div class="stage"><div class="pic" role="img" aria-label="Cursillo de Bolsillo: un toro verde y un oso rojo frente a frente"></div><button type="button" class="bubble b-intra" data-go="intra">Intradía / Scalping</button><button type="button" class="bubble b-swing" data-go="swing">Swing</button><button type="button" class="bubble mini b-ind" data-page="herramientas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Herramientas</button><button type="button" class="bubble mini b-cal" data-page="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendario</button><button type="button" class="bubble mini b-ops" data-page="operativas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Operativas</button></div></div>
 
 <template id="tpl-indicador">
 <section>
@@ -415,6 +512,8 @@ h2 { color: var(--muted); }
   <main id="infobody" class="wrap" style="gap:40px"></main>
   <footer>Contenido informativo, no es asesoramiento financiero.</footer>
 </section>
+
+<div id="usdm" class="modal" hidden><div class="mc"><button type="button" class="mx" data-mclose aria-label="Cerrar">×</button><div class="mb"></div></div></div>
 
 <div class="wrap" id="app">
   <nav class="nav" aria-label="Activos y fechas">
@@ -2050,54 +2149,96 @@ var ENTRIES = [
   }
   function byAsset(a) { return modeEntries(state.mode).filter(function (e) { return e.asset === a; }); }
   function find(a, d) { return modeEntries(state.mode).filter(function (e) { return e.asset === a && e.date === d; })[0]; }
-/* Calendario. Horas de Madrid. res: 'up' (mejor de lo esperado), 'down' (peor), o sin res si aún no hay valoración.
+/* Calendario. Horas de Madrid. Cada evento:
+   d fecha, h hora, s importancia (1 a 3 estrellas), k tipo (infl, jobs, growth, housing, crude, gas, fed, cb, auction, oilrep, sent, hol, other),
+   a activos afectados, prev anterior, fc previsión, act resultado, res 'up' (mejor de lo previsto) o 'down' (peor), x qué es, n lectura.
    Para añadir un resultado: rellena act y res en el evento. */
 var CAL = [
-  { d: '2026-10-02', h: '14:30', ev: 'Empleo de EE. UU. (NFP), septiembre', a: ['ES','NQ','GC','SI','WTI'], prev: '+133 mil (agosto, revisado)', fc: '+90 mil', act: '+29 mil · paro 4,2% · salarios +0,1% m/m (3,0% a/a) · revisión de julio y agosto −60 mil', res: 'down', n: 'Muy por debajo de lo previsto y con revisiones a la baja. Un empleo flojo suele bajar rendimientos y dólar, lo que apoyaría a oro y plata, pero con inflación alta y la Fed subiendo tipos el efecto es mixto. Para el crudo, lectura de demanda más débil (hipótesis).' },
-  { d: '2026-10-08', h: '16:30', ev: 'Almacenamientos de gas natural de la EIA (semana al 2 de octubre)', a: ['NG'], prev: '+64 Bcf (semana anterior)', fc: '', act: '+85 Bcf · total 3.500 Bcf · +2,0% sobre la media de 5 años · −3,6% sobre el año anterior', tag: 'Sin previsión localizada', n: 'No pude localizar la previsión del mercado, así que no pongo pulgar. Sobre la media de 5 años queda un colchón de 68 Bcf.' },
-  { d: '2026-10-07', h: '16:30', ev: 'Inventarios de crudo de la EIA (semana al 2 de octubre)', a: ['WTI'], prev: '', fc: '+1,7 M barriles', act: '−3,2 M barriles (total 424,1 M)', tag: 'Sorpresa alcista para el crudo', n: 'Recorte frente a una subida esperada, aunque con refino fuerte y más importaciones. No cambia el rango del WTI.' },
-  { d: '2026-10-07', h: '20:00', ev: 'Actas de la reunión de la Fed (15–16 de septiembre)', a: ['ES','NQ','GC','SI'], prev: '', fc: '', act: 'Publicadas', tag: 'Sin cifra que valorar', n: 'La Fed subió tipos a 3,75–4,00% el 16 de septiembre.' },
+  { d: '2026-10-02', h: '14:30', s: 3, k: 'jobs', ev: 'Empleo de EE. UU. (NFP), septiembre', a: ['ES','NQ','GC','SI','WTI'], prev: '+133 mil (agosto, revisado)', fc: '+90 mil', act: '+29 mil', res: 'down', n: 'Paro 4,2%, salarios +0,1% m/m (3,0% a/a) y revisión de julio y agosto de −60 mil. Muy por debajo de lo previsto y con revisiones a la baja. Un empleo flojo suele bajar rendimientos y dólar, lo que apoyaría a oro y plata, pero con inflación alta y la Fed subiendo tipos el efecto es mixto. Para el crudo, lectura de demanda más débil (hipótesis).' },
+  { d: '2026-10-07', h: '16:30', s: 2, k: 'crude', ev: 'Inventarios de crudo de la EIA (semana al 2 de octubre)', a: ['WTI'], prev: '', fc: '+1,7 M barriles', act: '−3,2 M barriles', res: 'up', n: 'Total 424,1 M de barriles. Recorte frente a una subida esperada, aunque con refino fuerte y más importaciones. No cambia el rango del WTI.' },
+  { d: '2026-10-07', h: '20:00', s: 3, k: 'fed', ev: 'Actas de la reunión de la Fed (15–16 de septiembre)', a: ['ES','NQ','GC','SI'], prev: '', fc: '', act: 'Publicadas', n: 'La Fed subió tipos a 3,75–4,00% el 16 de septiembre. Sin cifra que valorar.' },
+  { d: '2026-10-08', h: '16:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA (semana al 2 de octubre)', a: ['NG'], prev: '+64 Bcf', fc: '', act: '+85 Bcf', n: 'Total 3.500 Bcf: +2,0% sobre la media de 5 años y −3,6% sobre el año anterior. No pude localizar la previsión del mercado, así que no valoro el resultado. Sobre la media de 5 años queda un colchón de 68 Bcf.' },
 
-  { d: '2026-10-13', h: '—', ev: 'Resultados de JPMorgan, Goldman Sachs y Wells Fargo (3.er trimestre)', a: ['ES','NQ'], prev: '', fc: 'JPMorgan: BPA ≈ 5,90 $ (+16,4%) e ingresos ≈ 51,3 mil M$ (CMC Markets)', n: 'Antes de la apertura. Otra fuente añade a Citigroup ese día. Arranca la temporada de resultados.' },
-  { d: '2026-10-14', h: '—', ev: 'Resultados de Bank of America, Morgan Stanley y BlackRock (3.er trimestre)', a: ['ES','NQ'], prev: '', fc: '', n: 'Antes de la apertura (BofA sobre las 12:45 en Madrid, Morgan Stanley sobre las 15:00, según una fuente). Confirma las horas.' },
-  { d: '2026-10-14', h: '20:00', ev: 'Beige Book de la Fed', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Hora habitual de publicación; confírmala.' },
-  { d: '2026-10-15', h: '—', ev: 'Resultados de BNY Mellon, Charles Schwab, PNC y TSMC (3.er trimestre)', a: ['ES','NQ'], prev: '', fc: '', n: 'TSMC es una referencia para los tecnológicos y los semiconductores.' },
-  { d: '2026-11-03', h: '—', ev: 'Elecciones de medio mandato en EE. UU.', a: ['ES','NQ'], prev: '', fc: '', n: 'Fecha calculada por el calendario (primer martes tras el primer lunes de noviembre). Confirma.' },
-  { d: '2026-10-14', h: '14:30', ev: 'IPC de EE. UU., septiembre', a: ['ES','NQ','GC','SI','WTI'], prev: 'General +0,4% m/m (3,4% a/a) · subyacente +0,3% m/m (2,4% a/a)', fc: 'General +0,6% m/m (3,6% a/a; otra fuente 3,7%) · subyacente +0,2% m/m (2,5% a/a)', n: 'El dato clave de la semana. Uno caliente subiría las apuestas de subida de tipos en octubre (26% el 7 de octubre), con rendimientos y dólar al alza: viento en contra para oro y plata (hipótesis). Uno suave haría lo contrario.' },
-  { d: '2026-10-14', h: '16:30', ev: 'Inventarios de crudo de la EIA (semana al 9 de octubre)', a: ['WTI'], prev: '−3,2 M barriles', fc: '', n: 'Informe semanal de los miércoles. Vigila crudo, gasolina y destilados.' },
-  { d: '2026-10-15', h: '14:30', ev: 'Precios de producción (PPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m · subyacente +0,3% m/m', fc: 'General +0,5% m/m · subyacente +0,3% m/m', n: 'Lectura de la inflación en origen, un día después del IPC.' },
-  { d: '2026-10-15', h: '14:30', ev: 'Ventas minoristas de EE. UU., septiembre', a: ['ES','NQ','GC','SI','WTI'], prev: '+1,2% m/m · sin autos +1,4%', fc: '+0,3% m/m · sin autos +0,5%', n: 'Mide el consumo. Una cifra fuerte refuerza la idea de más subidas de tipos (hipótesis).' },
-  { d: '2026-10-13', h: '16:00', ev: 'Ventas de viviendas de segunda mano de EE. UU., septiembre', a: ['ES','NQ'], prev: '3,98 M anualizadas (−2,0% m/m)', fc: '', n: 'Hora convertida desde las 10:00 de Nueva York (FinancialJuice). No localicé la previsión.' },
-  { d: '2026-10-13', h: '—', ev: 'Informe mensual de la OPEP (MOMR)', a: ['WTI'], prev: '', fc: '', n: 'Fecha según el calendario de OPEP en Trading Economics; sin hora localizada. Lee las previsiones de demanda y oferta.' },
-  { d: '2026-10-14', h: '04:10', ev: 'Lagarde (BCE) habla; otra vez a las 10:30', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Convertido desde las 22:10 del martes y las 04:30 del miércoles en Nueva York (InvestingLive). Confirma las horas.' },
-  { d: '2026-10-14', h: '07:30', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 08:05', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 01:30 y las 02:05 de Nueva York (InvestingLive). Confirma las horas.' },
-  { d: '2026-10-14', h: '—', ev: 'Informe mensual de la AIE (Oil Market Report)', a: ['WTI'], prev: '', fc: '', n: 'Fecha según la AIE; sin hora publicada. Mira la demanda y la oferta mundiales de petróleo.' },
-  { d: '2026-10-15', h: '02:30', ev: 'Empleo de Australia, septiembre', a: [], prev: '+39,5 mil · paro 4,6%', fc: '+20,0 mil · paro 4,6%', n: 'Convertido desde las 20:30 del miércoles en Nueva York (InvestingLive).' },
-  { d: '2026-10-15', h: '06:30', ev: 'Schlegel (SNB) habla', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 00:30 de Nueva York (InvestingLive). Confirma la hora.' },
-  { d: '2026-10-15', h: '08:00', ev: 'PIB del Reino Unido, agosto', a: [], prev: '+0,4% m/m', fc: '−0,1% m/m', n: 'Convertido desde las 02:00 de Nueva York (InvestingLive). Bailey habla además a las 09:30.' },
-  { d: '2026-10-15', h: '14:30', ev: 'Índice manufacturero de la Fed de Filadelfia, octubre', a: ['ES','NQ'], prev: '37,8', fc: '26,5', n: 'Se publica a la vez que el PPI y las ventas minoristas: jornada de mucha volatilidad.' },
-  { d: '2026-10-15', h: '14:30', ev: 'Peticiones iniciales de subsidio de desempleo (EE. UU.)', a: ['ES','NQ','GC'], prev: '197 mil', fc: '195 mil', n: 'Dato semanal de los jueves.' },
-  { d: '2026-10-15', h: '—', ev: 'Discurso de Hammack (Fed)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Jueves 15 en un acto del Women\u0027s Trading Network, sin hora (Stocktwits). CMC Markets la situaba el lunes 12; la fuente más reciente la pone el jueves. Confirma.' },
-  { d: '2026-10-16', h: '05:30', ev: 'Warsh (presidente de la Fed) habla', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: 'InvestingLive lo sitúa a las 23:30 del jueves en Nueva York (05:30 del viernes en Madrid). Stocktwits habla de una intervención el jueves 15 en las reuniones del FMI y el Banco Mundial, sin hora. Confirma.' },
-  { d: '2026-10-16', h: '06:15', ev: 'Macklem (BoC) habla; Bailey (BoE) a las 04:00', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 00:15 de Nueva York y las 22:00 del jueves (InvestingLive).' },
-  { d: '2026-10-16', h: '14:30', ev: 'Precios de importación y exportación de EE. UU., septiembre', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Sin cifras previstas localizadas (InvestingLive).' },
-  { d: '2026-10-16', h: '15:15', ev: 'Producción industrial de EE. UU., septiembre', a: ['ES','NQ'], prev: '0,0% m/m · +1,4% a/a · utilización de capacidad 76,3%', fc: '', n: 'Convertido desde las 09:15 de Nueva York (FinancialJuice). No localicé la previsión.' },
-  { d: '2026-10-15', h: '16:30', ev: 'Almacenamientos de gas natural de la EIA (semana al 9 de octubre)', a: ['NG'], prev: '+85 Bcf · total 3.500 Bcf', fc: '', n: 'Informe semanal de los jueves. No localicé la previsión.' },
-  { d: '2026-10-21', h: '16:30', ev: 'Inventarios de crudo de la EIA', a: ['WTI'], prev: '', fc: '', n: 'Informe semanal habitual de los miércoles. Confirma la fecha.' },
-  { d: '2026-10-22', h: '16:30', ev: 'Almacenamientos de gas natural de la EIA', a: ['NG'], prev: '', fc: '', n: 'Informe semanal habitual de los jueves. Confirma la fecha.' },
-  { d: '2026-10-28', h: '—', ev: 'Vencimiento del NG de noviembre (último día de negociación)', a: ['NG'], prev: '', fc: '', n: 'El gráfico continuo pasa al diciembre (3,546 frente a 3,220 del noviembre): salta unos +0,33 sin que sea un movimiento real.' },
-  { d: '2026-10-28', h: '19:00', ev: 'Decisión de tipos de la Fed (reunión del 27–28 de octubre)', a: ['ES','NQ','GC','SI','WTI'], prev: 'Tipos 3,75–4,00%', fc: 'Pausa descontada (subida con 26% de probabilidad el 7 de octubre)', n: 'Vigila el tono sobre diciembre, donde una subida está bastante descontada.' },
-  { d: '2026-10-28', h: '15:30', ev: 'Inventarios de crudo de la EIA', a: ['WTI'], prev: '', fc: '', n: 'Informe semanal habitual de los miércoles. Confirma la fecha.' },
-  { d: '2026-10-29', h: '15:30', ev: 'Almacenamientos de gas natural de la EIA', a: ['NG'], prev: '', fc: '', n: 'Informe semanal habitual de los jueves. Confirma la fecha: la hora es la de la diferencia de 5 horas con EE. UU.' },
-  { d: '2026-10-29', h: '13:30', ev: 'PIB de EE. UU. del 3.er trimestre (avance) y PCE de septiembre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: 'El PCE es la inflación que mira la Fed.' },
-  { d: '2026-11-01', h: '—', ev: 'Reunión de los siete países de la OPEP+ (producción de diciembre)', a: ['WTI'], prev: 'Mantuvieron el nivel de septiembre para noviembre', fc: '', n: 'El 4 de octubre decidieron mantener la producción para noviembre y fijaron la próxima reunión el 1 de noviembre.' },
-  { d: '2026-11-06', h: '14:30', ev: 'Empleo de EE. UU. (NFP), octubre', a: ['ES','NQ','GC','SI','WTI'], prev: '+29 mil (septiembre)', fc: '', n: 'Tras la sorpresa floja de septiembre.' },
-  { d: '2026-11-10', h: '14:30', ev: 'IPC de EE. UU., octubre', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: '' },
-  { d: '2026-11-13', h: '14:30', ev: 'Precios de producción (PPI), octubre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
-  { d: '2026-11-17', h: '14:30', ev: 'Ventas minoristas de EE. UU., octubre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
-  { d: '2026-11-18', h: '20:00', ev: 'Actas de la Fed (reunión de octubre)', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
-  { d: '2026-11-25', h: '14:30', ev: 'PIB del 3.er trimestre (2.ª estimación) y PCE de octubre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
-  { d: '2026-12-09', h: '20:00', ev: 'Decisión de tipos de la Fed (reunión del 8–9 de diciembre)', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: '' }
+  { d: '2026-10-12', h: '02:00', s: 1, k: 'hol', ev: 'Columbus Day (festivo en EE. UU.)', a: ['ES','NQ','GC','SI','WTI','NG'], prev: '', fc: '', n: 'Bonos cerrados y menos liquidez. En CME había mercados abiertos pero sin liquidación intradía; ICE Futures US (café y cacao) abrió.' },
+  { d: '2026-10-12', h: '18:50', s: 2, k: 'fed', ev: 'Discurso de Hammack (Fed)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'TradingView lo sitúa el lunes 12 a las 18:50 en Madrid. Otras fuentes lo daban el jueves 15; me quedo con la de TradingView. Sin cifra que valorar.' },
+
+  { d: '2026-10-13', h: '09:45', s: 2, k: 'fed', ev: 'Discurso de Waller (Fed)', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: 'Según TradingView. Waller había dicho el 8 de octubre que hacen falta más subidas pero con flexibilidad en el ritmo (InvestingLive). Sin cifra que valorar.' },
+  { d: '2026-10-13', h: '12:00', s: 1, k: 'sent', ev: 'Índice de optimismo de la pequeña empresa NFIB (NFIB Business Optimism Index)', a: ['ES','NQ'], prev: '98,7', fc: '98', act: '97,9', res: 'down', n: 'Ligeramente por debajo de lo previsto y del dato anterior.' },
+  { d: '2026-10-13', h: '14:15', s: 2, k: 'jobs', ev: 'Cambio semanal del empleo ADP (ADP Employment Change Weekly)', a: ['ES','NQ','GC','SI'], prev: '23,75 K', fc: '', act: '24,75 K', res: 'up', n: 'Sin previsión: comparo con el dato anterior. Algo mejor que la semana previa.' },
+  { d: '2026-10-13', h: '14:55', s: 1, k: 'growth', ev: 'Ventas minoristas semanales Redbook (Redbook YoY)', a: ['ES','NQ'], prev: '8,6%', fc: '', act: '10,4%', res: 'up', n: 'Sin previsión: comparo con el dato anterior. Consumo más fuerte que la semana previa.' },
+  { d: '2026-10-13', h: '16:00', s: 3, k: 'housing', ev: 'Ventas de viviendas de segunda mano (Existing Home Sales), septiembre', a: ['ES','NQ'], prev: '3,93 M', fc: '3,95 M', act: '3,99 M', res: 'up', n: 'Algo por encima de lo previsto. Antes se había apuntado un dato anterior de 3,98 M (FinancialJuice); me quedo con el de TradingView.' },
+  { d: '2026-10-13', h: '16:00', s: 2, k: 'housing', ev: 'Ventas de viviendas de segunda mano, variación mensual (Existing Home Sales MoM)', a: ['ES','NQ'], prev: '−3,2%', fc: '', act: '+1,5%', res: 'up', n: 'Rebote tras la caída del mes anterior.' },
+  { d: '2026-10-13', h: '17:30', s: 1, k: 'auction', ev: 'Subasta de letras del Tesoro a 3 meses (3-Month Bill Auction)', a: ['ES','NQ','GC'], prev: '4,05%', fc: '', act: '4,085%', n: 'El rendimiento adjudicado sube frente a la subasta anterior.' },
+  { d: '2026-10-13', h: '17:30', s: 1, k: 'auction', ev: 'Subasta de letras del Tesoro a 6 meses (6-Month Bill Auction)', a: ['ES','NQ','GC'], prev: '4,165%', fc: '', act: '4,2%', n: 'El rendimiento adjudicado sube frente a la subasta anterior.' },
+  { d: '2026-10-13', h: '19:00', s: 1, k: 'auction', ev: 'Subasta de letras del Tesoro a 6 semanas (6-Week Bill Auction)', a: ['ES','NQ','GC'], prev: '3,945%', fc: '', act: '3,98%', n: 'El rendimiento adjudicado sube frente a la subasta anterior.' },
+  { d: '2026-10-13', h: '19:00', s: 2, k: 'fed', ev: 'Discurso de Barkin (Fed)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Sin cifra que valorar.' },
+  { d: '2026-10-13', h: '20:00', s: 1, k: 'other', ev: 'Estado mensual del presupuesto de EE. UU. (Monthly Budget Statement)', a: ['ES','NQ'], prev: '−167 mil M$', fc: '−29 mil M$', n: 'En la captura de las 21:14 aún no figuraba el dato real. Lo completo cuando me lo pases.' },
+  { d: '2026-10-13', h: '22:00', s: 2, k: 'fed', ev: 'Discurso de Collins (Fed)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Sin cifra que valorar.' },
+  { d: '2026-10-13', h: '—', s: 2, k: 'oilrep', ev: 'Informe mensual de la OPEP (MOMR)', a: ['WTI'], prev: '', fc: '', n: 'Fecha según el calendario de la OPEP en Trading Economics; sin hora localizada. No he podido leer las cifras: revisa las previsiones de demanda y oferta.' },
+
+  { d: '2026-10-14', h: '04:10', s: 2, k: 'cb', ev: 'Lagarde (BCE) habla; otra vez a las 10:30', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Convertido desde las 22:10 del martes y las 04:30 del miércoles en Nueva York (InvestingLive). Confirma las horas.' },
+  { d: '2026-10-14', h: '07:30', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 08:05', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 01:30 y las 02:05 de Nueva York (InvestingLive). Confirma las horas.' },
+  { d: '2026-10-14', h: '14:30', s: 3, k: 'infl', ev: 'IPC de EE. UU. (CPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m · 3,4% a/a\nSubyacente +0,3% m/m · 2,4% a/a', fc: 'General +0,6% m/m · 3,6% a/a (otra fuente 3,7%)\nSubyacente +0,2% m/m · 2,5% a/a', n: 'El dato clave de la semana. Uno caliente subiría las apuestas de subida de tipos en octubre (26% el 7 de octubre), con rendimientos y dólar al alza: viento en contra para oro y plata (hipótesis). Uno suave haría lo contrario.' },
+  { d: '2026-10-14', h: '16:30', s: 2, k: 'crude', ev: 'Inventarios de crudo de la EIA (semana al 9 de octubre)', a: ['WTI'], prev: '−3,2 M barriles', fc: '', n: 'Informe semanal de los miércoles. Vigila crudo, gasolina y destilados.' },
+  { d: '2026-10-14', h: '20:00', s: 2, k: 'fed', ev: 'Beige Book de la Fed', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Hora habitual de publicación; confírmala.' },
+  { d: '2026-10-14', h: '—', s: 2, k: 'oilrep', ev: 'Informe mensual de la AIE (Oil Market Report)', a: ['WTI'], prev: '', fc: '', n: 'Fecha según la AIE; sin hora publicada. Mira la demanda y la oferta mundiales de petróleo.' },
+
+  { d: '2026-10-15', h: '02:30', s: 2, k: 'other', ev: 'Empleo de Australia, septiembre', a: [], prev: '+39,5 mil · paro 4,6%', fc: '+20,0 mil · paro 4,6%', n: 'Convertido desde las 20:30 del miércoles en Nueva York (InvestingLive).' },
+  { d: '2026-10-15', h: '06:30', s: 1, k: 'cb', ev: 'Schlegel (SNB) habla', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 00:30 de Nueva York (InvestingLive). Confirma la hora.' },
+  { d: '2026-10-15', h: '08:00', s: 2, k: 'other', ev: 'PIB del Reino Unido, agosto', a: [], prev: '+0,4% m/m', fc: '−0,1% m/m', n: 'Convertido desde las 02:00 de Nueva York (InvestingLive). Bailey habla además a las 09:30.' },
+  { d: '2026-10-15', h: '14:30', s: 3, k: 'infl', ev: 'Precios de producción (PPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m\nSubyacente +0,3% m/m', fc: 'General +0,5% m/m\nSubyacente +0,3% m/m', n: 'Lectura de la inflación en origen, un día después del IPC.' },
+  { d: '2026-10-15', h: '14:30', s: 3, k: 'growth', ev: 'Ventas minoristas de EE. UU., septiembre', a: ['ES','NQ','GC','SI','WTI'], prev: '+1,2% m/m\nSin autos +1,4%', fc: '+0,3% m/m\nSin autos +0,5%', n: 'Mide el consumo. Una cifra fuerte refuerza la idea de más subidas de tipos (hipótesis).' },
+  { d: '2026-10-15', h: '14:30', s: 2, k: 'growth', ev: 'Índice manufacturero de la Fed de Filadelfia, octubre', a: ['ES','NQ'], prev: '37,8', fc: '26,5', n: 'Se publica a la vez que el PPI y las ventas minoristas: jornada de mucha volatilidad.' },
+  { d: '2026-10-15', h: '14:30', s: 2, k: 'jobs', ev: 'Peticiones iniciales de subsidio de desempleo (EE. UU.)', a: ['ES','NQ','GC'], prev: '197 mil', fc: '195 mil', n: 'Dato semanal de los jueves.' },
+  { d: '2026-10-15', h: '16:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA (semana al 9 de octubre)', a: ['NG'], prev: '+85 Bcf', fc: '', n: 'Informe semanal de los jueves. Total anterior 3.500 Bcf. No localicé la previsión.' },
+
+  { d: '2026-10-16', h: '04:00', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 06:15', a: ['GC'], prev: '', fc: '', n: 'Convertido desde las 22:00 del jueves y las 00:15 de Nueva York (InvestingLive).' },
+  { d: '2026-10-16', h: '05:30', s: 3, k: 'fed', ev: 'Warsh (presidente de la Fed) habla', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: 'InvestingLive lo sitúa a las 23:30 del jueves en Nueva York (05:30 del viernes en Madrid). Stocktwits habla de una intervención el jueves 15 en las reuniones del FMI y el Banco Mundial, sin hora. Confirma.' },
+  { d: '2026-10-16', h: '14:30', s: 2, k: 'infl', ev: 'Precios de importación y exportación de EE. UU., septiembre', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Sin cifras previstas localizadas (InvestingLive).' },
+  { d: '2026-10-16', h: '15:15', s: 2, k: 'growth', ev: 'Producción industrial de EE. UU., septiembre', a: ['ES','NQ'], prev: '0,0% m/m · +1,4% a/a\nUtilización de capacidad 76,3%', fc: '', n: 'Convertido desde las 09:15 de Nueva York (FinancialJuice). No localicé la previsión.' },
+
+  { d: '2026-10-19', h: '16:00', s: 2, k: 'housing', ev: 'Índice del mercado de la vivienda NAHB (NAHB Housing Market Index)', a: ['ES','NQ'], prev: '32', fc: '', n: 'Dato de TradingView (semana del 19 al 25 de octubre). Aún sin previsión.' },
+  { d: '2026-10-19', h: '17:30', s: 1, k: 'auction', ev: 'Subasta de letras del Tesoro a 3 meses', a: ['ES','NQ','GC'], prev: '4,085%', fc: '', n: '' },
+  { d: '2026-10-19', h: '17:30', s: 1, k: 'auction', ev: 'Subasta de letras del Tesoro a 6 meses', a: ['ES','NQ','GC'], prev: '4,2%', fc: '', n: '' },
+  { d: '2026-10-20', h: '14:15', s: 2, k: 'jobs', ev: 'Cambio semanal del empleo ADP', a: ['ES','NQ','GC','SI'], prev: '24,75 K', fc: '', n: '' },
+  { d: '2026-10-20', h: '14:30', s: 2, k: 'housing', ev: 'Permisos de construcción, variación mensual (preliminar)', a: ['ES','NQ'], prev: '−2,1%', fc: '', n: '' },
+  { d: '2026-10-20', h: '14:30', s: 3, k: 'housing', ev: 'Permisos de construcción (preliminar)', a: ['ES','NQ'], prev: '1,403 M', fc: '', n: '' },
+  { d: '2026-10-20', h: '14:30', s: 3, k: 'housing', ev: 'Inicios de viviendas (Housing Starts)', a: ['ES','NQ'], prev: '1,275 M', fc: '', n: '' },
+  { d: '2026-10-20', h: '14:30', s: 2, k: 'housing', ev: 'Inicios de viviendas, variación mensual', a: ['ES','NQ'], prev: '−2,6%', fc: '', n: 'La captura de TradingView se corta aquí. El resto del martes 20 y de la semana del 19 al 25 lo añado cuando lo envíes.' },
+  { d: '2026-10-20', h: '14:55', s: 1, k: 'growth', ev: 'Ventas minoristas semanales Redbook', a: ['ES','NQ'], prev: '10,4%', fc: '', n: '' },
+  { d: '2026-10-20', h: '16:00', s: 2, k: 'housing', ev: 'Ventas de viviendas pendientes, variación mensual', a: ['ES','NQ'], prev: '0,3%', fc: '', n: '' },
+  { d: '2026-10-20', h: '16:00', s: 1, k: 'housing', ev: 'Ventas de viviendas pendientes, variación anual', a: ['ES','NQ'], prev: '−4,7%', fc: '', n: '' },
+
+  { d: '2026-10-21', h: '16:30', s: 2, k: 'crude', ev: 'Inventarios de crudo de la EIA', a: ['WTI'], prev: '', fc: '', n: 'Informe semanal habitual de los miércoles. Confirma la fecha.' },
+  { d: '2026-10-22', h: '16:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA', a: ['NG'], prev: '', fc: '', n: 'Informe semanal habitual de los jueves. Confirma la fecha.' },
+  { d: '2026-10-28', h: '—', s: 1, k: 'other', ev: 'Vencimiento del NG de noviembre (último día de negociación)', a: ['NG'], prev: '', fc: '', n: 'El gráfico continuo pasa al diciembre (3,546 frente a 3,220 del noviembre): salta unos +0,33 sin que sea un movimiento real.' },
+  { d: '2026-10-28', h: '19:00', s: 3, k: 'fed', ev: 'Decisión de tipos de la Fed (reunión del 27–28 de octubre)', a: ['ES','NQ','GC','SI','WTI'], prev: 'Tipos 3,75–4,00%', fc: 'Pausa descontada (subida con 26% de probabilidad el 7 de octubre)', n: 'Vigila el tono sobre diciembre, donde una subida está bastante descontada.' },
+  { d: '2026-10-28', h: '15:30', s: 2, k: 'crude', ev: 'Inventarios de crudo de la EIA', a: ['WTI'], prev: '', fc: '', n: 'Informe semanal habitual de los miércoles. Confirma la fecha.' },
+  { d: '2026-10-29', h: '15:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA', a: ['NG'], prev: '', fc: '', n: 'Informe semanal habitual de los jueves. Confirma la fecha: la hora es la de la diferencia de 5 horas con EE. UU.' },
+  { d: '2026-10-29', h: '13:30', s: 3, k: 'growth', ev: 'PIB de EE. UU. del 3.er trimestre (avance) y PCE de septiembre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: 'El PCE es la inflación que mira la Fed.' },
+  { d: '2026-11-01', h: '—', s: 2, k: 'oilrep', ev: 'Reunión de los siete países de la OPEP+ (producción de diciembre)', a: ['WTI'], prev: 'Mantuvieron el nivel de septiembre para noviembre', fc: '', n: 'El 4 de octubre decidieron mantener la producción para noviembre y fijaron la próxima reunión el 1 de noviembre.' },
+  { d: '2026-11-03', h: '—', s: 3, k: 'other', ev: 'Elecciones de medio mandato en EE. UU.', a: ['ES','NQ'], prev: '', fc: '', n: 'Fecha calculada por el calendario (primer martes tras el primer lunes de noviembre). Confirma.' },
+  { d: '2026-11-06', h: '14:30', s: 3, k: 'jobs', ev: 'Empleo de EE. UU. (NFP), octubre', a: ['ES','NQ','GC','SI','WTI'], prev: '+29 mil (septiembre)', fc: '', n: 'Tras la sorpresa floja de septiembre.' },
+  { d: '2026-11-10', h: '14:30', s: 3, k: 'infl', ev: 'IPC de EE. UU., octubre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
+  { d: '2026-11-13', h: '14:30', s: 3, k: 'infl', ev: 'Precios de producción (PPI), octubre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
+  { d: '2026-11-17', h: '14:30', s: 3, k: 'growth', ev: 'Ventas minoristas de EE. UU., octubre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
+  { d: '2026-11-18', h: '20:00', s: 3, k: 'fed', ev: 'Actas de la Fed (reunión de octubre)', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
+  { d: '2026-11-25', h: '14:30', s: 3, k: 'growth', ev: 'PIB del 3.er trimestre (2.ª estimación) y PCE de octubre', a: ['ES','NQ','GC','SI'], prev: '', fc: '', n: '' },
+  { d: '2026-12-09', h: '20:00', s: 3, k: 'fed', ev: 'Decisión de tipos de la Fed (reunión del 8–9 de diciembre)', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: '' }
+];
+/* Beneficios (resultados de empresas). Cifras de los informes 8-K de cada empresa; previsiones de consenso de Hudson Labs (28 de septiembre) salvo que se indique. */
+var EARN = [
+  { d: '2026-10-13', h: '—', s: 3, co: 'JPMorgan Chase', tk: 'JPM', epsF: '5,86 $', epsA: '5,57 $', epsP: '5,07 $', revF: '50,85 mil M$', revA: '50,91 mil M$', revP: '47,12 mil M$', res: 'down', n: 'Beneficio por acción +10% interanual pero por debajo del consenso (CMC Markets daba 5,90 $). Ingresos gestionados en línea con lo previsto (la cifra publicada sin gestionar es 50,17 mil M$). Antes de la apertura.' },
+  { d: '2026-10-13', h: '—', s: 3, co: 'Goldman Sachs', tk: 'GS', epsF: '15,39 $', epsA: '17,01 $', epsP: '12,25 $', revF: '17,42 mil M$', revA: '18,68 mil M$', revP: '15,18 mil M$', res: 'up', n: 'Supera con holgura en beneficio e ingresos (+39% y +23% interanual). Antes de la apertura.' },
+  { d: '2026-10-13', h: '—', s: 3, co: 'Wells Fargo', tk: 'WFC', epsF: '', epsA: '1,87 $', epsP: '1,66 $', revF: '', revA: '21,87 mil M$', revP: '21,44 mil M$', n: 'Beneficio por acción +13% e ingresos +2% interanual. No localicé el consenso, así que no valoro el resultado. Antes de la apertura.' },
+  { d: '2026-10-13', h: '—', s: 3, co: 'Citigroup', tk: 'C', epsF: '2,68 $', epsA: '2,85 $', epsP: '1,86 $', revF: '23,76 mil M$', revA: '23,85 mil M$', revP: '22,09 mil M$', res: 'up', n: 'Supera en beneficio e ingresos. El año anterior incluía una pérdida por deterioro de Banamex: sin ella, el beneficio por acción de entonces era 2,24 $. Antes de la apertura.' },
+  { d: '2026-10-14', h: '12:45', s: 3, co: 'Bank of America', tk: 'BAC', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Antes de la apertura, sobre las 12:45 en Madrid según una fuente. Confirma la hora.' },
+  { d: '2026-10-14', h: '15:00', s: 3, co: 'Morgan Stanley', tk: 'MS', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Antes de la apertura, sobre las 15:00 en Madrid según una fuente. Confirma la hora.' },
+  { d: '2026-10-14', h: '—', s: 2, co: 'BlackRock', tk: 'BLK', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Antes de la apertura. Confirma la hora.' },
+  { d: '2026-10-15', h: '—', s: 3, co: 'TSMC', tk: 'TSM', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: 'Referencia para los tecnológicos y los semiconductores.' },
+  { d: '2026-10-15', h: '—', s: 2, co: 'BNY Mellon', tk: 'BK', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: '' },
+  { d: '2026-10-15', h: '—', s: 2, co: 'Charles Schwab', tk: 'SCHW', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: '' },
+  { d: '2026-10-15', h: '—', s: 2, co: 'PNC Financial', tk: 'PNC', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: '' }
 ];
 var HOL = [
   { d: 'Lunes 12 de octubre', t: 'Columbus Day en EE. UU.', x: 'ICE Futures US (café y cacao) abre. En CME hay mercados abiertos pero los bancos cierran y no hay liquidación intradía, así que habrá menos liquidez. En España es Fiesta Nacional y en Brasil es festivo nacional (Nuestra Señora Aparecida), algo que importa para el café. Confirma el horario con tu bróker.' },
@@ -2108,6 +2249,15 @@ var HOL = [
   { d: 'Viernes 25 de diciembre', t: 'Navidad', x: 'ICE Futures US cierra.' }
 ];
 var CAL_SRC = [
+  { t: 'Calendario económico de TradingView: capturas del 13 de octubre (semanas del 12 al 18 y del 19 al 25 de octubre)', u: 'https://es.tradingview.com/economic-calendar/' },
+  { t: 'JPMorgan Chase: informe del 3.er trimestre de 2026 (8-K, SEC)', u: 'https://www.sec.gov/Archives/edgar/data/0000019617/000162828026065582/a3q26erfex992supplement.htm' },
+  { t: 'Goldman Sachs: resultados del 3.er trimestre de 2026 (8-K, SEC)', u: 'https://www.sec.gov/Archives/edgar/data/0000886982/000088698226000529/a3q26gsearningsresults.htm' },
+  { t: 'Wells Fargo: resultados del 3.er trimestre de 2026 (8-K, SEC)', u: 'https://www.sec.gov/Archives/edgar/data/0000072971/000007297126000318/wfc3qer10-13x26ex991xrelea.htm' },
+  { t: 'Citigroup: resultados del 3.er trimestre de 2026 (8-K, SEC)', u: 'https://www.sec.gov/Archives/edgar/data/0000831001/000110465926115323/c-ex99d1.htm' },
+  { t: 'Previsión de consenso de JPMorgan, 3T 2026 – Hudson Labs', u: 'https://www.hudson-labs.com/research/jpmorgan-q3-2026-earnings-preview-revenue-guidance-outlook' },
+  { t: 'Previsión de consenso de Goldman Sachs, 3T 2026 – Hudson Labs', u: 'https://www.hudson-labs.com/research/goldman-sachs-q3-2026-earnings-gs-results-preview' },
+  { t: 'Previsión de consenso de Citigroup, 3T 2026 – Hudson Labs', u: 'https://www.hudson-labs.com/research/citigroup-q3-2026-earnings-c-revenue-eps-preview' },
+  { t: 'Waller: más subidas necesarias pero con flexibilidad (8 de octubre) – Kitco', u: 'https://www.kitco.com/news/off-the-wire/2026-10-08/feds-waller-more-hikes-needed-there-flexibility-about-pace' },
   { t: 'BLS: Employment Situation, septiembre de 2026', u: 'https://www.bls.gov/news.release/empsit.nr0.htm' },
   { t: 'Calendario económico de octubre de 2026 (fechas oficiales) – FedRateCalc', u: 'https://fedratecalc.com/us-economic-calendar/october-2026/' },
   { t: 'Calendario económico de 2026, noviembre y diciembre – FedRateCalc', u: 'https://fedratecalc.com/us-economic-calendar/' },
@@ -2117,13 +2267,13 @@ var CAL_SRC = [
   { t: 'Semana del 12 al 16 de octubre: bancos, IPC y PPI – CMC Markets', u: 'https://www.cmcmarkets.com/en-ie/news-and-analysis/the-week-ahead-us-cpi-eurozone-cpi-jpmorgan-earnings' },
   { t: 'Temporada de resultados del 3T de 2026 – Day Trading Toolkit', u: 'https://daytradingtoolkit.com/market-insights/q3-2026-earnings-season-trading-calendar' },
   { t: 'OPEP: comunicado del 4 de octubre de 2026', u: 'https://opec.org/pr-detail/1891616-4-october-2026.html' },
-  { t: 'Semana del 12 al 16 de octubre: bancos centrales, empleo de Australia y PIB del Reino Unido – InvestingLive (calendario semanal)', u: 'https://investinglive.com/news/week-ahead-us-inflation-and-retail-sales-lead-a-busy-economic-calendar-be-aware/' },
   { t: 'Oil Market Report de octubre de 2026 – AIE', u: 'https://www.iea.org/events/oil-market-report-october-2026' },
   { t: 'Calendario de reuniones e informes de la OPEP – Trading Economics', u: 'https://tradingeconomics.com/opec/calendar/1000' },
   { t: 'Qué esperar esta semana en los mercados (10 de octubre de 2026) – Stocktwits', u: 'https://stocktwits.com/news-articles/markets/equity/what-to-expect-markets-this-week-oct-10-2026/cZxdPFCRBF5' },
   { t: 'CME: aviso de compensación del Columbus Day 2026', u: 'https://www.cmegroup.com/tools-information/holiday-calendar/files/2026/2026-columbus-day-clearing-advisory.pdf' },
   { t: 'ICE Futures US: calendario de festivos', u: 'https://status.ice.com/publicdocs/futures/IFUS_Trading_Hours_Holiday_Calendar.pdf' }
 ];
+var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026-10-10": [5960, 5362], "GC-2026-10-10": [4260, 4095.5], "SI-2026-10-10": [62.4, 59.535, 53.285], "NG-2026-10-11": [3.535, 3.305, 3.127], "ES-2026-10-11": [7901.75, 7734.75], "NQ-2026-10-11": [31291.5, 30818.75, 30190, 30078], "GC-2026-10-12": [4196.7, 4193, 4176], "NQ-2026-10-12": [31200, 31140, 31060, 31000, 30905], "ES-2026-10-12": [7879, 7862, 7856, 7848], "GC-2026-10-13": [4234, 4225.5, 4213, 4205.5, 4198, 4174], "ES-2026-10-13": [7901.75, 7887, 7879, 7850, 7836], "NQ-2026-10-13": [30870, 30818.75, 30700, 30605]};
 
   var state = { mode: 'swing', asset: null, date: null, home: true, page: null };
   function pickMode(m) {
@@ -2138,7 +2288,8 @@ var CAL_SRC = [
   try {
     var h = (location.hash || '').replace('#', '');
     state.home = !h || h === 'inicio';
-    if (h === 'indicador' || h === 'calendario' || h === 'operativas') { state.page = h; state.home = false; }
+    if (h === 'indicador') h = 'herramientas';
+    if (h === 'herramientas' || h === 'calendario' || h === 'operativas') { state.page = h; state.home = false; }
     if (h === 'intra' || h === 'swing') {
       pickMode(h);
     } else if (h) {
@@ -2205,14 +2356,14 @@ var CAL_SRC = [
       html += '<div class="band" style="top:' + top(b.hi) + '%;height:' + (top(b.lo) - top(b.hi)) + '%"><span>' + esc(b.label) + '</span></div>';
     });
     lv.forEach(function (l) {
-      html += '<div class="lv ' + esc(l.cls) + '" style="top:' + top(l.p) + '%"><span class="p">' + (l.lbl || fmt(l.p)) + '</span><span class="ln"></span><span class="t">' + esc(l.t) + '</span></div>';
+      html += '<div class="lv ' + esc(l.cls) + '" style="top:' + top(l.p) + '%"><span class="p">' + (l.lbl || fmt(l.p)) + '</span><span class="ln"></span><span class="t">' + (isKey(e, l.p) ? '🚨 ' : '') + esc(l.t) + '</span></div>';
     });
     return html + '</div>';
   }
 
   function rows(list) {
     return '<div class="rows">' + list.map(function (r) {
-      return '<div class="row"><span class="k">' + esc(r.k) + '</span><p>' + esc(r.text) + '</p></div>';
+      return '<div class="row"><span class="k">' + esc(r.k === 'Conflicto' ? '👊 Conflicto' : r.k) + '</span><p>' + esc(r.text) + '</p></div>';
     }).join('') + '</div>';
   }
   function sec(id, title, body) {
@@ -2269,7 +2420,7 @@ var CAL_SRC = [
       var t = '<div class="levels">' + ladder(e);
       if (e.table && e.table.length) {
         t += '<div class="tablewrap"><table><thead><tr><th>Nivel</th><th>Tipo</th><th>Comentario</th></tr></thead><tbody>' +
-          e.table.map(function (r) { return '<tr><td class="lvl">' + esc(r[0]) + '</td><td class="typ">' + esc(r[1]) + '</td><td class="cm">' + esc(r[2]) + '</td></tr>'; }).join('') +
+          e.table.map(function (r) { return '<tr><td class="lvl">' + (rowKey(e, r[0]) ? '🚨 ' : '') + esc(r[0]) + '</td><td class="typ">' + esc(r[1]) + '</td><td class="cm">' + esc(r[2]) + '</td></tr>'; }).join('') +
           '</tbody></table></div>';
       }
       out += sec('niv', 'Niveles clave', t + '</div>');
@@ -2281,11 +2432,7 @@ var CAL_SRC = [
       }).join('') + '</div>');
     }
 
-    if (e.plan && e.plan.length) {
-      out += sec('plan', 'Qué haría', '<div class="plan">' + e.plan.map(function (p) {
-        return '<div class="pl' + (p.wide ? ' wide' : '') + '"><span class="k">' + esc(p.k) + '</span><p>' + esc(p.text) + '</p></div>';
-      }).join('') + '</div>');
-    }
+    if (e.plan && e.plan.length) out += sec('plan', 'Qué haría', planHtml(e));
 
     if (e.tecnica && e.tecnica.length) out += sec('tec', 'Lectura técnica con el indicador', rows(e.tecnica));
 
@@ -2295,7 +2442,7 @@ var CAL_SRC = [
         t.rows.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') +
         '</tbody></table></div>';
       if (t.note) h += '<p class="note">' + esc(t.note) + '</p>';
-      out += sec('tb' + i, t.title, h);
+      out += sec('tb' + i, (t.title === 'Contexto y calendario' ? '📅 ' : '') + t.title, h);
     });
 
     if ((e.noticias && e.noticias.length) || e.extra) {
@@ -2309,7 +2456,7 @@ var CAL_SRC = [
       out += sec('not', 'Lo que dicen las noticias', n);
     }
 
-    if (e.vigilar && e.vigilar.length) out += sec('vig', 'Qué vigilar', rows(e.vigilar));
+    if (e.vigilar && e.vigilar.length) out += sec('vig', '👀 Qué vigilar', rows(e.vigilar));
 
     if (e.sources && e.sources.length) {
       out += sec('src', 'Fuentes', '<ul class="src">' + e.sources.map(function (s) {
@@ -2320,93 +2467,416 @@ var CAL_SRC = [
     document.getElementById('entry').innerHTML = out;
   }
 
-  function renderCalendar() {
-    var today = new Date(); var iso = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-    var DAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-    var MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-    function dlabel(d) { var p = d.split('-'); var dt = new Date(+p[0], +p[1] - 1, +p[2]); return DAYS[dt.getDay()] + ' ' + p[2].replace(/^0/, '') + ' ' + MONTHS[+p[1] - 1]; }
-    function card(e) {
-      var done = !!e.act;
-      var thumb = e.res === 'up' ? '<div class="res" title="Mejor de lo esperado">👍<small>Mejor de lo esperado</small></div>' : e.res === 'down' ? '<div class="res" title="Peor de lo esperado">👎<small>Peor de lo esperado</small></div>' : e.tag ? '<div class="res"><small>' + esc(e.tag) + '</small></div>' : done ? '' : '<div class="res"><small>Pendiente</small></div>';
-      var nums = '';
-      if (e.prev) nums += '<div><span>Anterior</span>' + esc(e.prev) + '</div>';
-      if (e.fc) nums += '<div><span>Previsión</span>' + esc(e.fc) + '</div>';
-      if (e.act) nums += '<div><span>Resultado</span><b>' + esc(e.act) + '</b></div>';
-      return '<div class="evt' + (done ? ' done ' + (e.res || '') : '') + '"><div class="when"><b>' + esc(dlabel(e.d)) + '</b>' + esc(e.h) + (e.h !== '—' ? ' h' : '') + '</div>'
-        + '<div><h3>' + esc(e.ev) + '</h3>' + (e.a && e.a.length ? '<div class="tags">' + e.a.map(function (x) { return '<span class="tg">' + esc(x) + '</span>'; }).join('') + '</div>' : '')
-        + (nums ? '<div class="nums">' + nums + '</div>' : '') + (e.n ? '<p class="nn">' + esc(e.n) + '</p>' : '') + '</div>' + thumb + '</div>';
+  /* ---------- Plan: largos a la izquierda, cortos a la derecha, análisis reciente y secuencia ---------- */
+  var NUMRE = /\d{1,3}(?:\.\d{3})+(?:,\d+)?(?:‑\d{1,3}(?:\.\d{3})+(?:,\d+)?)?/g;
+  var SEQ = {
+    'WTI-2026-10-10': ['📈⚡ 93,51', '📈↩️ 89 · 88 · 86,86', '📉⚡ 86,86 → 🎯 86,14 · 80'],
+    'KC-2026-10-10': ['📈↩️ 286,5‑284 → 🛑 282,5', '📉⚡ 283 → 🎯 278,5‑275 · 270'],
+    'CC-2026-10-10': ['📈↩️ 5.450‑5.360 → 🛑 5.362', '📈⚡ 5.960', '📉⚡ 5.362 → 🎯 5.051 · 4.918'],
+    'GC-2026-10-10': ['📈⚡ 4.260 → 🛑 4.190 → 🎯 4.376,8 · 4.540‑4.593', '📉🎯 4.265‑4.250', '📉⚡ 4.095,5 → 🎯 4.095 · 3.962 · 3.900'],
+    'SI-2026-10-10': ['📈⚡ 62,4‑62,5 → 🛑 60,4 → 🎯 64,0 · 64,96', '📉🎯 62,4‑64,96', '📉⚡ 59,535 → 🎯 56,245 · 53,285'],
+    'NG-2026-10-11': ['📈↩️ 3,127‑3,08 → 🛑 3,03 → 🎯 3,305 · 3,535', '📈⚡ 3,305 → 🎯 3,535‑3,7', '📉🎯 3,305', '📉⚡ 3,03 → 🎯 3,127 · 2,922'],
+    'ES-2026-10-11': ['📈↩️ 7.734,75‑7.638,50 → 🛑 7.542', '📈⚡ 7.901,75', '📉⚡ 7.542,25 → 🎯 7.425 · 7.333 · 7.233'],
+    'NQ-2026-10-11': ['📉⚡ 31.097,25 · 30.818,75 → 🎯 30.401,25 · 30.190‑30.078', '📈↩️ 30.190‑30.078 → 🛑 29.768,75', '📈⚡ 31.291,50']
+  };
+  function setupInfo(k) {
+    var lg = /^Largo/i.test(k), sh = /^Corto/i.test(k);
+    if (!lg && !sh) return null;
+    var t = /retesteo/i.test(k) ? '🎯' : /ruptura/i.test(k) ? '⚡' : /pullback|rebote|retroceso/i.test(k) ? '↩️' : '';
+    return { long: lg, icon: (lg ? '📈' : '📉') + t };
+  }
+  function seqOf(text) {
+    var entry = (text.match(NUMRE) || [])[0];
+    var st = text.match(/Stop (?:sobre|bajo|en) (\d{1,3}(?:\.\d{3})+(?:,\d+)?)/);
+    var om = text.match(/(?:Objetivos?|Siguiente|objetivo corto a)\s(.*?)(?:\.\s+[A-ZÁÉÍÓÚ¿]|\.$|[;:])/);
+    var tg = om ? (om[1].match(NUMRE) || []) : [];
+    var parts = [];
+    if (entry) parts.push(entry);
+    if (st) parts.push('🛑 ' + st[1]);
+    if (tg.length) parts.push('🎯 ' + tg.join(' · '));
+    return parts.join(' → ');
+  }
+  function planHtml(e) {
+    var key = e.asset + '-' + e.date, rec = [], L = [], S = [], oth = [];
+    (e.plan || []).forEach(function (p) {
+      var si = setupInfo(p.k);
+      if (/^Ahora/.test(p.k) || p.k === 'Cuándo' || (p.wide && !si)) rec.push(p);
+      else if (!si) oth.push(p);
+      else (si.long ? L : S).push({ p: p, si: si });
+    });
+    var h = '<p class="note">📈 largo · 📉 corto · ↩️ pullback · 🎯 retesteo · ⚡ ruptura · 🚨 nivel importante · 🛑 stop · 🎯 objetivos</p>';
+    if (rec.length) {
+      var tm = (rec[0].k.match(/\((.*?)\)/) || [])[1];
+      var seq = SEQ[key] || L.concat(S).map(function (x) { var q = seqOf(x.p.text); return q ? x.si.icon + ' ' + q : ''; }).filter(Boolean);
+      h += '<div class="recent"><div class="rh">🕒 Análisis reciente' + (tm ? ' · ' + esc(tm) : '') + '</div>' + rec.map(function (p) { return '<p>' + esc(p.text) + '</p>'; }).join('') +
+        (seq.length ? '<div class="seq"><span class="sh">Secuencia</span>' + seq.map(function (s) { return '<div>' + esc(s) + '</div>'; }).join('') + '</div>' : '') + '</div>';
     }
-    function cmp(a, b) { return a.d + a.h < b.d + b.h ? -1 : 1; }
-    var next = CAL.filter(function (e) { return !e.act; }).sort(cmp);
-    var past = CAL.filter(function (e) { return !!e.act; }).sort(cmp).reverse();
-    var html = '<section><h2>Cómo leerlo</h2><p class="legend">Las horas son de Madrid. 👍 significa que el dato salió mejor de lo esperado para la economía (en inflación, más baja de lo previsto) y 👎 que salió peor. Que eso sea bueno o malo para cada activo está en el comentario de cada dato y es una hipótesis. Las etiquetas indican a qué activos afecta: WTI, NG (gas), GC (oro), SI (plata), ES (S&P 500) y NQ (Nasdaq 100). Cuando un dato se publica le añado el resultado y su pulgar.</p></section>';
-    html += '<section><h2>Próximos datos</h2><div class="evlist">' + next.map(card).join('') + '</div></section>';
-    html += '<details class="fold"><summary><span>Ya publicados</span><em>' + past.length + '</em></summary><div class="evlist">' + past.map(card).join('') + '</div></details>';
+    function col(list, cls, title) {
+      return '<div class="lscol ' + cls + '"><div class="lsh">' + title + '</div>' + (list.length ? list.map(function (x) {
+        return '<div class="pl"><span class="k">' + x.si.icon + ' ' + esc(x.p.k) + '</span><p>' + esc(x.p.text) + '</p></div>';
+      }).join('') : '<div class="pl none"><p>Sin planteamiento de este lado.</p></div>') + '</div>';
+    }
+    h += '<div class="lsgrid">' + col(L, 'long', '📈 Largos') + col(S, 'short', '📉 Cortos') + '</div>';
+    if (oth.length) h += '<div class="plan">' + oth.map(function (p) { return '<div class="pl wide"><span class="k">' + esc(p.k) + '</span><p>' + esc(p.text) + '</p></div>'; }).join('') + '</div>';
+    return h;
+  }
+  function isKey(e, p) {
+    var ks = KEYLV[e.asset + '-' + e.date] || [];
+    for (var i = 0; i < ks.length; i++) if (Math.abs(ks[i] - p) <= Math.max(0.0004 * p, 0.01)) return true;
+    return false;
+  }
+  function rowKey(e, txt) {
+    var ns = (String(txt).match(/\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?/g) || []).map(function (m) { return parseFloat(/\.\d{3}/.test(m) ? m.replace(/\./g, '').replace(',', '.') : m.replace(',', '.')); }).filter(function (n) { return !isNaN(n); });
+    if (!ns.length) return false;
+    var lo = Math.min.apply(null, ns), hi = Math.max.apply(null, ns);
+    return (KEYLV[e.asset + '-' + e.date] || []).some(function (p) { var t = Math.max(0.0004 * p, 0.01); return p >= lo - t && p <= hi + t; });
+  }
+
+  /* ---------- Calendario estilo TradingView ---------- */
+  var ALBL = { ES: 'S&P 500', NQ: 'Nasdaq', GC: 'Oro', SI: 'Plata', WTI: 'Petróleo', NG: 'Gas natural', KC: 'Café', CC: 'Cacao' };
+  /* IMP[tipo] = [favorecidos si el dato sale mejor de lo previsto, perjudicados si sale mejor]. Si sale peor, se invierte. Son hipótesis. */
+  var IMP = {
+    infl: [['ES', 'NQ', 'GC', 'SI'], []],
+    jobs: [['ES', 'NQ', 'WTI'], ['GC', 'SI']],
+    growth: [['ES', 'NQ', 'WTI'], ['GC', 'SI']],
+    housing: [['ES', 'NQ'], ['GC']],
+    sent: [['ES', 'NQ'], []],
+    crude: [['WTI'], []],
+    gas: [['NG'], []]
+  };
+  var KIND_X = {
+    infl: 'Mide cuánto suben los precios. La Fed ajusta los tipos según la inflación: una cifra más alta de lo previsto suele subir rendimientos y dólar y pesa sobre bolsa y metales.',
+    jobs: 'Mide el mercado laboral (nóminas, paro, peticiones de subsidio). Un empleo fuerte apoya la economía, pero con la Fed subiendo tipos puede significar más subidas.',
+    growth: 'Mide la actividad económica (consumo, producción, encuestas). Una cifra mejor de lo previsto indica economía fuerte; con una Fed subiendo tipos también puede traer más subidas.',
+    housing: 'Mide el mercado de la vivienda (ventas, permisos, inicios). Es muy sensible a los tipos de interés y adelanta el ciclo económico.',
+    sent: 'Encuesta de confianza empresarial. Adelanta contratación e inversión.',
+    crude: 'Informe semanal de la EIA con la variación de inventarios de crudo, gasolina y destilados de EE. UU. Un recorte mayor del previsto es alcista para el precio; una subida, bajista.',
+    gas: 'Informe semanal de la EIA con la inyección o extracción de gas en los almacenamientos de EE. UU. Una inyección menor de la prevista es alcista; mayor, bajista.',
+    fed: 'Intervención o publicación de la Fed. No trae una cifra, pero el tono (más duro o más suave) mueve tipos, dólar, bolsa y metales.',
+    cb: 'Intervención de un banco central distinto de la Fed. Mueve su divisa y, por contagio, rendimientos y dólar.',
+    auction: 'Subasta de deuda del Tesoro de EE. UU. El rendimiento adjudicado y la demanda indican el apetito por bonos y mueven los tipos.',
+    oilrep: 'Informe o reunión sobre oferta y demanda de petróleo. Las revisiones de demanda o producción mueven el precio del crudo.',
+    hol: 'Festivo o cambio de horario: menos liquidez y horarios de mercado distintos.',
+    corp: 'Resultados trimestrales de una empresa: beneficio por acción (BPA) e ingresos frente a lo que esperaba el mercado.'
+  };
+  var CALST = { tab: 'eco', min: 1, week: null, pick: false, pm: null, open: {} };
+  var MES3 = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  var DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  function pad(n) { return ('0' + n).slice(-2); }
+  function toIso(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function parseIso(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2], 12); }
+  function addDays(s, n) { var d = parseIso(s); d.setDate(d.getDate() + n); return toIso(d); }
+  function monday(s) { var d = parseIso(s); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return toIso(d); }
+  function madridNow() {
+    try { return new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Madrid' }).slice(0, 16).replace(' ', 'T'); }
+    catch (e) { var d = new Date(); return toIso(d) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+  }
+  function isPast(e) {
+    var n = madridNow(), nd = n.slice(0, 10);
+    if (e.d < nd) return true;
+    if (e.d > nd || e.h === '—') return false;
+    return e.h <= n.slice(11);
+  }
+  function nl(t) { return esc(t).replace(/\n/g, '<br>'); }
+  function starsHtml(n) { var s = ''; for (var i = 1; i <= 3; i++) s += '<i class="' + (i <= n ? 'on' : '') + '">★</i>'; return '<span class="stars" title="Importancia ' + n + ' de 3">' + s + '</span>'; }
+  function impactHtml(e) {
+    var imp = IMP[e.k]; if (!imp) return '';
+    var A = e.a || [];
+    function names(l) { return l.filter(function (x) { return A.indexOf(x) >= 0; }).map(function (x) { return ALBL[x]; }); }
+    function line(b, h) { var t = ''; if (b.length) t += '<span class="ben">Favorece: ' + b.join(', ') + '</span>'; if (h.length) t += '<span class="hurt">Perjudica: ' + h.join(', ') + '</span>'; return t; }
+    if (e.res) {
+      var good = e.res === 'up';
+      var l = line(names(good ? imp[0] : imp[1]), names(good ? imp[1] : imp[0]));
+      return l ? '<div class="ei"><span class="ih">Con este dato</span>' + l + '</div>' : '';
+    }
+    if (e.act) return '';
+    var b1 = names(imp[0]), h1 = names(imp[1]), l1 = line(b1, h1), l2 = line(h1, b1);
+    if (!l1 && !l2) return '';
+    return '<div class="ei"><span class="ih">Si sale mejor</span>' + l1 + '</div><div class="ei"><span class="ih">Si sale peor</span>' + l2 + '</div>';
+  }
+  function exHtml(e, kind) {
+    var x = e.x || KIND_X[kind] || '', h = '';
+    if (x) h += '<p><b>Qué es</b> ' + esc(x) + '</p>';
+    if (e.n) h += '<p><b>Lectura</b> ' + esc(e.n) + '</p>';
+    if (e.a && e.a.length) h += '<p><b>Afecta a</b> ' + e.a.map(function (n) { return ALBL[n] || n; }).join(', ') + '</p>';
+    return '<div class="ex">' + h + '</div>';
+  }
+  function evRow(e) {
+    return '<div class="er' + (isPast(e) ? ' past' : '') + (e.res ? ' ' + e.res : '') + '"><div class="et">' + esc(e.h) + '</div><div class="es">' + starsHtml(e.s || 1) + '</div>' +
+      '<div class="en"><button type="button" class="enb" data-evt aria-expanded="false">' + esc(e.ev) + '</button></div>' +
+      '<div class="nv rl' + (e.res ? ' ' + e.res : '') + '" data-l="Real">' + (e.act ? nl(e.act) : '—') + '</div><div class="nv" data-l="Previsión">' + (e.fc ? nl(e.fc) : '—') + '</div><div class="nv" data-l="Anterior">' + (e.prev ? nl(e.prev) : '—') + '</div>' +
+      impactHtml(e) + exHtml(e, e.k) + '</div>';
+  }
+  function earnRow(e) {
+    var rev = (e.revA || e.revF || e.revP) ? '<div class="ei"><span class="ih">Ingresos</span><span>Real ' + esc(e.revA || '—') + '</span><span>Previsión ' + esc(e.revF || '—') + '</span><span>Año anterior ' + esc(e.revP || '—') + '</span></div>' : '';
+    var imp = e.res ? '<div class="ei"><span class="ih">Con este dato</span><span class="' + (e.res === 'up' ? 'ben' : 'hurt') + '">' + (e.res === 'up' ? 'Favorece' : 'Perjudica') + ': S&amp;P 500, Nasdaq</span></div>' : '';
+    var x = { n: e.n, a: ['ES', 'NQ'] };
+    return '<div class="er' + (isPast(e) ? ' past' : '') + (e.res ? ' ' + e.res : '') + '"><div class="et">' + esc(e.h) + '</div><div class="es">' + starsHtml(e.s || 1) + '</div>' +
+      '<div class="en"><button type="button" class="enb" data-evt aria-expanded="false">' + esc(e.co) + ' <small>' + esc(e.tk) + '</small></button></div>' +
+      '<div class="nv rl' + (e.res ? ' ' + e.res : '') + '" data-l="BPA real">' + esc(e.epsA || '—') + '</div><div class="nv" data-l="BPA previsión">' + esc(e.epsF || '—') + '</div><div class="nv" data-l="BPA año anterior">' + esc(e.epsP || '—') + '</div>' +
+      rev + imp + exHtml(x, 'corp') + '</div>';
+  }
+  function pickerHtml() {
+    var pm = CALST.pm, first = new Date(pm.y, pm.m, 1, 12), off = (first.getDay() + 6) % 7, nd = new Date(pm.y, pm.m + 1, 0).getDate();
+    var today = madridNow().slice(0, 10), has = {};
+    CAL.concat(EARN).forEach(function (e) { has[e.d] = 1; });
+    var c = '';
+    ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'].forEach(function (d) { c += '<span class="dh">' + d + '</span>'; });
+    for (var i = 0; i < off; i++) c += '<span></span>';
+    for (var d = 1; d <= nd; d++) {
+      var iso = pm.y + '-' + pad(pm.m + 1) + '-' + pad(d);
+      c += '<button type="button" data-cal="goto:' + iso + '" class="dd' + (monday(iso) === CALST.week ? ' wk' : '') + (iso === today ? ' td' : '') + (has[iso] ? ' hs' : '') + '">' + d + '</button>';
+    }
+    return '<div class="picker"><div class="ph"><button type="button" data-cal="pm:-1" aria-label="Mes anterior">‹</button><b>' + MESES[pm.m] + ' ' + pm.y + '</b><button type="button" data-cal="pm:1" aria-label="Mes siguiente">›</button></div><div class="pg">' + c + '</div></div>';
+  }
+  function dlabelLong(iso) { var d = parseIso(iso); return DIAS[d.getDay()] + ', ' + d.getDate() + ' de ' + MESES[d.getMonth()]; }
+  function renderCalendar() {
+    var today = madridNow().slice(0, 10);
+    if (!CALST.week) CALST.week = monday(today);
+    var days = []; for (var i = 0; i < 7; i++) days.push(addDays(CALST.week, i));
+    var a = parseIso(days[0]), b = parseIso(days[6]);
+    var range = a.getDate() + ' ' + MES3[a.getMonth()] + ' — ' + b.getDate() + ' ' + MES3[b.getMonth()] + ' ' + b.getFullYear();
+    var earn = CALST.tab === 'earn', src = earn ? EARN : CAL;
+    var list = src.filter(function (e) { return days.indexOf(e.d) >= 0 && (e.s || 1) >= CALST.min; }).sort(function (x, y) { return (x.d + (x.h === '—' ? '99:99' : x.h)) < (y.d + (y.h === '—' ? '99:99' : y.h)) ? -1 : 1; });
+    var withEv = days.filter(function (d) { return list.some(function (e) { return e.d === d; }); });
+    var openIso = days.indexOf(today) >= 0 && withEv.indexOf(today) >= 0 ? today : withEv[0];
+    if (CALST.pick && !CALST.pm) CALST.pm = { y: a.getFullYear(), m: a.getMonth() };
+    var html = '<div class="calbar"><button type="button" class="cbtn" data-cal="today">Hoy</button>' +
+      '<span class="pickwrap"><button type="button" class="cbtn ico" data-cal="pick" aria-label="Elegir un día" aria-expanded="' + (CALST.pick ? 'true' : 'false') + '">📅</button>' + (CALST.pick ? pickerHtml() : '') + '</span>' +
+      '<button type="button" class="cbtn" data-cal="prev" aria-label="Semana anterior">‹</button><button type="button" class="cbtn" data-cal="next" aria-label="Semana siguiente">›</button>' +
+      '<h3 class="calrange">' + range + '</h3></div>';
+    html += '<div class="caltabs"><span class="tabs"><button type="button" class="tab" data-cal="tab:eco" aria-pressed="' + (!earn) + '">Económico</button><button type="button" class="tab" data-cal="tab:earn" aria-pressed="' + earn + '">Beneficios</button></span>' +
+      '<span class="tabs minf" aria-label="Importancia mínima">' + [1, 2, 3].map(function (n) { return '<button type="button" class="tab" data-cal="min:' + n + '" aria-pressed="' + (CALST.min === n) + '">' + (n === 1 ? 'Todas' : n === 2 ? '★★+' : '★★★') + '</button>'; }).join('') + '</span></div>';
+    html += '<p class="legend">Horas de Madrid. Importancia de 1 a 3 estrellas. En <b style="color:var(--up)">verde</b> el dato salió mejor de lo previsto (o, en inflación, más bajo) y en <b style="color:var(--down)">rojo</b> peor. «Favorece» y «Perjudica» indican qué activos podrían ganar o perder con ese resultado: es una hipótesis, no una señal. Pulsa el nombre de un dato para ver qué es y cómo se lee.</p>';
+    if (!withEv.length) {
+      html += '<div class="empty"><h2>Sin datos cargados</h2><p>No tengo ' + (earn ? 'resultados de empresas' : 'datos económicos') + ' para esta semana con esta importancia. Cambia de semana con las flechas o pasa al calendario para saltar a otro día.</p></div>';
+    }
+    withEv.forEach(function (d) {
+      var evs = list.filter(function (e) { return e.d === d; });
+      var open = (d in CALST.open) ? CALST.open[d] : d === openIso;
+      html += '<details class="fold day" data-day="' + d + '"' + (open ? ' open' : '') + '><summary><span>' + esc(dlabelLong(d)) + (d === today ? ' · hoy' : '') + '</span><em>' + evs.length + '</em></summary><div class="elist">' +
+        '<div class="eh"><span>Hora</span><span>Imp.</span><span>' + (earn ? 'Empresa' : 'Evento') + '</span><span>' + (earn ? 'BPA real' : 'Real') + '</span><span>Previsión</span><span>Anterior</span></div>' +
+        evs.map(earn ? earnRow : evRow).join('') + '</div></details>';
+    });
     html += '<details class="fold"><summary><span>Festivos y horarios</span><em>' + HOL.length + '</em></summary><div class="hol">' + HOL.map(function (h) { return '<div><b>' + esc(h.d) + ' · ' + esc(h.t) + '</b>' + esc(h.x) + '</div>'; }).join('') + '</div></details>';
     html += '<details class="fold"><summary><span>Fuentes</span><em>' + CAL_SRC.length + '</em></summary><ul class="src">' + CAL_SRC.map(function (x) { return '<li><a href="' + esc(x.u) + '" target="_blank" rel="noopener">' + esc(x.t) + '</a></li>'; }).join('') + '</ul></details>';
     return html;
   }
+  function calAct(a) {
+    var today = madridNow().slice(0, 10), p = a.split(':'), k = p[0], v = p.slice(1).join(':');
+    if (k === 'today') { CALST.week = monday(today); CALST.pick = false; CALST.open = {}; }
+    else if (k === 'prev') { CALST.week = addDays(CALST.week || monday(today), -7); CALST.open = {}; }
+    else if (k === 'next') { CALST.week = addDays(CALST.week || monday(today), 7); CALST.open = {}; }
+    else if (k === 'pick') { CALST.pick = !CALST.pick; var w = parseIso(CALST.week || monday(today)); CALST.pm = { y: w.getFullYear(), m: w.getMonth() }; }
+    else if (k === 'pm') { var m = CALST.pm.m + (+v), y = CALST.pm.y; if (m < 0) { m = 11; y--; } if (m > 11) { m = 0; y++; } CALST.pm = { y: y, m: m }; }
+    else if (k === 'goto') { CALST.week = monday(v); CALST.open = {}; for (var j = 0; j < 7; j++) CALST.open[addDays(CALST.week, j)] = false; CALST.open[v] = true; CALST.pick = false; }
+    else if (k === 'tab') { CALST.tab = v; CALST.open = {}; }
+    else if (k === 'min') { CALST.min = +v; CALST.open = {}; }
+    renderInfo();
+  }
 
-
+  /* ---------- Operativas ---------- */
   var TRADES = [
-    { asset: 'NQ', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', match: 'Exacta',
+    { asset: 'NQ', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', out: 'win', match: 'Exacta',
       plan: 'Cierre M15 bajo 31.060 con volumen vendedor y retesteo por abajo. Objetivos 31.000, 30.905 y 30.818,75.',
       goals: [['31.000', 'hit'], ['30.905', 'hit'], ['30.818,75', 'hit']],
       pasa: 'El NQ perdió 31.060 a mediodía y siguió cayendo: 31.000 hacia las 16:00, 30.905 sobre las 16:30‑17:00 y 30.818,75 hacia la 01:00 del martes 13. El mínimo, ≈30.605 a las 05:00.',
       res: 'Ganadora. Desde 31.060 hasta el tercer objetivo, ≈240 puntos; hasta el mínimo de hoy, ≈455.' },
-    { asset: 'NQ', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de retesteo', match: 'Aproximada',
+    { asset: 'NQ', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de retesteo', out: 'win', match: 'Aproximada',
       plan: 'Rebote a 31.097‑31.140 rechazado con vela de fuerza bajista y volumen vendedor. Stop sobre 31.200. Objetivos 31.040‑31.000, 30.905 y 30.818,75.',
       goals: [['31.000', 'hit'], ['30.905', 'hit'], ['30.818,75', 'hit']],
       pasa: 'El rebote de la apertura de EE. UU. llegó a ≈31.075, unos 22 puntos por debajo de la zona, con marca OUT de M15 hacia las 15:30‑16:00, y se giró. El stop (31.200) no se tocó.',
       res: 'Ganadora aproximada: el retesteo no llegó a entrar en la zona, pero el movimiento fue el previsto. Desde ≈31.075 hasta el tercer objetivo, ≈255 puntos.' },
-    { asset: 'GC', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', match: 'Aproximada',
+    { asset: 'GC', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', out: 'win', match: 'Aproximada',
       plan: 'Cierre M5 y M15 bajo 4.196,7 con retesteo por abajo y volumen. Objetivos 4.193 y 4.176.',
       goals: [['4.193', 'hit'], ['4.176', 'near']],
       pasa: 'El oro perdió 4.196,7 y bajó a ≈4.178 hacia las 14:30‑15:00 del lunes. El segundo objetivo se tocó con el mínimo de la madrugada del martes (≈4.174).',
       res: 'Ganadora aproximada. Desde 4.196,7 hasta 4.176, ≈21 puntos. El análisis no definía stop en este escenario.' },
-    { asset: 'ES', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', match: 'Parcial',
+    { asset: 'ES', date: '2026-10-12', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', out: 'win', match: 'Parcial',
       plan: 'Cierre M15 bajo 7.855 con volumen y retesteo por abajo. Objetivos 7.849‑7.841 y 7.828‑7.815.',
       goals: [['7.849‑7.841', 'hit'], ['7.828‑7.815', 'miss']],
-      pasa: 'El ES perdió 7.855 entre la tarde y la noche del lunes y bajó a ≈7.836 hacia las 04:30‑05:00 del martes. No llegó a 7.828. Ya ha vuelto a 7.859.',
-      res: 'Ganadora parcial: solo el primer objetivo. Desde 7.855 hasta 7.841, ≈14 puntos. El análisis no definía stop en este escenario.' }
+      pasa: 'El ES perdió 7.855 entre la tarde y la noche del lunes y bajó a ≈7.836 hacia las 04:30‑05:00 del martes. No llegó a 7.828.',
+      res: 'Ganadora parcial: solo el primer objetivo. Desde 7.855 hasta 7.841, ≈14 puntos. El análisis no definía stop en este escenario.' },
+    { asset: 'GC', date: '2026-10-13', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', out: 'win', match: 'Exacta',
+      plan: 'Cierre M15 bajo 4.198 con volumen y retesteo por abajo. Objetivos 4.192‑4.187 y 4.174.',
+      goals: [['4.192‑4.187', 'hit'], ['4.174', 'hit']],
+      pasa: 'Hacia las 15:30, con la apertura de EE. UU., apareció una marca OUT en M15 y el oro perdió 4.198. Bajó a ≈4.190 hacia las 16:30 y marcó ≈4.173 en las velas de las 19:00‑19:30.',
+      res: 'Ganadora. De 4.198 a 4.174, ≈24 puntos. El análisis no definía stop en este escenario.' },
+    { asset: 'ES', date: '2026-10-13', mode: 'intra', dir: 'Largo', setup: 'Largo de pullback', out: 'win', match: 'Parcial',
+      plan: 'Rechazo en 7.852‑7.846 con vela de inicio o confirmación alcista en M5 y volumen comprador. Stop bajo 7.834. Objetivos 7.862 y 7.873‑7.879.',
+      goals: [['7.862', 'hit'], ['7.873‑7.879', 'miss']],
+      pasa: 'El ES estuvo en la zona (≈7.846‑7.852) entre las 11:00 y las 15:00 y a las 15:15, con la apertura de EE. UU., subió a ≈7.863. No llegó a 7.873. Más tarde cayó a ≈7.835, rozando el nivel del stop (7.834), pero eso fue después de tocar el primer objetivo.',
+      res: 'Ganadora parcial: solo el primer objetivo, ≈14 puntos desde 7.848. A ojo: no puedo confirmar la vela de gatillo en M5.' },
+    { asset: 'ES', date: '2026-10-13', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', out: 'win', match: 'Parcial',
+      plan: 'Cierre M15 bajo 7.845 con volumen y retesteo por abajo. Objetivos 7.836 y 7.828‑7.815.',
+      goals: [['7.836', 'hit'], ['7.828‑7.815', 'miss']],
+      pasa: 'Hacia las 17:10 apareció una marca OUT en M15 y el ES perdió 7.845. Cayó a ≈7.835 sobre las 17:20 y rebotó a 7.848. No llegó a 7.828.',
+      res: 'Ganadora parcial: solo el primer objetivo, ≈10 puntos. El análisis no definía stop en este escenario.' },
+    { asset: 'NQ', date: '2026-10-13', mode: 'intra', dir: 'Corto', setup: 'Corto de retesteo', out: 'win', match: 'Parcial',
+      plan: 'Rebote a 30.800‑30.819 rechazado con vela de fuerza bajista y volumen vendedor. Stop sobre 30.870. Objetivos 30.700, 30.650 y 30.605.',
+      goals: [['30.700', 'hit'], ['30.650', 'miss'], ['30.605', 'miss']],
+      pasa: 'El NQ tocó ≈30.810 hacia las 15:45 y de nuevo ≈30.805 sobre las 18:30, sin pasar de 30.819. El stop (30.870) no se tocó. Bajó a ≈30.695 hacia las 19:30.',
+      res: 'Ganadora parcial: solo el primer objetivo, ≈110 puntos desde 30.805. A la hora de la captura (19:35) seguía abierta.' },
+    { asset: 'NQ', date: '2026-10-13', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura', out: 'loss', match: 'Exacta',
+      plan: 'Cierre M15 bajo 30.690 con volumen y retesteo por abajo. Objetivos 30.605, 30.480 y 30.401,25.',
+      goals: [['30.605', 'miss'], ['30.480', 'miss'], ['30.401,25', 'miss']],
+      pasa: 'Hacia las 15:00 una vela M15 cerró bajo 30.690 (mínimo ≈30.590), pero la siguiente la recuperó de golpe y el precio subió a ≈30.775‑30.810. El retesteo por abajo no se sostuvo: fue una falsa ruptura.',
+      res: 'Fallida. El análisis no definía stop; la invalidación razonable (cierre M15 de nuevo sobre 30.690) se dio a los 15 minutos, sin tocar ningún objetivo.' },
+    { asset: 'NQ', date: '2026-10-13', mode: 'intra', dir: 'Largo', setup: 'Largo de pullback', out: 'loss', match: 'Aproximada',
+      plan: 'Rechazo en 30.725‑30.690 con vela de inicio o confirmación alcista en M5 y volumen comprador. Stop bajo 30.640. Objetivos 30.760 y 30.800.',
+      goals: [['30.760', 'miss'], ['30.800', 'miss']],
+      pasa: 'El precio estuvo en la zona entre las 13:30 y las 14:45 y a las 15:00 cayó a ≈30.590, por debajo del stop (30.640). Después subió a ≈30.775‑30.810, es decir, a los objetivos, pero ya sin la operación.',
+      res: 'Fallida aproximada: stop tocado por ≈50 puntos y el precio fue al objetivo justo después. A ojo: no puedo confirmar la vela de gatillo en M5.' }
+  ];
+  var NOACT = [
+    ['GC', '2026-10-12', 'Largo de rebote (4.197‑4.193)', 'El precio atravesó la zona sin rechazo alcista y siguió cayendo.'],
+    ['GC', '2026-10-12', 'Corto de retesteo (4.209‑4.213)', 'El rebote nunca llegó a la zona.'],
+    ['NQ', '2026-10-12', 'Largo contra tendencia (31.000‑30.900)', 'No hubo rechazo con volumen comprador comprobable y el precio no recuperó 31.097.'],
+    ['ES', '2026-10-12', 'Largo de pullback (7.862‑7.856)', 'Con los gráficos que tengo no puedo comprobar el rechazo en la zona.'],
+    ['ES', '2026-10-12', 'Corto de retesteo (7.873‑7.879)', 'No volvió a esa zona tras el análisis (≈7.868 como máximo).'],
+    ['GC', '2026-10-13', 'Largo de pullback (4.205‑4.198)', 'El precio atravesó la zona de golpe con la caída de las 15:30, sin rechazo alcista.'],
+    ['GC', '2026-10-13', 'Corto de retesteo (4.225‑4.234)', 'No volvió a esa zona tras el análisis (el máximo de 4.225 fue antes).'],
+    ['GC', '2026-10-13', 'Largo de ruptura (sobre 4.225,5)', 'No hubo cierre M15 por encima.'],
+    ['ES', '2026-10-13', 'Corto de retesteo (7.873‑7.879)', 'El máximo posterior fue ≈7.863.'],
+    ['ES', '2026-10-13', 'Largo de ruptura (sobre 7.879)', 'No hubo cierre M15 por encima.'],
+    ['NQ', '2026-10-13', 'Largo de ruptura (sobre 30.818,75)', 'El máximo fue ≈30.810, sin cierre M15 por encima.']
   ];
 
   function renderTrades() {
-    var DAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-    var MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-    function dlabel(d) { var p = d.split('-'); var dt = new Date(+p[0], +p[1] - 1, +p[2]); return DAYS[dt.getDay()] + ' ' + p[2].replace(/^0/, '') + ' de ' + MONTHS[+p[1] - 1]; }
-    var ex = TRADES.filter(function (t) { return t.match === 'Exacta'; }).length;
-    var ap = TRADES.filter(function (t) { return t.match === 'Aproximada'; }).length;
-    var pa = TRADES.filter(function (t) { return t.match === 'Parcial'; }).length;
-    var html = '<section><h2>Qué es esta página</h2><p class="legend">Aquí van las operativas de mis análisis que se han cumplido sobre el gráfico y habrían sido ganadoras, aunque el precio no clavara los niveles: las marco como exactas, aproximadas o parciales. Son resultados teóricos medidos sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «cumplida» significa que el precio hizo el recorrido previsto, no que se confirmaran todas las condiciones. Los niveles de la captura los leo a ojo.</p>'
-      + '<div class="sumrow"><div><b>' + TRADES.length + '</b><span>cumplidas y ganadoras</span></div><div><b>' + ex + '</b><span>exactas</span></div><div><b>' + ap + '</b><span>aproximadas</span></div><div><b>' + pa + '</b><span>parciales</span></div></div></section>';
-    html += '<section><h2>Cumplidas</h2>';
-    TRADES.slice().sort(function (a, b) { var o = { Exacta: 0, Aproximada: 1, Parcial: 2 }; return a.date !== b.date ? (a.date < b.date ? 1 : -1) : o[a.match] - o[b.match]; }).forEach(function (t) {
-      var tag = t.match === 'Exacta' ? 'win' : t.match === 'Aproximada' ? 'ap' : '';
+    function dlabel(d) { var p = d.split('-'), dt = new Date(+p[0], +p[1] - 1, +p[2]); return DIAS[dt.getDay()] + ' ' + p[2].replace(/^0/, '') + ' de ' + MESES[+p[1] - 1]; }
+    function pc(n, t) { return t ? Math.round(100 * n / t) : 0; }
+    var W = TRADES.filter(function (t) { return t.out === 'win'; }), F = TRADES.filter(function (t) { return t.out === 'loss'; }), N = W.length + F.length;
+    function by(list, m) { return list.filter(function (t) { return t.match === m; }).length; }
+    var total = N + NOACT.length;
+    var html = '<section><h2>Resumen</h2><div class="bigstat"><div class="bs win"><b>' + pc(W.length, N) + '%</b><span>aciertos · ' + W.length + ' de ' + N + '</span></div><div class="bs loss"><b>' + pc(F.length, N) + '%</b><span>fallos · ' + F.length + ' de ' + N + '</span></div><div class="bs"><b>' + N + '</b><span>activadas de ' + total + ' planteadas (' + pc(N, total) + '%)</span></div></div>' +
+      '<div class="split"><div class="sp"><h3>Desglose de los aciertos</h3><div class="sumrow"><div><b>' + by(W, 'Exacta') + '</b><span>exactos · ' + pc(by(W, 'Exacta'), W.length) + '%</span></div><div><b>' + by(W, 'Aproximada') + '</b><span>aproximados · ' + pc(by(W, 'Aproximada'), W.length) + '%</span></div><div><b>' + by(W, 'Parcial') + '</b><span>parciales · ' + pc(by(W, 'Parcial'), W.length) + '%</span></div></div></div>' +
+      '<div class="sp"><h3>Desglose de los fallos</h3><div class="sumrow"><div><b>' + by(F, 'Exacta') + '</b><span>exactos · ' + pc(by(F, 'Exacta'), F.length) + '%</span></div><div><b>' + by(F, 'Aproximada') + '</b><span>aproximados · ' + pc(by(F, 'Aproximada'), F.length) + '%</span></div><div><b>' + by(F, 'Parcial') + '</b><span>parciales · ' + pc(by(F, 'Parcial'), F.length) + '%</span></div></div></div></div>' +
+      '<p class="legend">Muestra pequeña (' + N + ' operativas de los días 12 y 13 de octubre): los porcentajes son orientativos. Son resultados teóricos medidos a ojo sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «activada» significa que el precio hizo el recorrido del plan, no que se confirmaran todas las condiciones.</p></section>';
+    function tradeHtml(t) {
+      var tag = t.out === 'win' ? (t.match === 'Exacta' ? 'win' : t.match === 'Aproximada' ? 'ap' : '') : 'dn';
       var goals = t.goals.map(function (g) {
-        var cls = g[1] === 'hit' ? 'hit' : g[1] === 'near' ? 'near' : 'miss';
-        var mark = g[1] === 'hit' ? '✓ ' : g[1] === 'near' ? '≈ ' : '✗ ';
+        var cls = g[1] === 'hit' ? 'hit' : g[1] === 'near' ? 'near' : 'miss', mark = g[1] === 'hit' ? '✓ ' : g[1] === 'near' ? '≈ ' : '✗ ';
         return '<span class="goal ' + cls + '">' + mark + esc(g[0]) + '</span>';
       }).join('');
-      html += '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[t.asset] || t.asset) + '</span><span class="tg2">' + esc(MODES[t.mode] || t.mode) + '</span><span class="tg2 ' + tag + '">' + esc(t.match) + '</span></div>'
-        + '<h3>' + esc(t.setup) + ' · análisis del ' + esc(dlabel(t.date)) + '</h3>'
-        + '<div class="rows"><div class="row"><span class="k">Plan</span><p>' + esc(t.plan) + '</p></div>'
-        + '<div class="row"><span class="k">Qué pasó</span><p>' + esc(t.pasa) + '</p></div>'
-        + '<div class="row"><span class="k">Resultado</span><p>' + esc(t.res) + '</p></div></div>'
-        + '<div class="goals" aria-label="Objetivos">' + goals + '</div>'
-        + '<p class="go"><a data-tr="' + esc(t.asset + '-' + t.date) + '">Ver el análisis completo →</a></p></div>';
-    });
-    html += '</section>';
-    html += '<section><h2>En curso (todavía no cuentan)</h2><div class="trade"><h3>Nasdaq · tu tesis swing hacia 30.078‑30.190</h3><div class="rows"><div class="row"><span class="k">Estado</span><p>Desde la línea verde 31.291,50 el NQ ha bajado hasta ≈30.605, unos 690 puntos. Faltan ≈415 puntos para el techo de tu zona (30.190). Sigue abierta: no la cuento hasta que llegue o se invalide.</p></div></div></div></section>';
-    html += '<section><h2>Cómo lo mido</h2><p class="legend">Cuento una operativa como cumplida si el precio alcanzó al menos el primer objetivo sin tocar el stop (cuando el análisis lo define). «Exacta» es que la entrada y los objetivos coinciden con el plan; «aproximada», que la entrada o algún objetivo se quedó a pocos puntos; «parcial», que solo se cumplió una parte de los objetivos. Voy añadiendo operativas a medida que haya gráficos para comprobarlas. De momento solo he evaluado los análisis intradía del lunes 12 de octubre.</p></section>';
+      return '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[t.asset] || t.asset) + '</span><span class="tg2">' + esc(MODES[t.mode] || t.mode) + '</span><span class="tg2 ' + tag + '">' + (t.out === 'win' ? 'Acierto ' : 'Fallo ') + esc(t.match.toLowerCase()) + '</span></div>' +
+        '<h3>' + esc(t.setup) + ' · análisis del ' + esc(dlabel(t.date)) + '</h3><div class="rows"><div class="row"><span class="k">Plan</span><p>' + esc(t.plan) + '</p></div><div class="row"><span class="k">Qué pasó</span><p>' + esc(t.pasa) + '</p></div><div class="row"><span class="k">Resultado</span><p>' + esc(t.res) + '</p></div></div>' +
+        '<div class="goals" aria-label="Objetivos">' + goals + '</div><p class="go"><a data-tr="' + esc(t.asset + '-' + t.date) + '">Ver el análisis completo →</a></p></div>';
+    }
+    var o = { Exacta: 0, Aproximada: 1, Parcial: 2 };
+    function sorted(l) { return l.slice().sort(function (a, b) { return a.date !== b.date ? (a.date < b.date ? 1 : -1) : o[a.match] - o[b.match]; }); }
+    html += '<details class="fold" open><summary><span>Aciertos</span><em>' + W.length + '</em></summary><div class="elist">' + sorted(W).map(tradeHtml).join('') + '</div></details>';
+    html += '<details class="fold" open><summary><span>Fallos</span><em>' + F.length + '</em></summary><div class="elist">' + sorted(F).map(tradeHtml).join('') + '</div></details>';
+    html += '<details class="fold"><summary><span>No se activaron o no se pueden comprobar (no cuentan en los porcentajes)</span><em>' + NOACT.length + '</em></summary><div class="elist">' +
+      NOACT.map(function (n) { return '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[n[0]] || n[0]) + '</span><span class="tg2">' + esc(dlabel(n[1])) + '</span></div><h3>' + esc(n[2]) + '</h3><p>' + esc(n[3]) + '</p></div>'; }).join('') + '</div></details>';
+    html += '<section><h2>En curso (todavía no cuentan)</h2><div class="trade"><h3>Nasdaq · tu tesis swing hacia 30.078‑30.190</h3><div class="rows"><div class="row"><span class="k">Estado</span><p>Desde la línea verde 31.291,50 el NQ ha bajado hasta ≈30.590, unos 700 puntos. Faltan ≈400 puntos para el techo de tu zona (30.190). Sigue abierta: no la cuento hasta que llegue o se invalide.</p></div></div></div></section>';
+    html += '<section><h2>Cómo lo mido</h2><div class="paras"><p><b>Acierto:</b> el precio alcanzó al menos el primer objetivo sin tocar antes el stop (o la invalidación, cuando el análisis no define stop). <b>Exacto:</b> entrada y objetivos coinciden con el plan. <b>Aproximado:</b> la entrada o algún objetivo se quedó a pocos puntos. <b>Parcial:</b> solo se cumplió una parte de los objetivos.</p><p><b>Fallo:</b> el stop o la invalidación se dieron antes del primer objetivo. <b>Exacto:</b> el plan falló tal como estaba escrito. <b>Aproximado:</b> falló por pocos puntos o el precio fue al objetivo justo después. <b>Parcial:</b> llegó a algún objetivo pero la operación acabó en pérdida.</p><p><b>No se activó:</b> el precio no llegó a la zona o no hubo gatillo comprobable; no cuenta como acierto ni como fallo.</p><p>Solo evalúo las operativas de intradía y scalping (NQ, ES y oro) de los días 12 y 13 de octubre, con los gráficos M15 de las 19:35 del martes 13. Las de swing no se miden aquí.</p></div></section>';
     return html;
+  }
+
+  /* ---------- Herramientas: Indicador y Activos ---------- */
+  var USD = {
+    cme: { t: 'CME Group (CME, CBOT, NYMEX y COMEX)', p: ['Sin suscripción: TradingView muestra estos futuros con 10 minutos de retraso, gratis.', 'Qué comprar: el paquete de datos de CME Group (incluye las cuatro bolsas). La página de cobertura de datos de TradingView lo lista a 9,95 $ al mes en tiempo real.', '¿Hace falta ser profesional? No para operar por cuenta propia: TradingView te pide declararte como no profesional en un formulario. Esa misma página marca CME Globex, CBOT y COMEX por separado como «solo profesional», así que la opción para un no profesional es el paquete conjunto.', 'Confirma el precio y tu clasificación en TradingView (Perfil → Market data) antes de pagar.'] },
+    iceus: { t: 'ICE Futures U.S. (café, cacao, algodón)', p: ['Sin suscripción: 10 minutos de retraso, gratis.', 'Qué comprar: «ICE Futures U.S. Financial & Commodities» (139 $ al mes según la página de cobertura de datos de TradingView). Hay otro paquete, «Canadian Grains», de 44 $, que no es el tuyo.', '¿Hace falta ser profesional? La página no aclara qué tarifa es profesional y cuál no profesional, así que mira la que te sale a ti en Perfil → Market data y declárate como no profesional si operas por tu cuenta.'] },
+    iceeu: { t: 'ICE Futures Europe e ICE Endex (Brent, robusta, gas europeo)', p: ['Sin suscripción: 10 minutos de retraso, gratis.', 'Qué comprar: ICE Futures Europe Commodities (152 $ al mes), ICE Futures Europe Financials (130 $) o ICE Endex (152 $), según el contrato. Importes de la página de cobertura de datos de TradingView.', '¿Hace falta ser profesional? La página no lo aclara: comprueba la tarifa que te sale en Perfil → Market data.'] },
+    b3: { t: 'B3 (Bolsa de Brasil)', p: ['Sin suscripción: 15 minutos de retraso, gratis.', 'Qué comprar: el paquete de datos de B3 (entre 1 $ y 2 $ al mes según la página de cobertura de datos de TradingView, que no explica la diferencia).', 'Confirma la tarifa y la clasificación en Perfil → Market data.'] },
+    xetr: { t: 'Deutsche Börse Xetra (DAX)', p: ['Sin suscripción: 15 minutos de retraso, gratis.', 'Qué comprar: el paquete de datos de Frankfurt/Xetra, 19,95 $ al mes en tiempo real según la página de cobertura de datos de TradingView.', 'Confirma la tarifa y la clasificación en Perfil → Market data.'] }
+  };
+  var USD_ALL = 'Sin la suscripción ves el precio con retraso (10 minutos en CME e ICE, 15 en B3 y Xetra). Para análisis de H4 y diario puede valer; para el gatillo en M15, M5 o M1 no.';
+  var ACT = [
+    ['Índices', [
+      ['Nasdaq 100', [['CME_MINI:NQ1!', 'E-mini Nasdaq 100', 'FUTURO'], ['CME_MINI:MNQ1!', 'Micro E-mini Nasdaq 100', 'FUTURO'], ['CAPITALCOM:NAS100', 'Nasdaq 100 (Capital.com)', 'CFD']]],
+      ['S&P 500', [['CME_MINI:ES1!', 'E-mini S&P 500', 'FUTURO'], ['CME_MINI:MES1!', 'Micro E-mini S&P 500', 'FUTURO'], ['VANTAGE:SP500', 'S&P 500 (Vantage)', 'CFD'], ['SP:SPX', 'Índice S&P 500', 'ÍNDICE']]],
+      ['Dow Jones', [['CBOT_MINI:YM1!', 'E-mini Dow', 'FUTURO'], ['CBOT_MINI:MYM1!', 'Micro E-mini Dow', 'FUTURO'], ['BLACKBULL:US30', 'Dow Jones (BlackBull)', 'CFD']]],
+      ['Russell 2000', [['CME_MINI:RTY1!', 'E-mini Russell 2000', 'FUTURO'], ['CME_MINI:M2K1!', 'Micro E-mini Russell 2000', 'FUTURO']]],
+      ['S&P SmallCap 600', [['CME_MINI:SMC1!', 'E-mini S&P SmallCap 600', 'FUTURO'], ['CME:MSC1!', 'Micro (contrato por confirmar)', 'FUTURO']]],
+      ['Nikkei 225', [['CME:NKD1!', 'Nikkei 225 en dólares', 'FUTURO'], ['SPREADEX:NIKKEI', 'Nikkei (Spreadex)', 'CFD']]],
+      ['DAX', [['XETR:DAX', 'Índice DAX (Xetra)', 'ÍNDICE'], ['FPMARKETS:GER40', 'DAX 40 (FP Markets)', 'CFD']]],
+      ['Euro Stoxx 50', [['SPREADEX:EU50', 'Euro Stoxx 50 (Spreadex)', 'CFD']]],
+      ['IBEX 35', [['TVC:IBEX35', 'Índice IBEX 35', 'ÍNDICE']]],
+      ['CAC 40', [['CFI:CAC40', 'CAC 40 (CFI)', 'CFD']]],
+      ['Italia (FTSE MIB)', [['FTSE:FTSEMIB', 'Índice FTSE MIB', 'ÍNDICE'], ['CMCMARKETS:ITALIAN40', 'Italia 40 (CMC Markets)', 'CFD']]],
+      ['Hang Seng', [['IG:HANGSENG', 'Hang Seng (IG)', 'CFD']]],
+      ['China A50', [['FOREXCOM:CHINA50', 'China 50 (Forex.com)', 'CFD']]],
+      ['Índice dólar (DXY)', [['CAPITALCOM:DXY', 'Índice dólar (Capital.com)', 'CFD']]]
+    ]],
+    ['Energía', [
+      ['Petróleo WTI', [['NYMEX:CL1!', 'Crudo WTI', 'FUTURO'], ['NYMEX_MINI:QM1!', 'E-mini crudo', 'FUTURO'], ['NYMEX:MCL1!', 'Micro crudo WTI', 'FUTURO'], ['ICEEUR:WBS1!', 'WTI en ICE Europe', 'FUTURO'], ['BLACKBULL:WTI', 'WTI (BlackBull)', 'CFD']]],
+      ['Petróleo Brent', [['NYMEX:BZ1!', 'Brent (NYMEX)', 'FUTURO'], ['ICEEUR:BRN1!', 'Brent (ICE Europe)', 'FUTURO'], ['ACTIVTRADES:BRENT', 'Brent (ActivTrades)', 'CFD']]],
+      ['Gas natural', [['NYMEX:NG1!', 'Gas natural', 'FUTURO'], ['NYMEX_MINI:QG1!', 'E-mini gas natural', 'FUTURO'], ['TRADENATION:NATURALGAS', 'Gas natural (Trade Nation)', 'CFD'], ['FX:NGAS', 'Gas natural (FXCM)', 'CFD'], ['FXPRO:XNGUSD', 'Gas natural (FxPro)', 'CFD'], ['ICEENDEX:TFM1!', 'Gas TTF holandés', 'FUTURO'], ['ICEEUR:GWM1!', 'Contrato de gas de ICE Europe (por identificar)', 'FUTURO']]]
+    ]],
+    ['Metales', [
+      ['Oro', [['COMEX:GC1!', 'Oro', 'FUTURO'], ['COMEX_MINI:MGC1!', 'Micro oro', 'FUTURO'], ['COMEX_MINI:QO1!', 'E-mini oro', 'FUTURO'], ['TVC:GOLD', 'Oro al contado (TVC)', 'SPOT']]],
+      ['Plata', [['COMEX:SI1!', 'Plata', 'FUTURO'], ['COMEX_MINI:SIL1!', 'Micro plata', 'FUTURO'], ['TVC:SILVER', 'Plata al contado (TVC)', 'SPOT']]],
+      ['Platino y paladio', [['NYMEX:PL1!', 'Platino', 'FUTURO'], ['NYMEX:PA1!', 'Paladio', 'FUTURO']]],
+      ['Cobre', [['COMEX:HG1!', 'Cobre', 'FUTURO'], ['IG:COPPER', 'Cobre (IG)', 'CFD']]],
+      ['Otros contratos COMEX', [['COMEX:COH1!', 'Contrato COMEX (por identificar)', 'FUTURO'], ['COMEX:COB1!', 'Contrato COMEX (por identificar)', 'FUTURO']]],
+      ['Uranio', [['AMEX:URA', 'ETF de uranio', 'ETF']]]
+    ]],
+    ['Agrícolas', [
+      ['Café', [['ICEUS:KC1!', 'Café arábica (Coffee C)', 'FUTURO'], ['BMFBOVESPA:ICF1!', 'Café arábica en B3', 'FUTURO'], ['ICEEUR:RC1!', 'Café robusta', 'FUTURO'], ['FX:COFFEENYF', 'Café (FXCM)', 'CFD']]],
+      ['Cacao', [['ICEUS:CC1!', 'Cacao', 'FUTURO'], ['PEPPERSTONE:COCOA', 'Cacao (Pepperstone)', 'CFD']]],
+      ['Algodón', [['ICEUS:CT1!', 'Algodón', 'FUTURO']]],
+      ['Granos', [['CBOT:ZC1!', 'Maíz', 'FUTURO'], ['CBOT:ZS1!', 'Soja', 'FUTURO'], ['CBOT:ZL1!', 'Aceite de soja', 'FUTURO'], ['CBOT:ZW1!', 'Trigo', 'FUTURO']]],
+      ['Ganado', [['CME:LE1!', 'Ganado vacuno', 'FUTURO'], ['CME:HE1!', 'Cerdo magro', 'FUTURO']]]
+    ]],
+    ['Divisas', [
+      ['Euro', [['CME:6E1!', 'Euro', 'FUTURO'], ['CME_MINI:M6E1!', 'Micro euro', 'FUTURO'], ['FX:EURUSD', 'EUR/USD', 'SPOT']]],
+      ['Yen', [['CME:6J1!', 'Yen japonés', 'FUTURO'], ['OANDA:USDJPY', 'USD/JPY', 'SPOT']]],
+      ['Libra', [['CME:6B1!', 'Libra esterlina', 'FUTURO'], ['CME_MINI:M6B1!', 'Micro libra', 'FUTURO'], ['FX_IDC:USDGBP', 'USD/GBP', 'SPOT'], ['OANDA:EURGBP', 'EUR/GBP', 'SPOT']]],
+      ['Dólar australiano', [['CME:6A1!', 'Dólar australiano', 'FUTURO'], ['CME_MINI:M6A1!', 'Micro dólar australiano', 'FUTURO']]],
+      ['Dólar canadiense', [['CME:6C1!', 'Dólar canadiense', 'FUTURO'], ['CME_MINI:MCD1!', 'Micro dólar canadiense', 'FUTURO'], ['OANDA:USDCAD', 'USD/CAD', 'SPOT'], ['OANDA:EURCAD', 'EUR/CAD', 'SPOT']]]
+    ]],
+    ['Cripto', [
+      ['Bitcoin', [['CME:BTC1!', 'Bitcoin', 'FUTURO'], ['CME:MBT1!', 'Micro bitcoin', 'FUTURO'], ['BINANCE:BTCUSD', 'BTC/USD (Binance)', 'SPOT']]],
+      ['Ether', [['CME:ETH1!', 'Ether', 'FUTURO'], ['CME:MET1!', 'Micro ether', 'FUTURO'], ['BINANCE:ETHUSD', 'ETH/USD (Binance)', 'SPOT']]],
+      ['Cardano', [['BINANCE:ADAUSD', 'ADA/USD (Binance)', 'SPOT']]]
+    ]],
+    ['Otros', [['SPCX', [['NASDAQ:SPCX', 'ETF SPCX', 'ETF']]]]]
+  ];
+  function usdKey(sym) {
+    var x = sym.split(':')[0];
+    if (/^(CME|CME_MINI|CBOT|CBOT_MINI|NYMEX|NYMEX_MINI|COMEX|COMEX_MINI)$/.test(x)) return 'cme';
+    if (x === 'ICEUS') return 'iceus';
+    if (x === 'ICEEUR' || x === 'ICEENDEX') return 'iceeu';
+    if (x === 'BMFBOVESPA') return 'b3';
+    if (x === 'XETR') return 'xetr';
+    return '';
+  }
+  var TOOLST = { tab: 'ind' };
+  function activosHtml() {
+    var h = '<section><h2>Activos de mi lista</h2><p class="legend">Símbolos de mi lista de TradingView agrupados por activo, con la etiqueta <b>FUTURO</b> o <b>CFD</b> (y SPOT, ÍNDICE o ETF cuando no es ninguno de los dos). El símbolo <span class="usd">$</span> marca los que necesitan una suscripción de datos para verse en tiempo real: púlsalo para ver cuál. Los CFD y los datos de TVC no llevan $ porque son del propio bróker o de TradingView, pero no he comprobado cada uno.</p>' +
+      '<input type="search" id="actq" class="actq" placeholder="Buscar un activo o símbolo (por ejemplo café, WTI, NQ)" aria-label="Buscar activo"></section>';
+    ACT.forEach(function (cat) {
+      h += '<section class="actcat"><h2>' + esc(cat[0]) + '</h2>';
+      cat[1].forEach(function (g) {
+        h += '<div class="actgrp"><h3>' + esc(g[0]) + '</h3><div class="tablewrap"><table class="dt stack"><thead><tr><th>Símbolo</th><th>Contrato</th><th>Tipo</th><th>Datos</th></tr></thead><tbody>' +
+          g[1].map(function (r) {
+            var k = usdKey(r[0]);
+            return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td><span class="ty ' + (r[2] === 'FUTURO' ? 'fu' : r[2] === 'CFD' ? 'cf' : 'ot') + '">' + esc(r[2]) + '</span></td><td>' + (k ? '<button type="button" class="usd" data-usd="' + k + '" aria-label="Qué suscripción de datos necesita">$</button>' : '') + '</td></tr>';
+          }).join('') + '</tbody></table></div></div>';
+      });
+      h += '</section>';
+    });
+    return h;
+  }
+  function renderTools() {
+    var t = TOOLST.tab;
+    return '<div class="toolcards"><button type="button" class="tcard" data-tool="ind" aria-pressed="' + (t === 'ind') + '"><b>Indicador</b><span>VIPERIANDICATOR14: qué hace cada herramienta</span></button><button type="button" class="tcard" data-tool="act" aria-pressed="' + (t === 'act') + '"><b>Activos</b><span>Símbolos de mi lista: futuros y CFD por activo</span></button></div>' +
+      (t === 'ind' ? document.getElementById('tpl-indicador').innerHTML : activosHtml());
+  }
+  function openUsd(k) {
+    var u = USD[k]; if (!u) return;
+    var m = document.getElementById('usdm');
+    m.querySelector('.mb').innerHTML = '<h3>$ ' + esc(u.t) + '</h3>' + u.p.map(function (x) { return '<p>' + esc(x) + '</p>'; }).join('') + '<p class="note">' + esc(USD_ALL) + '</p><p class="note">Fuente: <a href="https://tradingview.com/data-coverage" target="_blank" rel="noopener">cobertura de datos de TradingView</a>. Los precios pueden cambiar.</p>';
+    m.hidden = false;
   }
 
   function renderInfo() {
     var pg = state.page;
-    document.getElementById('infoeyebrow').textContent = pg === 'indicador' ? 'Indicador' : pg === 'operativas' ? 'Operativas' : 'Calendario';
-    document.getElementById('infotitle').textContent = pg === 'indicador' ? 'VIPERIANDICATOR14' : pg === 'operativas' ? 'Operativas realizadas' : 'Datos y festivos';
-    document.getElementById('infobody').innerHTML = pg === 'indicador' ? document.getElementById('tpl-indicador').innerHTML : pg === 'operativas' ? renderTrades() : renderCalendar();
+    document.getElementById('infoeyebrow').textContent = pg === 'herramientas' ? 'Herramientas' : pg === 'operativas' ? 'Operativas' : 'Calendario';
+    document.getElementById('infotitle').textContent = pg === 'herramientas' ? 'Indicador y activos' : pg === 'operativas' ? 'Operativas realizadas' : 'Datos y resultados';
+    document.getElementById('infobody').innerHTML = pg === 'herramientas' ? renderTools() : pg === 'operativas' ? renderTrades() : renderCalendar();
   }
 
   function render() {
@@ -2419,7 +2889,23 @@ var CAL_SRC = [
     try { window.scrollTo(0, 0); } catch (e) {}
   }
 
+  document.addEventListener('toggle', function (ev) { var d = ev.target; if (d && d.classList && d.classList.contains('day')) CALST.open[d.getAttribute('data-day')] = d.open; }, true);
+  document.addEventListener('input', function (ev) {
+    var t = ev.target; if (!t || t.id !== 'actq') return;
+    var q = t.value.toLowerCase().trim();
+    Array.prototype.forEach.call(document.querySelectorAll('.actgrp'), function (g) { g.hidden = !!q && g.textContent.toLowerCase().indexOf(q) < 0; });
+    Array.prototype.forEach.call(document.querySelectorAll('.actcat'), function (c) { c.hidden = !c.querySelector('.actgrp:not([hidden])'); });
+  });
   document.addEventListener('click', function (ev) {
+    var T = ev.target.closest ? ev.target : null;
+    if (T) {
+      var ca = T.closest('[data-cal]'); if (ca) { calAct(ca.getAttribute('data-cal')); return; }
+      var eb = T.closest('[data-evt]'); if (eb) { var rw = eb.closest('.er'), op = rw.classList.toggle('open'); eb.setAttribute('aria-expanded', op ? 'true' : 'false'); return; }
+      var tl = T.closest('[data-tool]'); if (tl) { TOOLST.tab = tl.getAttribute('data-tool'); renderInfo(); return; }
+      var us = T.closest('[data-usd]'); if (us) { openUsd(us.getAttribute('data-usd')); return; }
+      if (T.closest('[data-mclose]') || T.id === 'usdm') { document.getElementById('usdm').hidden = true; return; }
+      if (CALST.pick && state.page === 'calendario' && !T.closest('.pickwrap')) { CALST.pick = false; renderInfo(); }
+    }
     var tr = ev.target.closest ? ev.target.closest('[data-tr]') : null;
     if (tr) {
       var pr = tr.getAttribute('data-tr').split('-'), ta = pr[0], td = pr.slice(1).join('-'), ent = null;
