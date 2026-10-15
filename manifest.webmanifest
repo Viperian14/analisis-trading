@@ -1,0 +1,17 @@
+{
+  "name": "CdB · Cursillo de Bolsillo",
+  "short_name": "CdB",
+  "description": "Análisis de trading con el método VIPERIANDICATOR14: swing, intradía, calendario y operativas.",
+  "lang": "es",
+  "start_url": "./?utm_source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e1620",
+  "theme_color": "#0e1620",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
