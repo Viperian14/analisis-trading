@@ -350,6 +350,8 @@ h2 { color: var(--muted); }
 .stars i.on { color: var(--accent); }
 .enb { font: inherit; font-size: 15px; font-weight: 600; color: var(--fg); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; text-decoration: underline dotted var(--muted); text-underline-offset: 4px; }
 .enb:hover { color: var(--accent); }
+.qi { font: inherit; font-size: 12px; font-weight: 700; width: 22px; height: 22px; line-height: 20px; padding: 0; margin-left: 6px; border-radius: 50%; border: 1px solid var(--accent); background: none; color: var(--accent); cursor: pointer; vertical-align: middle; }
+.qi:hover, .er.open .qi { background: var(--accent); color: #0a0f0c; }
 .enb small { color: var(--muted); font-weight: 500; }
 .nv { font-family: var(--font-num); font-size: 13px; line-height: 1.4; color: var(--fg); }
 .nv.rl { font-weight: 600; }
@@ -3111,10 +3113,10 @@ var CAL = [
   { d: '2026-10-15', h: '02:30', s: 2, k: 'other', ev: 'Empleo de Australia, septiembre', a: [], prev: '+39,5 mil · paro 4,6%', fc: '+20,0 mil · paro 4,6%', act: '−39,3 mil · paro 4,7%', res: 'down', n: 'Hora de España. El empleo cayó (ABS: 39 mil menos) frente a +20 mil previstos y el paro sube al 4,7%. Agosto se revisó a +29,3 mil y 4,7%.' },
   { d: '2026-10-15', h: '06:30', s: 1, k: 'cb', ev: 'Schlegel (SNB) habla', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente. Confirma la hora.' },
   { d: '2026-10-15', h: '08:00', s: 2, k: 'other', ev: 'PIB del Reino Unido, agosto', a: [], prev: '+0,4% m/m', fc: '−0,1% m/m', act: '+0,1% m/m', res: 'up', n: 'Hora de España según la fuente. Bailey habla además a las 09:30. Creció un 0,1% en agosto frente a la caída prevista (titulares de CNBC y Market Business News; no pude abrir el boletín de la ONS para ver julio revisado ni sectores). Antes del dato, Pantheon preveía −0,3% y RSM −0,1% (Press Association, 11 de octubre); junio +0,3% y julio +0,4%.' },
-  { d: '2026-10-15', h: '14:30', s: 3, k: 'infl', ev: 'Precios de producción (PPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m\nSubyacente +0,3% m/m', fc: 'General +0,5% m/m · 5,3% a/a\nSubyacente +0,3% m/m · 4,4% a/a', act: 'General +1,3% m/m · 6,3% a/a\nSubyacente +0,7% m/m · 5,0% a/a', res: 'down', n: 'Muy por encima de lo previsto: general +1,3% frente a +0,5% y subyacente +0,7% frente a +0,3% (Trading Economics y FXStreet). Trading Economics muestra el anterior revisado en +0,5% general y +0,2% subyacente. Tras el dato, el DXY recuperó parte de sus pérdidas (≈102,22 según FXStreet). Un día después de un IPC caliente, refuerza la lectura de inflación alta (hipótesis).' },
+  { d: '2026-10-15', h: '14:30', s: 3, k: 'infl', ev: 'Precios de producción (PPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m · 5,4% a/a\nSubyacente +0,3% m/m · 4,7% a/a', fc: 'General +0,5% m/m · 5,3% a/a\nSubyacente +0,3% m/m · 4,4% a/a', act: 'General +1,3% m/m · 6,3% a/a\nSubyacente +0,7% m/m · 5,0% a/a', res: 'down', n: 'Muy por encima de lo previsto: general +1,3% frente a +0,5% y subyacente +0,7% frente a +0,3% (Trading Economics y FXStreet). Trading Economics muestra el anterior revisado en +0,5% general y +0,2% subyacente. Tras el dato, el DXY recuperó parte de sus pérdidas (≈102,22 según FXStreet). Un día después de un IPC caliente, refuerza la lectura de inflación alta (hipótesis).' },
   { d: '2026-10-15', h: '14:30', s: 3, k: 'growth', ev: 'Ventas minoristas de EE. UU., septiembre', a: ['ES','NQ','GC','SI','WTI'], prev: '+1,2% m/m\nSin autos +1,4%', fc: '+0,3% m/m\nSin autos +0,5%', act: '+0,8% m/m\nSin autos +0,9%\nGrupo de control +0,1%', res: 'up', n: 'El general supera la previsión (+0,8% frente a +0,3%) y sin autos también (+0,9% frente a +0,5%), pero el grupo de control, que entra en el PIB, se queda en +0,1% frente a +0,3% previsto. Lectura mixta: titular fuerte con precios altos, consumo subyacente flojo (hipótesis). Fuente: Trading Economics.' },
   { d: '2026-10-15', h: '14:30', s: 2, k: 'growth', ev: 'Índice manufacturero de la Fed de Filadelfia, octubre', a: ['ES','NQ'], prev: '37,8', fc: '26,5', act: '20,9', res: 'down', n: 'Por debajo de la previsión que anoté (26,5) y del consenso de Trading Economics (28,4). Pedidos nuevos 4,3 (antes 29,2), precios pagados 43,2 (antes 48,6) y empleo 9,1. El Empire State de Nueva York sí subió: 25,5 frente a 7,6 previo y 10,3 previsto.' },
-  { d: '2026-10-15', h: '14:30', s: 2, k: 'jobs', ev: 'Peticiones iniciales de subsidio de desempleo (EE. UU.)', a: ['ES','NQ','GC'], prev: '198 mil (revisado)', fc: '195 mil', act: '199 mil · continuas 1,710 M', n: 'Semana al 10 de octubre. Prácticamente en línea: Trading Economics da un consenso de 200 mil, por lo que sale algo mejor que eso, y algo peor que mi previsión de 195 mil. Continuas 1,710 M frente a 1,714 M previo. Media de 4 semanas 198,5 mil.' },
+  { d: '2026-10-15', h: '14:30', s: 2, k: 'jobs', ev: 'Peticiones iniciales de subsidio de desempleo (EE. UU.)', a: ['ES','NQ','GC'], prev: [{ k: 'i', name: 'Iniciales', v: '198 mil (revisado)' }], fc: [{ k: 'i', name: 'Iniciales', v: '195 mil' }], act: [{ k: 'i', name: 'Iniciales', v: '199 mil' }, { k: 'c', name: 'Continuas', v: '1,710 M' }], n: 'Semana al 10 de octubre. Prácticamente en línea: Trading Economics da un consenso de 200 mil, por lo que sale algo mejor que eso, y algo peor que mi previsión de 195 mil. Continuas 1,710 M frente a 1,714 M previo. Media de 4 semanas 198,5 mil.' },
   { d: '2026-10-15', h: '16:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA (semana al 9 de octubre)', a: ['NG'], prev: '+85 Bcf', fc: '+76 Bcf', act: '+67 Bcf', res: 'up', n: 'Inyección menor de la prevista (+67 Bcf frente a +76 Bcf de Trading Economics), con el total en 3.567 Bcf: 143 Bcf por debajo del año anterior y 45 Bcf por encima de la media de 5 años. Es alcista para el gas natural (hipótesis). Siguiente informe: 22 de octubre.' },
 
   { d: '2026-10-16', h: '04:00', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 06:15', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente.' },
@@ -3181,6 +3183,7 @@ var CAL_SRC = [
   { t: 'Investing.com: resultados récord de Schwab en el tercer trimestre de 2026', u: 'https://www.investing.com/news/transcripts/earnings-call-transcript-charles-schwab-posts-record-q3-2026-results-but-shares-fall-93CH-4952035' },
   { t: 'Trading Economics: calendario de EE. UU. del 15 de octubre de 2026 (PPI, ventas minoristas, Philly Fed, paro)', u: 'https://tradingeconomics.com/united-states/calendar' },
   { t: 'FXStreet: PPI de EE. UU. de septiembre, 6,3% frente a 5,3% esperado', u: 'https://www.fxstreet.com/news/united-states-producer-inflation-jumps-63-in-september-vs-53-expected-202610151237' },
+  { t: 'BLS: PPI de agosto de 2026 (anterior anual: general 5,4 %; sin alimentos, energía y comercio 4,7 %)', u: 'https://www.bls.gov/news.release/archives/ppi_09102026.htm' },
   { t: 'Trading Economics: peticiones iniciales de subsidio de desempleo', u: 'https://tradingeconomics.com/united-states/jobless-claims' },
   { t: 'Investing.com: TSMC supera previsiones del tercer trimestre de 2026 y la acción cae', u: 'https://www.investing.com/news/transcripts/earnings-call-transcript-tsmc-beats-q3-2026-estimates-as-stock-slips-93CH-4950695' },
   { t: 'The Irish News (PA): previsiones del PIB británico de agosto', u: 'https://www.irishnews.com/news/uk/uk-economy-set-to-contract-after-strong-start-to-summer-say-experts-A4FFMDC4JBPATFO6N3Q6LGW3GE/' },
@@ -3526,6 +3529,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     cb: 'Intervención de un banco central distinto de la Fed. Mueve su divisa y, por contagio, rendimientos y dólar.',
     auction: 'Subasta de deuda del Tesoro de EE. UU. El rendimiento adjudicado y la demanda indican el apetito por bonos y mueven los tipos.',
     oilrep: 'Informe o reunión sobre oferta y demanda de petróleo. Las revisiones de demanda o producción mueven el precio del crudo.',
+    other: 'Dato o evento con efecto indirecto en los mercados. Mira la lectura de abajo para ver cómo se relaciona con tus activos.',
     hol: 'Festivo o cambio de horario: menos liquidez y horarios de mercado distintos.',
     corp: 'Resultados trimestrales de una empresa: beneficio por acción (BPA) e ingresos frente a lo que esperaba el mercado.'
   };
@@ -3618,7 +3622,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
   }
   function evRow(e) {
     return '<div class="er' + (isPast(e) ? ' past' : '') + (e.res ? ' ' + e.res : '') + '"><div class="et">' + esc(e.h) + '</div><div class="es">' + starsHtml(e.s || 1) + '</div>' +
-      '<div class="en"><button type="button" class="enb" data-evt aria-expanded="false">' + esc(e.ev) + '</button></div>' +
+      '<div class="en"><button type="button" class="enb" data-evt aria-expanded="false">' + esc(e.ev) + '</button> <button type="button" class="qi" data-evt aria-expanded="false" aria-label="Qué significa este dato" title="Qué significa y a qué afecta">?</button></div>' +
       ntHtml(['Real', 'Previsión', 'Anterior'], [{ vals: e.act }, { vals: e.fc }, { vals: e.prev }], e.res) +
       impactHtml(e) + exHtml(e, e.k) + '</div>';
   }
@@ -3626,7 +3630,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     var imp = e.res ? '<div class="ei"><span class="ih">Con este dato</span><span class="' + (e.res === 'up' ? 'ben' : 'hurt') + '">' + (e.res === 'up' ? 'Favorece' : 'Perjudica') + ': S&amp;P 500, Nasdaq</span></div>' : '';
     var x = { n: e.n, a: ['ES', 'NQ'] };
     return '<div class="er' + (isPast(e) ? ' past' : '') + (e.res ? ' ' + e.res : '') + '"><div class="et">' + esc(e.h) + '</div><div class="es">' + starsHtml(e.s || 1) + '</div>' +
-      '<div class="en"><button type="button" class="enb" data-evt aria-expanded="false">' + esc(e.co) + ' <small>' + esc(e.tk) + '</small></button></div>' +
+      '<div class="en"><button type="button" class="enb" data-evt aria-expanded="false">' + esc(e.co) + ' <small>' + esc(e.tk) + '</small></button> <button type="button" class="qi" data-evt aria-expanded="false" aria-label="Qué significa este dato" title="Qué significa y a qué afecta">?</button></div>' +
       ntHtml(['Real', 'Previsión', 'Año anterior'], [
         { vals: [{ k: 'bpa', name: 'BPA', v: e.epsA }, { k: 'ing', name: 'Ingresos', v: e.revA }].filter(function (r) { return r.v; }) },
         { vals: [{ k: 'bpa', name: 'BPA', v: e.epsF }, { k: 'ing', name: 'Ingresos', v: e.revF }].filter(function (r) { return r.v; }) },
@@ -4069,7 +4073,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
       var na = T.closest('[data-nasset]');
       if (na) { state.asset = na.getAttribute('data-nasset'); state.date = byAsset(state.asset)[0].date; render(); return; }
       var ca = T.closest('[data-cal]'); if (ca) { calAct(ca.getAttribute('data-cal')); return; }
-      var eb = T.closest('[data-evt]'); if (eb) { var rw = eb.closest('.er'), op = rw.classList.toggle('open'); eb.setAttribute('aria-expanded', op ? 'true' : 'false'); return; }
+      var eb = T.closest('[data-evt]'); if (eb) { var rw = eb.closest('.er'), op = rw.classList.toggle('open'); [].forEach.call(rw.querySelectorAll('[data-evt]'), function (x) { x.setAttribute('aria-expanded', op ? 'true' : 'false'); }); return; }
       var tt = T.closest('[data-trtab]'); if (tt) { TRST.tab = tt.getAttribute('data-trtab'); TRST.a = 'all'; renderInfo(); return; }
       var tf = T.closest('[data-trf]'); if (tf) { var nf = tf.getAttribute('data-trf'); TRST.f = (TRST.f === nf ? 'all' : nf); renderInfo(); return; }
       var ta = T.closest('[data-tra]'); if (ta) { TRST.a = ta.getAttribute('data-tra'); renderInfo(); return; }
