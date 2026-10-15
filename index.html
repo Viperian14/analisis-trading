@@ -325,6 +325,7 @@ h2 { color: var(--muted); }
 .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .tab { font: inherit; font-size: 14px; font-weight: 600; color: var(--fg); background: rgba(19,27,21,.9); border: 1px solid #4a5040; border-radius: 999px; padding: 7px 16px; cursor: pointer; }
 .tab[aria-pressed="true"] { background: var(--accent); color: #0a0f0c; border-color: var(--accent); }
+.navrow .tab { font-size: 13px; padding: 6px 13px; }
 .minf .tab { padding: 5px 12px; font-size: 13px; }
 .day > summary span { flex: 1; }
 .elist { display: flex; flex-direction: column; }
@@ -532,6 +533,7 @@ button.bs:hover, button.bs:focus-visible { border-color: var(--accent); outline:
     <button type="button" class="menubtn" data-home="1" aria-label="Volver al menú principal">☰ MENÚ</button>
     <div class="eyebrow">Método VIPERIANDICATOR14</div>
     <h1 id="title">Análisis por activo</h1>
+    <div class="navrow" id="catrow"><span class="lbl">Tipo</span><span id="cats" class="navrow"></span></div>
     <div class="navrow" id="assetrow"><span class="lbl">Activo</span><span id="assets" class="navrow"></span></div>
     <div class="navrow"><span class="lbl">Fecha</span><span id="dates" class="navrow"></span></div>
   </nav>
@@ -3090,18 +3092,18 @@ var CAL = [
   { d: '2026-10-14', h: '04:10', s: 2, k: 'cb', ev: 'Lagarde (BCE) habla; otra vez a las 10:30', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Hora de España según InvestingLive. Confirma las horas.' },
   { d: '2026-10-14', h: '07:30', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 08:05', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente. Confirma las horas.' },
   { d: '2026-10-14', h: '14:30', s: 3, k: 'infl', ev: 'IPC de EE. UU. (CPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m · 3,4% a/a\nSubyacente +0,3% m/m · 2,4% a/a', fc: 'General +0,6% m/m · 3,6% a/a\nSubyacente +0,2% m/m · 2,5% a/a', act: 'General +0,6% m/m · 3,7% a/a\nSubyacente +0,3% m/m · 2,6% a/a', res: 'down', n: 'Más caliente de lo previsto: el general anual (3,7% frente a 3,6%), el subyacente mensual (+0,3% frente a +0,2%) y el subyacente anual (2,6% frente a 2,5%). El general mensual coincidió (+0,6%). Según XTB, el dólar subió con fuerza, los índices de EE. UU. giraron a negativo y los semiconductores sufrieron más. Con el Beige Book, alimenta la apuesta por una subida de tipos en la reunión del 27‑28 de octubre (hipótesis de los analistas).' },
-  { d: '2026-10-15', h: '18:00', s: 2, k: 'crude', ev: 'Inventarios de crudo de la EIA (semana al 9 de octubre)', a: ['WTI'], prev: '−3,2 M barriles', fc: '', n: 'Aplazado al jueves por el festivo del lunes (12:00 en Nueva York, 18:00 en España). El API publicado anoche marcó −11,1 M de barriles de crudo, +1,1 M de gasolina, −1,5 M de destilados y +1,82 M en Cushing. No localicé el consenso. Si la EIA confirma un recorte tan grande, sería alcista para el WTI (hipótesis).' },
+  { d: '2026-10-15', h: '18:00', s: 2, k: 'crude', ev: 'Inventarios de crudo de la EIA (semana al 9 de octubre)', a: ['WTI'], prev: '−3,2 M barriles', fc: '−0,3 M barriles', act: '−8,6 M barriles', res: 'up', n: 'Crudo comercial −8,6 M (total 415,6 M), gasolina +3,5 M y destilados −2,5 M. Frente a un consenso de −0,3 M (Trading Economics; otra fuente cita +0,2 M), un recorte mucho mayor: alcista para el WTI. El titular de Boe Report lo atribuye a cierres de producción por huracán. El WTI subía ≈2,5% hasta ≈97,4 $ en el momento del artículo. Aplazado al jueves por el festivo del lunes (12:00 en Nueva York, 18:00 en España). El API publicado anoche marcó −11,1 M de barriles de crudo, +1,1 M de gasolina, −1,5 M de destilados y +1,82 M en Cushing. No localicé el consenso. Si la EIA confirma un recorte tan grande, sería alcista para el WTI (hipótesis).' },
   { d: '2026-10-14', h: '20:00', s: 2, k: 'fed', ev: 'Beige Book de la Fed', a: ['ES','NQ','GC'], prev: '', fc: '', act: '9 de 12 distritos con crecimiento · precios más presionados', res: 'down', n: 'Nueve de 12 distritos reportan crecimiento (tres sin cambios; en agosto eran 10 y dos). Consumo casi plano y sostenido por los hogares de renta alta; empleo casi sin cambios. Las presiones de precios se amplían (tres distritos robustas, ocho moderadas), con el petróleo y el diésel citados en todos. Aparecen los tipos más altos como tema nuevo. InvestingLive resume que la economía «pierde un paso» mientras los precios se amplían.' },
   { d: '2026-10-14', h: '—', s: 2, k: 'oilrep', ev: 'Informe mensual de la AIE (Oil Market Report)', a: ['WTI'], prev: '', fc: '', n: 'Fecha según la AIE; sin hora publicada. Mira la demanda y la oferta mundiales de petróleo.' },
 
   { d: '2026-10-15', h: '02:30', s: 2, k: 'other', ev: 'Empleo de Australia, septiembre', a: [], prev: '+39,5 mil · paro 4,6%', fc: '+20,0 mil · paro 4,6%', act: '−39,3 mil · paro 4,7%', res: 'down', n: 'Hora de España. El empleo cayó (ABS: 39 mil menos) frente a +20 mil previstos y el paro sube al 4,7%. Agosto se revisó a +29,3 mil y 4,7%.' },
   { d: '2026-10-15', h: '06:30', s: 1, k: 'cb', ev: 'Schlegel (SNB) habla', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente. Confirma la hora.' },
-  { d: '2026-10-15', h: '08:00', s: 2, k: 'other', ev: 'PIB del Reino Unido, agosto', a: [], prev: '+0,4% m/m', fc: '−0,1% m/m', n: 'Hora de España según la fuente. Bailey habla además a las 09:30. No localicé la cifra publicada. Antes del dato, Pantheon preveía −0,3% y RSM −0,1% (Press Association, 11 de octubre); junio +0,3% y julio +0,4%.' },
+  { d: '2026-10-15', h: '08:00', s: 2, k: 'other', ev: 'PIB del Reino Unido, agosto', a: [], prev: '+0,4% m/m', fc: '−0,1% m/m', act: '+0,1% m/m', res: 'up', n: 'Hora de España según la fuente. Bailey habla además a las 09:30. Creció un 0,1% en agosto frente a la caída prevista (titulares de CNBC y Market Business News; no pude abrir el boletín de la ONS para ver julio revisado ni sectores). Antes del dato, Pantheon preveía −0,3% y RSM −0,1% (Press Association, 11 de octubre); junio +0,3% y julio +0,4%.' },
   { d: '2026-10-15', h: '14:30', s: 3, k: 'infl', ev: 'Precios de producción (PPI), septiembre', a: ['ES','NQ','GC','SI'], prev: 'General +0,4% m/m\nSubyacente +0,3% m/m', fc: 'General +0,5% m/m · 5,3% a/a\nSubyacente +0,3% m/m · 4,4% a/a', act: 'General +1,3% m/m · 6,3% a/a\nSubyacente +0,7% m/m · 5,0% a/a', res: 'down', n: 'Muy por encima de lo previsto: general +1,3% frente a +0,5% y subyacente +0,7% frente a +0,3% (Trading Economics y FXStreet). Trading Economics muestra el anterior revisado en +0,5% general y +0,2% subyacente. Tras el dato, el DXY recuperó parte de sus pérdidas (≈102,22 según FXStreet). Un día después de un IPC caliente, refuerza la lectura de inflación alta (hipótesis).' },
   { d: '2026-10-15', h: '14:30', s: 3, k: 'growth', ev: 'Ventas minoristas de EE. UU., septiembre', a: ['ES','NQ','GC','SI','WTI'], prev: '+1,2% m/m\nSin autos +1,4%', fc: '+0,3% m/m\nSin autos +0,5%', act: '+0,8% m/m\nSin autos +0,9%\nGrupo de control +0,1%', res: 'up', n: 'El general supera la previsión (+0,8% frente a +0,3%) y sin autos también (+0,9% frente a +0,5%), pero el grupo de control, que entra en el PIB, se queda en +0,1% frente a +0,3% previsto. Lectura mixta: titular fuerte con precios altos, consumo subyacente flojo (hipótesis). Fuente: Trading Economics.' },
   { d: '2026-10-15', h: '14:30', s: 2, k: 'growth', ev: 'Índice manufacturero de la Fed de Filadelfia, octubre', a: ['ES','NQ'], prev: '37,8', fc: '26,5', act: '20,9', res: 'down', n: 'Por debajo de la previsión que anoté (26,5) y del consenso de Trading Economics (28,4). Pedidos nuevos 4,3 (antes 29,2), precios pagados 43,2 (antes 48,6) y empleo 9,1. El Empire State de Nueva York sí subió: 25,5 frente a 7,6 previo y 10,3 previsto.' },
   { d: '2026-10-15', h: '14:30', s: 2, k: 'jobs', ev: 'Peticiones iniciales de subsidio de desempleo (EE. UU.)', a: ['ES','NQ','GC'], prev: '198 mil (revisado)', fc: '195 mil', act: '199 mil · continuas 1,710 M', n: 'Semana al 10 de octubre. Prácticamente en línea: Trading Economics da un consenso de 200 mil, por lo que sale algo mejor que eso, y algo peor que mi previsión de 195 mil. Continuas 1,710 M frente a 1,714 M previo. Media de 4 semanas 198,5 mil.' },
-  { d: '2026-10-15', h: '16:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA (semana al 9 de octubre)', a: ['NG'], prev: '+85 Bcf', fc: '', n: 'Informe semanal de los jueves. Total anterior 3.500 Bcf. No localicé la previsión.' },
+  { d: '2026-10-15', h: '16:30', s: 2, k: 'gas', ev: 'Almacenamientos de gas natural de la EIA (semana al 9 de octubre)', a: ['NG'], prev: '+85 Bcf', fc: '+76 Bcf', act: '+67 Bcf', res: 'up', n: 'Inyección menor de la prevista (+67 Bcf frente a +76 Bcf de Trading Economics), con el total en 3.567 Bcf: 143 Bcf por debajo del año anterior y 45 Bcf por encima de la media de 5 años. Es alcista para el gas natural (hipótesis). Siguiente informe: 22 de octubre.' },
 
   { d: '2026-10-16', h: '04:00', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 06:15', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente.' },
   { d: '2026-10-16', h: '05:30', s: 3, k: 'fed', ev: 'Warsh (presidente de la Fed) habla', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: 'InvestingLive lo sitúa a las 05:30 del viernes (hora de España). Stocktwits habla de una intervención el jueves 15 en las reuniones del FMI y el Banco Mundial, sin hora. Confirma.' },
@@ -3147,8 +3149,8 @@ var EARN = [
   { d: '2026-10-14', h: '15:00', s: 3, co: 'Morgan Stanley', tk: 'MS', epsF: '', epsA: '3,03 $', epsP: '2,80 $', revF: '', revA: '20,34 mil M$', revP: '18,2 mil M$', n: 'Beneficio por acción +8% e ingresos +12% interanual; beneficio neto 4,9 mil M$. No localicé el consenso, así que no valoro el resultado. Antes de la apertura.' },
   { d: '2026-10-14', h: '—', s: 2, co: 'BlackRock', tk: 'BLK', epsF: '14,25 $', epsA: '', epsP: '11,55 $', revF: '7,56 mil M$', revA: '', revP: '6,51 mil M$', n: 'Previsiones según Benzinga. Ya publicó: activos gestionados de 15,5 billones de dólares y comisiones base de 6,0 mil M$ (suplemento de resultados, SEC). Me faltan el beneficio por acción y los ingresos totales: no valoro el resultado.' },
   { d: '2026-10-15', h: '—', s: 3, co: 'TSMC', tk: 'TSM', epsF: '4,42 $', epsA: '4,60 $', epsP: '', revF: '45.410 M$', revA: '46.720 M$', revP: '', res: 'up', n: 'Supera en beneficio por ADS y en ingresos (+16,2% secuencial); beneficio neto récord, ≈+69% interanual. Guía del cuarto trimestre: ingresos de 52.300 a 54.300 M$ y margen bruto 65‑67%. Aun así la acción (ADS) cerró −3,4% (430 $) y cayó otro ≈−2% fuera de hora, por la presión en márgenes, el gasto de capital y la dilución de las fábricas en el extranjero (Investing.com). Ojo por los semiconductores del Nasdaq.' },
-  { d: '2026-10-15', h: '—', s: 2, co: 'BNY Mellon', tk: 'BK', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: '' },
-  { d: '2026-10-15', h: '—', s: 2, co: 'Charles Schwab', tk: 'SCHW', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: '' },
+  { d: '2026-10-15', h: '—', s: 2, co: 'BNY Mellon', tk: 'BK', epsF: '2,26 $', epsA: '2,37 $', epsP: '1,91 $', revF: '', revA: '5.676 M$', revP: '5.069 M$', res: 'up', n: 'BPA ajustado 2,37 $ (GAAP 2,34 $), +24% interanual, frente a 2,26 $ previstos (Alphastreet). Ingresos +12% interanual (datos ajustados). Beneficio neto 1.687 M$. No localicé el consenso de ingresos.' },
+  { d: '2026-10-15', h: '—', s: 2, co: 'Charles Schwab', tk: 'SCHW', epsF: '1,66 $', epsA: '1,69 $', epsP: '≈1,31 $', revF: '7.200 M$', revA: '7.170 M$', revP: '', res: 'up', n: 'Beneficio ajustado por encima (+29% interanual) pero ingresos algo por debajo de lo previsto, y los depósitos quedaron cortos (Bloomberg). La acción caía ≈4‑5% (Investing.com). Ingresos récord y 190,4 mil M$ de activos netos nuevos.' },
   { d: '2026-10-15', h: '—', s: 2, co: 'PNC Financial', tk: 'PNC', epsF: '', epsA: '', epsP: '', revF: '', revA: '', revP: '', n: '' }
 ];
 var HOL = [
@@ -3160,6 +3162,11 @@ var HOL = [
   { d: 'Viernes 25 de diciembre', t: 'Navidad', x: 'ICE Futures US cierra.' }
 ];
 var CAL_SRC = [
+  { t: 'Seeking Alpha (TradingView): inventarios de crudo de la EIA, semana al 9 de octubre', u: 'https://www.tradingview.com/news/seekingalpha:a08817f85094b:0-crude-inventory-falls-by-8-6m-barrels-for-the-week-ended-october-9-eia/' },
+  { t: 'IndexBox: almacenamiento de gas natural de la EIA, semana al 9 de octubre de 2026', u: 'https://www.indexbox.io/blog/eia-natural-gas-storage-report-stocks-rose-67-bcf-to-3567-bcf-for-week-ending-october-9-2026/' },
+  { t: 'CNBC: la economía británica creció un 0,1% en agosto', u: 'https://www.cnbc.com/2026/10/15/uk-gdp-august-2026-economy.html' },
+  { t: 'BNY (SEC, 8-K): resultados del tercer trimestre de 2026', u: 'https://www.sec.gov/Archives/edgar/data/0001390777/000139077726000104/ex991_earningsreleasex3q26.htm' },
+  { t: 'Investing.com: resultados récord de Schwab en el tercer trimestre de 2026', u: 'https://www.investing.com/news/transcripts/earnings-call-transcript-charles-schwab-posts-record-q3-2026-results-but-shares-fall-93CH-4952035' },
   { t: 'Trading Economics: calendario de EE. UU. del 15 de octubre de 2026 (PPI, ventas minoristas, Philly Fed, paro)', u: 'https://tradingeconomics.com/united-states/calendar' },
   { t: 'FXStreet: PPI de EE. UU. de septiembre, 6,3% frente a 5,3% esperado', u: 'https://www.fxstreet.com/news/united-states-producer-inflation-jumps-63-in-september-vs-53-expected-202610151237' },
   { t: 'Trading Economics: peticiones iniciales de subsidio de desempleo', u: 'https://tradingeconomics.com/united-states/jobless-claims' },
@@ -3201,8 +3208,12 @@ var CAL_SRC = [
 ];
 var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026-10-10": [5960, 5362], "GC-2026-10-10": [4260, 4095.5], "SI-2026-10-10": [62.4, 59.535, 53.285], "NG-2026-10-11": [3.535, 3.305, 3.127], "ES-2026-10-11": [7901.75, 7734.75], "NQ-2026-10-11": [31291.5, 30818.75, 30190, 30078], "GC-2026-10-12": [4196.7, 4193, 4176], "NQ-2026-10-12": [31200, 31140, 31060, 31000, 30905], "ES-2026-10-12": [7879, 7862, 7856, 7848], "GC-2026-10-13": [4234, 4225.5, 4213, 4205.5, 4198, 4174], "ES-2026-10-13": [7901.75, 7887, 7879, 7850, 7836], "NQ-2026-10-13": [30870, 30818.75, 30700, 30605], "GC-2026-10-15": [4300, 4250, 4213, 4182, 4145, 4095.5], "ES-2026-10-15": [7832.75, 7800, 7775, 7734.75, 7638.5], "NQ-2026-10-15": [30078, 29768.75, 29505.5, 29145.25]};
 
-  var state = { mode: 'swing', asset: null, date: null, home: true, page: null };
+  var state = { mode: 'swing', asset: null, date: null, home: true, page: null, cat: 'all' };
+  var CATS = ['Índices', 'Energía', 'Metales', 'Agrícolas', 'Divisas', 'Cripto', 'Otros'];
+  var CATOF = { NQ: 'Índices', ES: 'Índices', YM: 'Índices', DAX: 'Índices', GC: 'Metales', SI: 'Metales', HG: 'Metales', WTI: 'Energía', BRENT: 'Energía', NG: 'Energía', KC: 'Agrícolas', CC: 'Agrícolas', CT: 'Agrícolas', EURUSD: 'Divisas', BTC: 'Cripto' };
+  function catOf(a) { return CATOF[a] || 'Otros'; }
   function pickMode(m) {
+    state.cat = 'all';
     state.mode = m;
     var a = modeAssets(m);
     state.asset = a.length ? a[0] : null;
@@ -3252,9 +3263,16 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     var row = document.getElementById('assetrow');
     var drow = document.getElementById('dates').parentNode;
     row.hidden = drow.hidden = !assets.length;
-    document.getElementById('assets').innerHTML = '<select class="datesel assetsel" aria-label="Activo">' + assets.map(function (x) {
-      return '<option value="' + esc(x) + '"' + (x === state.asset ? ' selected' : '') + '>' + esc(ASSET_NAMES[x] || x) + '</option>';
-    }).join('') + '</select>';
+    if (!assets.length) document.getElementById('catrow').hidden = true;
+    var present = CATS.filter(function (c) { return assets.some(function (x) { return catOf(x) === c; }); });
+    if (state.cat !== 'all' && present.indexOf(state.cat) < 0) state.cat = 'all';
+    document.getElementById('catrow').hidden = present.length < 2;
+    document.getElementById('cats').innerHTML = [['all', 'Todos']].concat(present.map(function (c) { return [c, c]; })).map(function (c) {
+      return '<button type="button" class="tab" data-ncat="' + esc(c[0]) + '" aria-pressed="' + (state.cat === c[0]) + '">' + esc(c[1]) + '</button>';
+    }).join('');
+    document.getElementById('assets').innerHTML = assets.filter(function (x) { return state.cat === 'all' || catOf(x) === state.cat; }).map(function (x) {
+      return '<button type="button" class="tab" data-nasset="' + esc(x) + '" aria-pressed="' + (x === state.asset) + '">' + esc(ASSET_NAMES[x] || x) + '</button>';
+    }).join('');
     var list = state.asset ? byAsset(state.asset) : [];
     document.getElementById('dates').innerHTML = '<select class="datesel" aria-label="Fecha del análisis">' + list.map(function (e, i) {
       return '<option value="' + esc(e.date) + '"' + (e.date === state.date ? ' selected' : '') + '>' + shortDate(e.date) + (i === 0 ? ' · último' : '') + '</option>';
@@ -3667,7 +3685,37 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
       plan: 'Rechazo en 30.725‑30.690 con vela de inicio o confirmación alcista en M5 y volumen comprador. Stop bajo 30.640. Objetivos 30.760 y 30.800.',
       goals: [['30.760', 'miss'], ['30.800', 'miss']],
       pasa: 'El precio estuvo en la zona entre las 13:30 y las 14:45 y a las 15:00 cayó a ≈30.590, por debajo del stop (30.640). Después subió a ≈30.775‑30.810, es decir, a los objetivos, pero ya sin la operación.',
-      res: 'Fallida aproximada: stop tocado por ≈50 puntos y el precio fue al objetivo justo después. A ojo: no puedo confirmar la vela de gatillo en M5.' }
+      res: 'Fallida aproximada: stop tocado por ≈50 puntos y el precio fue al objetivo justo después. A ojo: no puedo confirmar la vela de gatillo en M5.' },
+    { asset: 'NQ', date: '2026-10-15', mode: 'intra', dir: 'Largo', setup: 'Tesis tuya: caída antes de la apertura, rebote y decisión de los americanos', out: 'win', match: 'Aproximada',
+      plan: 'Tu lectura de las 08:48: posibles caídas en el Nasdaq antes de la apertura de EE. UU., recuperar un poco y ahí decidirían los americanos si seguir cayendo o no; recuperaría parte de la bajada de ayer.',
+      goals: [['Rebote tras la apertura', 'hit'], ['Recupera 30.078', 'hit'], ['30.401,25', 'miss']],
+      pasa: 'Por la mañana el NQ se movió en 29.77‑29.95 sin llegar a 30.078 (a ojo). En la apertura de EE. UU. (≈15:30) cayó a ≈29.63, giró en V con marca OUT de M15 y subió hasta ≈30.20, por encima de 30.078. A las 22:30 cotiza 30.141,75 (−0,14%).',
+      res: 'Acierto aproximado por tu criterio de tesis: los americanos decidieron no seguir cayendo y se recuperó buena parte de la bajada de ayer. Lo que no se vio fue la caída previa a la apertura (el precio ya estaba aplastado en 29.77‑29.95), y mis planes escritos de corto no se activaron (ver «No se activaron»). Medido a ojo con tu M15 de las 22:30.' },
+    { asset: 'ES', date: '2026-10-15', mode: 'intra', dir: 'Largo', setup: 'Tesis tuya: caída antes de la apertura, rebote y decisión de los americanos', out: 'win', match: 'Aproximada',
+      plan: 'Tu lectura de las 08:48: posibles caídas en el S&P 500 antes de la apertura de EE. UU., recuperar un poco y ahí decidirían los americanos; recuperaría parte de la bajada de ayer. Mi análisis marcaba 7.734,75 y la zona 7.775‑7.810.',
+      goals: [['Rebote tras la apertura', 'hit'], ['7.775‑7.810 (zona)', 'hit'], ['7.832,75', 'miss']],
+      pasa: 'Por la mañana el ES tocó ≈7.729 (a ojo) y volvió a 7.74‑7.76. En la apertura de EE. UU. cayó a ≈7.717, giró en V con marca OUT de M15 y subió hasta ≈7.80. A las 22:30 cotiza 7.792,75 (+0,29%), dentro de la zona 7.775‑7.810.',
+      res: 'Acierto aproximado por tu criterio de tesis: rebote gradual, decisión de los americanos a la baja primero y a la alza después, y recuperación de parte de la bajada de ayer (de ≈7.741 a ≈7.80). Mi corto de rebote en 7.775‑7.810 está sin resolver (ver «En curso»). Medido a ojo con tu M15.' },
+    { asset: 'GC', date: '2026-10-15', mode: 'intra', dir: 'Largo', setup: 'Tesis tuya: indeciso en rango bajo la pared 4.094‑4.300', out: 'win', match: 'Aproximada',
+      plan: 'Tu lectura de las 08:48: el oro está indeciso, parece que quiere volver alcista pero ha vuelto al rango plano; su pared está entre 4.094 y 4.300 (y algo). Mi análisis marcaba el rango 4.145‑4.182.',
+      goals: [['Rango plano 4.145‑4.182', 'hit'], ['Pared 4.094‑4.300 intacta', 'hit']],
+      pasa: 'El oro se movió entre ≈4.152 y ≈4.182 desde la madrugada hasta las 21:00, sin cerrar bajo 4.145. Después rompió al alza con una vela fuerte y a las 22:30 cotiza 4.193,5 (+2,08%), con máximo ≈4.197. Sigue dentro de tu pared.',
+      res: 'Acierto aproximado por tu criterio de tesis: indeciso y plano durante casi toda la jornada, y la pared 4.094‑4.300 aguantó. La ruptura al alza llegó tarde, con el cierre de EE. UU. Medido a ojo con tu M15.' },
+    { asset: 'GC', date: '2026-10-15', mode: 'intra', dir: 'Largo', setup: 'Largo de ruptura (sobre 4.182)', out: 'open', match: 'Exacta',
+      plan: 'Cierre M15 sobre 4.182 con vela verde y volumen en M5. Stop bajo 4.150. Objetivo 4.213 y luego 4.250. Con H4 en contra, tamaño reducido.',
+      goals: [['4.213 (pendiente)', 'miss'], ['4.250 (pendiente)', 'miss']],
+      pasa: 'Hacia las 22:00 una vela M15 verde fuerte cerró sobre 4.182 y el oro llegó a ≈4.197; cotiza 4.193,5. No tengo el volumen real de M5 para confirmarlo. El stop (4.150) no se tocó y 4.213 sigue sin alcanzarse.',
+      res: 'En curso a favor, cuenta como acierto provisional: unos 11 puntos desde 4.182 sin tocar el stop. Se confirma con 4.213 y se invalida con un cierre M15 bajo 4.150. Sigue por debajo de 4.250‑4.260, así que todavía no es alcista de verdad.' },
+    { asset: 'NQ', date: '2026-10-15', mode: 'intra', dir: 'Largo', setup: 'Largo táctico (cierre sobre 30.078)', out: 'pend', match: 'Aproximada',
+      plan: 'Solo si recupera 30.078 con IN institucional al cierre y color de fuerza alcista, tamaño pequeño. Objetivos 30.401 y 30.818,75. Iba contra H1 y H4.',
+      goals: [['30.401,25 (pendiente)', 'miss'], ['30.818,75 (pendiente)', 'miss']],
+      pasa: 'Tras el giro de la apertura, el NQ cerró M15 por encima de 30.078 hacia las 19:00‑20:00 y se mueve en 30.08‑30.20; cotiza 30.141,75. En tu captura no veo una marca IN, y no tengo el volumen.',
+      res: 'En curso, todavía no cuenta: el precio superó 30.078, pero sin IN confirmado, con solo ≈60 puntos de recorrido y sin acercarse a 30.401. Se resuelve con 30.401 (acierto) o con la pérdida de 30.078 (fallo).' },
+    { asset: 'ES', date: '2026-10-15', mode: 'intra', dir: 'Corto', setup: 'Corto de rebote (7.775‑7.810)', out: 'pend', match: 'Exacta',
+      plan: 'Rechazo en 7.775‑7.810 (mejor) o en 7.760 con vela naranja o roja en M5/M15 y volumen vendedor. Stop sobre 7.815. Objetivos 7.734,75 y 7.700.',
+      goals: [['7.734,75 (pendiente)', 'miss'], ['7.700 (pendiente)', 'miss']],
+      pasa: 'Tras el mínimo de la apertura (≈7.717), el ES subió y desde las 20:30 se mueve dentro de la zona; máximo ≈7.80. A las 22:30 cotiza 7.792,75 con velas rojas y amarillas en la parte alta. Todavía no ha vuelto a 7.734,75 ni ha superado 7.815.',
+      res: 'En curso, todavía no cuenta: la zona se alcanzó (el plan se activa), pero sin objetivo cumplido ni stop tocado. Se resuelve con 7.734,75 (acierto) o con un cierre sobre 7.815 (fallo).' }
   ];
   var NOACT = [
     ['GC', '2026-10-12', 'Largo de rebote (4.197‑4.193)', 'El precio atravesó la zona sin rechazo alcista y siguió cayendo.'],
@@ -3680,7 +3728,11 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     ['GC', '2026-10-13', 'Largo de ruptura (sobre 4.225,5)', 'No hubo cierre M15 por encima.'],
     ['ES', '2026-10-13', 'Corto de retesteo (7.873‑7.879)', 'El máximo posterior fue ≈7.863.'],
     ['ES', '2026-10-13', 'Largo de ruptura (sobre 7.879)', 'No hubo cierre M15 por encima.'],
-    ['NQ', '2026-10-13', 'Largo de ruptura (sobre 30.818,75)', 'El máximo fue ≈30.810, sin cierre M15 por encima.']
+    ['NQ', '2026-10-13', 'Largo de ruptura (sobre 30.818,75)', 'El máximo fue ≈30.810, sin cierre M15 por encima.'],
+    ['NQ', '2026-10-15', 'Corto de rebote (30.078‑30.401)', 'Antes de la apertura el precio no llegó a la zona (máximo ≈29.95). Después de la apertura sí subió hasta ≈30.20, pero sin rechazo con vela naranja o roja: superó 30.078.'],
+    ['NQ', '2026-10-15', 'Corto de ruptura (cierre M15 bajo 29.768,75)', 'El cierre bajo 29.768,75 se dio con la caída de la apertura (mínimo ≈29.63), pero la vela siguiente lo recuperó de golpe: no hubo retesteo por abajo para entrar y 29.505,50 no se alcanzó.'],
+    ['ES', '2026-10-15', 'Corto de ruptura (cierre M15 bajo 7.734,75)', 'El cierre bajo 7.734,75 se dio con la caída de la apertura (mínimo ≈7.717), pero el rebote en V lo recuperó enseguida: no hubo retesteo por abajo y 7.700 no se alcanzó.'],
+    ['GC', '2026-10-15', 'Corto de ruptura (cierre M15 bajo 4.145)', 'El oro no cerró M15 por debajo de 4.145: el mínimo del rango fue ≈4.152.']
   ];
 
 
@@ -3745,7 +3797,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     ['NG', '2026-10-11', 'Largo de retroceso (3,127‑3,08)', 'Mínimo 3,157, a 0,03 de la zona, y rebote con marca IN en M15 hasta 3,287. No llegó a entrar.'],
     ['NG', '2026-10-11', 'Corto (pérdida de 3,03)', 'No ha llegado.']
   ];
-  var TRST = { tab: 'intra', f: 'all', a: 'all' };
+  var TRST = { tab: 'intra', f: 'all', a: 'all', c: 'all' };
   function renderTradesSet(TR0, NA0, kind) {
     var TR = TR0.filter(function (t) { return TRST.a === 'all' || t.asset === TRST.a; }), NA = NA0.filter(function (n) { return TRST.a === 'all' || n[0] === TRST.a; });
     function dlabel(d) { var p = d.split('-'), dt = new Date(+p[0], +p[1] - 1, +p[2]); return DIAS[dt.getDay()] + ' ' + p[2].replace(/^0/, '') + ' de ' + MESES[+p[1] - 1]; }
@@ -3756,7 +3808,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     var html = '<section><h2>Resumen</h2><div class="bigstat"><button type="button" class="bs win" data-trf="win" aria-pressed="' + (TRST.f === 'win') + '"><b>' + pc(W.length, N) + '%</b><span>aciertos · ' + W.length + ' de ' + N + (OP ? ' (' + (W.length - OP) + ' con objetivo alcanzado + ' + OP + ' en curso a favor)' : '') + '</span></button><button type="button" class="bs loss" data-trf="loss" aria-pressed="' + (TRST.f === 'loss') + '"><b>' + (N ? 100 - pc(W.length, N) : 0) + '%</b><span>fallos · ' + F.length + ' de ' + N + '</span></button><button type="button" class="bs" data-trf="all" aria-pressed="' + (TRST.f === 'all') + '"><b>' + N + '</b><span>activadas de ' + total + ' planteadas (' + pc(N, total) + '%)</span></button></div><p class="legend">Pulsa aciertos o fallos para ver solo esos; pulsa el tercer cuadro para verlo todo.</p>' +
       '<div class="split"><div class="sp"><h3>Desglose de los aciertos</h3><div class="sumrow"><div><b>' + by(W, 'Exacta') + '</b><span>exactos · ' + pc(by(W, 'Exacta'), W.length) + '%</span></div><div><b>' + by(W, 'Aproximada') + '</b><span>aproximados · ' + pc(by(W, 'Aproximada'), W.length) + '%</span></div><div><b>' + by(W, 'Parcial') + '</b><span>parciales · ' + pc(by(W, 'Parcial'), W.length) + '%</span></div></div></div>' +
       '<div class="sp"><h3>Desglose de los fallos</h3><div class="sumrow"><div><b>' + by(F, 'Exacta') + '</b><span>exactos · ' + pc(by(F, 'Exacta'), F.length) + '%</span></div><div><b>' + by(F, 'Aproximada') + '</b><span>aproximados · ' + pc(by(F, 'Aproximada'), F.length) + '%</span></div><div><b>' + by(F, 'Parcial') + '</b><span>parciales · ' + pc(by(F, 'Parcial'), F.length) + '%</span></div></div></div></div>' +
-      '<p class="legend">Muestra pequeña (' + N + (kind === 'swing' ? ' operativas swing de los análisis del 10 y 11 de octubre, medidas con tus gráficos H4 de las 19:20 y M15 y diarios de las 23:00 del miércoles 14' : ' operativas de los días 12 y 13 de octubre') + '): los porcentajes son orientativos. Son resultados teóricos medidos a ojo sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «activada» significa que el precio hizo el recorrido del plan, no que se confirmaran todas las condiciones.</p></section>';
+      '<p class="legend">Muestra pequeña (' + N + (kind === 'swing' ? ' operativas swing de los análisis del 10 y 11 de octubre, medidas con tus gráficos H4 de las 19:20 y M15 y diarios de las 23:00 del miércoles 14' : ' operativas de los días 12, 13 y 15 de octubre (las del 15, medidas con tus M15 de las 22:30; tres de ellas son tus tesis, no gatillos de mis análisis escritos)') + '): los porcentajes son orientativos. Son resultados teóricos medidos a ojo sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «activada» significa que el precio hizo el recorrido del plan, no que se confirmaran todas las condiciones.</p></section>';
     function tradeHtml(t) {
       var tag = t.out !== 'loss' ? (t.match === 'Exacta' ? 'win' : t.match === 'Aproximada' ? 'ap' : '') : 'dn';
       var goals = t.goals.map(function (g) {
@@ -3949,6 +4001,15 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
   document.addEventListener('click', function (ev) {
     var T = ev.target.closest ? ev.target : null;
     if (T) {
+      var nc = T.closest('[data-ncat]');
+      if (nc) {
+        state.cat = nc.getAttribute('data-ncat');
+        var al = modeAssets(state.mode).filter(function (x) { return state.cat === 'all' || catOf(x) === state.cat; });
+        if (al.length && al.indexOf(state.asset) < 0) { state.asset = al[0]; state.date = byAsset(al[0])[0].date; }
+        render(); return;
+      }
+      var na = T.closest('[data-nasset]');
+      if (na) { state.asset = na.getAttribute('data-nasset'); state.date = byAsset(state.asset)[0].date; render(); return; }
       var ca = T.closest('[data-cal]'); if (ca) { calAct(ca.getAttribute('data-cal')); return; }
       var eb = T.closest('[data-evt]'); if (eb) { var rw = eb.closest('.er'), op = rw.classList.toggle('open'); eb.setAttribute('aria-expanded', op ? 'true' : 'false'); return; }
       var tt = T.closest('[data-trtab]'); if (tt) { TRST.tab = tt.getAttribute('data-trtab'); TRST.a = 'all'; renderInfo(); return; }
