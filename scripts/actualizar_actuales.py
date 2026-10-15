@@ -197,6 +197,9 @@ def pending_events(html, today):
         d, h, ev = m.groups()
         if d > today or ', act:' in line:
             continue
+        # Ignora lo que lleva más de 3 días sin dato: no gasta consultas del BLS en eventos que no se van a rellenar.
+        if (dt.date.fromisoformat(today) - dt.date.fromisoformat(d)).days > 3:
+            continue
         fc = re.search(r" fc: '((?:[^'\\]|\\.)*)'", line)
         out.append({'d': d, 'h': h, 'ev': ev.replace("\\'", "'"), 'fc': (fc.group(1) if fc else '').replace('\\n', '\n')})
     return out

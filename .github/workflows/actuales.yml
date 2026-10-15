@@ -2,11 +2,11 @@ name: Datos reales del calendario
 
 on:
   schedule:
-    # Casi todo el día de lunes a viernes (hora UTC). Cada 10 minutos entre las 12:00 y las 15:59 UTC,
-    # que es cuando salen la mayoría de los datos de EE. UU. (14:30 de España en verano), y cada 20 minutos el resto
-    # del día. GitHub puede retrasar unos minutos las tareas programadas.
-    - cron: '*/10 12-15 * * 1-5'
-    - cron: '*/20 0-11,16-23 * * 1-5'
+    # Sondeo intensivo: una sola ejecución que arranca a las 12:10 UTC y comprueba cada 2 minutos hasta las 16:05 UTC
+    # (cubre de 14:30 a 17:00 de España en verano y en invierno).
+    - cron: '10 12 * * 1-5'
+    # Resto del día laborable: cada 10 minutos, fuera de la ventana anterior.
+    - cron: '*/10 0-11,16-23 * * 1-5'
   workflow_dispatch:
     inputs:
       sonda:
@@ -24,6 +24,7 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
+    timeout-minutes: 270
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -33,17 +34,32 @@ jobs:
         env:
           BLS_KEY: ${{ secrets.BLS_KEY }}
           FRED_KEY: ${{ secrets.FRED_KEY }}
+          EVENTO: ${{ github.event.schedule }}
+          SONDA: ${{ inputs.sonda }}
         run: |
-          if [ "${{ inputs.sonda }}" = "true" ]; then python scripts/actualizar_actuales.py --sonda; else python scripts/actualizar_actuales.py; fi
-      - name: Guardar cambios
-        run: |
-          git add -A actuales.json sonda.json 2>/dev/null || true
-          if git diff --cached --quiet; then
-            echo "Sin cambios"
+          git config user.name "CdB bot"
+          git config user.email "actions@users.noreply.github.com"
+          guardar() {
+            git add -A actuales.json sonda.json 2>/dev/null || true
+            if git diff --cached --quiet; then
+              echo "Sin cambios"
+            else
+              git commit -q -m "Datos reales automáticos"
+              git pull -q --rebase origin main || true
+              git push -q origin HEAD:main || echo "No se pudo subir; se reintenta en la siguiente vuelta"
+            fi
+          }
+          if [ "$SONDA" = "true" ]; then
+            python scripts/actualizar_actuales.py --sonda || true
+            guardar
+          elif [ "$EVENTO" = "10 12 * * 1-5" ]; then
+            while [ "$((10#$(date -u +%H%M)))" -lt 1605 ]; do
+              git pull -q --rebase origin main || true
+              python scripts/actualizar_actuales.py || true
+              guardar
+              sleep 120
+            done
           else
-            git config user.name "CdB bot"
-            git config user.email "actions@users.noreply.github.com"
-            git commit -m "Datos reales automáticos"
-            git pull --rebase origin main
-            git push origin HEAD:main
+            python scripts/actualizar_actuales.py || true
+            guardar
           fi
