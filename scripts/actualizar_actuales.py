@@ -120,13 +120,13 @@ def calc_cpi(month, year):
 
 
 def calc_ppi(month, year):
-    ids = ['WPSFD4', 'WPSFD4131', 'WPUFD4', 'WPUFD4131']
+    ids = ['WPSFD4', 'WPSFD49104', 'WPUFD4', 'WPUFD49104']
     s = bls_series(ids, year)
     ym = latest_month(s['WPSFD4'])
     if not ym or ym[1] != month:
         return None
     act = 'General %s m/m · %s a/a\nSubyacente %s m/m · %s a/a' % (
-        pct(mm(s['WPSFD4'], ym)), pct(yy(s['WPUFD4'], ym), False), pct(mm(s['WPSFD4131'], ym)), pct(yy(s['WPUFD4131'], ym), False))
+        pct(mm(s['WPSFD4'], ym)), pct(yy(s['WPUFD4'], ym), False), pct(mm(s['WPSFD49104'], ym)), pct(yy(s['WPUFD49104'], ym), False))
     return act, False
 
 
@@ -206,7 +206,7 @@ def sonda():
     """Modo de prueba: lee el último dato de cada serie y lo guarda en sonda.json (sin claves)."""
     r = {'hecho': dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'bls': {}, 'fred': {}, 'calculos': {}}
     year = dt.datetime.now(dt.timezone.utc).year
-    ids = ['CUSR0000SA0', 'CUSR0000SA0L1E', 'CUUR0000SA0', 'CUUR0000SA0L1E', 'WPSFD4', 'WPSFD4131', 'WPUFD4', 'WPUFD4131', 'CES0000000001', 'LNS14000000']
+    ids = ['CUSR0000SA0', 'CUSR0000SA0L1E', 'CUUR0000SA0', 'CUUR0000SA0L1E', 'WPSFD4', 'WPSFD49104', 'WPUFD4', 'WPUFD49104', 'CES0000000001', 'LNS14000000']
     try:
         s = bls_series(ids, year)
         for k, d in s.items():
@@ -220,15 +220,6 @@ def sonda():
                 r['calculos'][nombre] = 'ERROR: %s' % ex
     except Exception as ex:
         r['bls']['ERROR'] = str(ex)
-    cand = ['WPSFD4131', 'WPSFD49104', 'WPSFD49116', 'WPSFD49105', 'WPSFD49207', 'WPUFD4131', 'WPUFD49104', 'WPUFD49116', 'WPUFD49105', 'WPUFD49207']
-    r['candidatos_ppi_subyacente'] = {}
-    try:
-        sc = bls_series(cand, year)
-        for k, d in sc.items():
-            ym = latest_month(d)
-            r['candidatos_ppi_subyacente'][k] = {'mes': '%s-%02d' % ym if ym else None, 'mm': mm(d, ym) if ym else None, 'aa': yy(d, ym) if ym else None}
-    except Exception as ex:
-        r['candidatos_ppi_subyacente']['ERROR'] = str(ex)
     for sid in ('ICSA', 'RSAFS', 'INDPRO'):
         try:
             o = fred_obs(sid, 3)
