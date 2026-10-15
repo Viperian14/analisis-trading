@@ -220,6 +220,15 @@ def sonda():
                 r['calculos'][nombre] = 'ERROR: %s' % ex
     except Exception as ex:
         r['bls']['ERROR'] = str(ex)
+    cand = ['WPSFD4131', 'WPSFD49104', 'WPSFD49116', 'WPSFD49105', 'WPSFD49207', 'WPUFD4131', 'WPUFD49104', 'WPUFD49116', 'WPUFD49105', 'WPUFD49207']
+    r['candidatos_ppi_subyacente'] = {}
+    try:
+        sc = bls_series(cand, year)
+        for k, d in sc.items():
+            ym = latest_month(d)
+            r['candidatos_ppi_subyacente'][k] = {'mes': '%s-%02d' % ym if ym else None, 'mm': mm(d, ym) if ym else None, 'aa': yy(d, ym) if ym else None}
+    except Exception as ex:
+        r['candidatos_ppi_subyacente']['ERROR'] = str(ex)
     for sid in ('ICSA', 'RSAFS', 'INDPRO'):
         try:
             o = fred_obs(sid, 3)
