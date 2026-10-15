@@ -3904,19 +3904,28 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
   /* Datos reales automáticos: un script de GitHub Actions escribe actuales.json y aquí se aplican sobre el calendario.
      Solo rellena el campo "real" si está vacío (lo que escribo a mano manda). Si el archivo no existe, no pasa nada. */
   function loadActuals() {
-    try {
-      if (!/^https?:$/.test(location.protocol)) return;
-      fetch('actuales.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-        if (!j || !j.items) return;
-        var ch = 0;
-        j.items.forEach(function (it) {
-          CAL.forEach(function (e) {
-            if (e.d === it.d && e.ev.indexOf(it.match) >= 0 && !e.act) { e.act = it.act; if (it.res) e.res = it.res; ch++; }
-          });
+    var urls = ['https://raw.githubusercontent.com/Viperian14/cursillodebolsillo/main/actuales.json'];
+    if (/^https?:$/.test(location.protocol)) urls.push('actuales.json');
+    function apply(j) {
+      if (!j || !j.items) return false;
+      var ch = 0;
+      j.items.forEach(function (it) {
+        CAL.forEach(function (e) {
+          if (e.d === it.d && e.ev === it.match && !e.act) { e.act = it.act; if (it.res) e.res = it.res; ch++; }
         });
-        if (ch && state.page === 'calendario') renderInfo();
-      }).catch(function () {});
-    } catch (e) {}
+      });
+      if (ch && state.page === 'calendario') renderInfo();
+      return true;
+    }
+    (function next(i) {
+      if (i >= urls.length) return;
+      try {
+        fetch(urls[i] + '?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (j) { if (!apply(j)) next(i + 1); })
+          .catch(function () { next(i + 1); });
+      } catch (e) { next(i + 1); }
+    })(0);
   }
   loadActuals();
 

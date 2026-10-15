@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+"""Rellena actuales.json con los datos reales de EE. UU. ya publicados (BLS y FRED).
+
+Lee el calendario de index.html, busca los eventos de hoy o anteriores que aún no tienen
+valor real ("act") y, si BLS/FRED ya tienen el dato del mes o la semana que toca, lo escribe
+en el formato de la página. Solo usa la biblioteca estándar de Python.
+Claves en variables de entorno: BLS_KEY y FRED_KEY.
+"""
+import json, os, re, sys, datetime as dt
+import urllib.request, urllib.parse
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BLS_KEY = os.environ.get('BLS_KEY', '')
+FRED_KEY = os.environ.get('FRED_KEY', '')
+MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+
+
+# ---------- utilidades de formato ----------
+def pct(x, sign=True):
+    s = ('%.1f' % abs(x)).replace('.', ',')
+    if not sign:
+        return s + '%'
+    return ('+' if x >= 0 else '−') + s + '%'
+
+
+def num_mil(x):
+    s = '%d' % round(abs(x))
+    return ('+' if x >= 0 else '−') + s + ' mil'
+
+
+def parse_num(s):
+    """Primer número de un texto en español ('+0,5% m/m', '−3,2 M', '195 mil')."""
+    if not s:
+        return None
+    m = re.search(r'[+\-−]?\s?\d+(?:[.,]\d+)?', s.replace('−', '-'))
+    if not m:
+        return None
+    t = m.group(0).replace(' ', '')
+    if ',' in t:
+        t = t.replace('.', '').replace(',', '.')
+    try:
+        return float(t)
+    except ValueError:
+        return None
+
+
+def res_from(act, fc, higher_is_better, tol=0.0):
+    a, f = parse_num(act), parse_num(fc)
+    if a is None or f is None or abs(a - f) <= tol:
+        return ''
+    better = a > f if higher_is_better else a < f
+    return 'up' if better else 'down'
+
+
+# ---------- descargas ----------
+def http_json(url, data=None):
+    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json', 'User-Agent': 'cdb-actuales'})
+    with urllib.request.urlopen(req, timeout=40) as r:
+        return json.loads(r.read().decode('utf-8'))
+
+
+def bls_series(ids, year):
+    """{serie: {(año, mes): valor}} con el año anterior y el actual."""
+    body = {'seriesid': ids, 'startyear': str(year - 1), 'endyear': str(year)}
+    if BLS_KEY:
+        body['registrationkey'] = BLS_KEY
+    j = http_json('https://api.bls.gov/publicAPI/v2/timeseries/data/', json.dumps(body).encode())
+    if j.get('status') != 'REQUEST_SUCCEEDED':
+        raise RuntimeError('BLS: ' + '; '.join(j.get('message') or [str(j.get('status'))]))
+    out = {}
+    for s in j['Results']['series']:
+        d = {}
+        for p in s['data']:
+            if p['period'].startswith('M') and p['period'] != 'M13' and p['value'] not in ('-', ''):
+                d[(int(p['year']), int(p['period'][1:]))] = float(p['value'])
+        out[s['seriesID']] = d
+    return out
+
+
+def fred_obs(series, limit=26):
+    q = urllib.parse.urlencode({'series_id': series, 'api_key': FRED_KEY, 'file_type': 'json', 'sort_order': 'desc', 'limit': limit})
+    j = http_json('https://api.stlouisfed.org/fred/series/observations?' + q)
+    return [(o['date'], float(o['value'])) for o in j['observations'] if o['value'] not in ('.', '')]
+
+
+def latest_month(d):
+    return max(d) if d else None
+
+
+def prev_month(ym, back=1):
+    y, m = ym
+    m -= back
+    while m <= 0:
+        m += 12
+        y -= 1
+    return (y, m)
+
+
+def mm(d, ym):
+    a, b = d.get(ym), d.get(prev_month(ym))
+    return None if a is None or b is None else (a / b - 1) * 100
+
+
+def yy(d, ym):
+    a, b = d.get(ym), d.get(prev_month(ym, 12))
+    return None if a is None or b is None else (a / b - 1) * 100
+
+
+# ---------- calculadores por tipo de evento (devuelven (act, titular_numerico, mejor_si_sube)) ----------
+def calc_cpi(month, year):
+    ids = ['CUSR0000SA0', 'CUSR0000SA0L1E', 'CUUR0000SA0', 'CUUR0000SA0L1E']
+    s = bls_series(ids, year)
+    ym = latest_month(s['CUSR0000SA0'])
+    if not ym or ym[1] != month:
+        return None
+    g_m, c_m = mm(s['CUSR0000SA0'], ym), mm(s['CUSR0000SA0L1E'], ym)
+    g_y, c_y = yy(s['CUUR0000SA0'], ym), yy(s['CUUR0000SA0L1E'], ym)
+    act = 'General %s m/m · %s a/a\nSubyacente %s m/m · %s a/a' % (pct(g_m), pct(g_y, False), pct(c_m), pct(c_y, False))
+    return act, False
+
+
+def calc_ppi(month, year):
+    ids = ['WPSFD4', 'WPSFD4131', 'WPUFD4', 'WPUFD4131']
+    s = bls_series(ids, year)
+    ym = latest_month(s['WPSFD4'])
+    if not ym or ym[1] != month:
+        return None
+    act = 'General %s m/m · %s a/a\nSubyacente %s m/m · %s a/a' % (
+        pct(mm(s['WPSFD4'], ym)), pct(yy(s['WPUFD4'], ym), False), pct(mm(s['WPSFD4131'], ym)), pct(yy(s['WPUFD4131'], ym), False))
+    return act, False
+
+
+def calc_nfp(month, year):
+    s = bls_series(['CES0000000001', 'LNS14000000'], year)
+    emp, un = s['CES0000000001'], s['LNS14000000']
+    ym = latest_month(emp)
+    if not ym or ym[1] != month:
+        return None
+    diff = emp[ym] - emp[prev_month(ym)]
+    return '%s · paro %s' % (num_mil(diff), ('%.1f' % un[ym]).replace('.', ',') + '%'), True
+
+
+def fred_month_event(series):
+    def f(month, year):
+        o = fred_obs(series, 16)
+        if not o:
+            return None
+        d, v = o[0]
+        y, m = int(d[:4]), int(d[5:7])
+        if m != month:
+            return None
+        prev = o[1][1]
+        yago = next((val for dd, val in o if dd[:4] == str(y - 1) and int(dd[5:7]) == m), None)
+        act = pct((v / prev - 1) * 100) + ' m/m'
+        if yago:
+            act += ' · ' + pct((v / yago - 1) * 100, False) + ' a/a'
+        return act, True
+    return f
+
+
+def calc_claims(month, year, ev_date):
+    o = fred_obs('ICSA', 6)
+    if not o:
+        return None
+    d, v = o[0]
+    obs = dt.date.fromisoformat(d)
+    if not (ev_date - dt.timedelta(days=8) <= obs <= ev_date):
+        return None
+    return '%d mil' % round(v / 1000), False
+
+
+# (texto que debe contener el evento, función(mes, año, fecha_evento), necesita_mes, tolerancia para "igual")
+HANDLERS = [
+    ('Precios de producción (PPI)', lambda m, y, d: calc_ppi(m, y), True, 0.05),
+    ('IPC de EE. UU.', lambda m, y, d: calc_cpi(m, y), True, 0.05),
+    ('Empleo de EE. UU. (NFP)', lambda m, y, d: calc_nfp(m, y), True, 0.5),
+    ('Ventas minoristas de EE. UU.', lambda m, y, d: fred_month_event('RSAFS')(m, y), True, 0.05),
+    ('Producción industrial de EE. UU.', lambda m, y, d: fred_month_event('INDPRO')(m, y), True, 0.05),
+    ('Peticiones iniciales de subsidio de desempleo', calc_claims, False, 0.5),
+]
+
+
+def month_in(ev):
+    low = ev.lower()
+    for i, m in enumerate(MESES):
+        if re.search(r'\b' + m + r'\b', low):
+            return i + 1
+    return None
+
+
+def pending_events(html, today):
+    out = []
+    for line in html.splitlines():
+        m = re.match(r"\s*\{ d: '(\d{4}-\d{2}-\d{2})', h: '([^']*)'.*? ev: '((?:[^'\\]|\\.)*)'", line)
+        if not m or ', co:' in line:
+            continue
+        d, h, ev = m.groups()
+        if d > today or ', act:' in line:
+            continue
+        fc = re.search(r" fc: '((?:[^'\\]|\\.)*)'", line)
+        out.append({'d': d, 'h': h, 'ev': ev.replace("\\'", "'"), 'fc': (fc.group(1) if fc else '').replace('\\n', '\n')})
+    return out
+
+
+def main():
+    today = dt.datetime.now(dt.timezone.utc).date()
+    html = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+    path = os.path.join(ROOT, 'actuales.json')
+    try:
+        cur = json.load(open(path, encoding='utf-8'))
+    except Exception:
+        cur = {'updated': '', 'items': []}
+    have = {(i['d'], i['match']) for i in cur.get('items', [])}
+    new = 0
+    for e in pending_events(html, today.isoformat()):
+        if (e['d'], e['ev']) in have:
+            continue
+        for key, fn, needs_month, tol in HANDLERS:
+            if key not in e['ev']:
+                continue
+            month = month_in(e['ev'])
+            ev_date = dt.date.fromisoformat(e['d'])
+            res = None
+            if month or not needs_month:
+                try:
+                    res = fn(month, ev_date.year, ev_date)
+                except Exception as ex:
+                    print('ERROR en %s: %s' % (e['ev'], ex), file=sys.stderr)
+            if res:
+                act, higher_better = res
+                item = {'d': e['d'], 'match': e['ev'], 'act': act, 'res': res_from(act, e['fc'], higher_better, tol)}
+                cur.setdefault('items', []).append(item)
+                new += 1
+                print('NUEVO:', json.dumps(item, ensure_ascii=False))
+            else:
+                print('Sin dato todavía:', e['d'], e['ev'])
+            break
+    if new:
+        cur['updated'] = dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(cur, f, ensure_ascii=False, indent=1)
+            f.write('\n')
+    print('Eventos nuevos:', new)
+
+
+if __name__ == '__main__':
+    main()

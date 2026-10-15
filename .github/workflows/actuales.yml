@@ -1,0 +1,41 @@
+name: Datos reales del calendario
+
+on:
+  schedule:
+    # Cada 10 minutos de lunes a viernes entre las 12:00 y las 15:59 UTC (cubre las 14:30 de España
+    # con horario de verano y de invierno). GitHub puede retrasar unos minutos las tareas programadas.
+    - cron: '*/10 12-15 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actuales
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Buscar datos publicados
+        env:
+          BLS_KEY: ${{ secrets.BLS_KEY }}
+          FRED_KEY: ${{ secrets.FRED_KEY }}
+        run: python scripts/actualizar_actuales.py
+      - name: Guardar cambios
+        run: |
+          if git diff --quiet -- actuales.json; then
+            echo "Sin cambios"
+          else
+            git config user.name "CdB bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add actuales.json
+            git commit -m "Datos reales automáticos"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
