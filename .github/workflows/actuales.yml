@@ -6,6 +6,11 @@ on:
     # con horario de verano y de invierno). GitHub puede retrasar unos minutos las tareas programadas.
     - cron: '*/10 12-15 * * 1-5'
   workflow_dispatch:
+    inputs:
+      sonda:
+        description: 'Modo de prueba: lee los últimos datos y los guarda en sonda.json'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -26,15 +31,16 @@ jobs:
         env:
           BLS_KEY: ${{ secrets.BLS_KEY }}
           FRED_KEY: ${{ secrets.FRED_KEY }}
-        run: python scripts/actualizar_actuales.py
+        run: |
+          if [ "${{ inputs.sonda }}" = "true" ]; then python scripts/actualizar_actuales.py --sonda; else python scripts/actualizar_actuales.py; fi
       - name: Guardar cambios
         run: |
-          if git diff --quiet -- actuales.json; then
+          git add -A actuales.json sonda.json 2>/dev/null || true
+          if git diff --cached --quiet; then
             echo "Sin cambios"
           else
             git config user.name "CdB bot"
             git config user.email "actions@users.noreply.github.com"
-            git add actuales.json
             git commit -m "Datos reales automáticos"
             git pull --rebase origin main
             git push origin HEAD:main

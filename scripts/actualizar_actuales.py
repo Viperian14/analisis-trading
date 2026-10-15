@@ -202,7 +202,39 @@ def pending_events(html, today):
     return out
 
 
+def sonda():
+    """Modo de prueba: lee el último dato de cada serie y lo guarda en sonda.json (sin claves)."""
+    r = {'hecho': dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'), 'bls': {}, 'fred': {}, 'calculos': {}}
+    year = dt.datetime.now(dt.timezone.utc).year
+    ids = ['CUSR0000SA0', 'CUSR0000SA0L1E', 'CUUR0000SA0', 'CUUR0000SA0L1E', 'WPSFD4', 'WPSFD4131', 'WPUFD4', 'WPUFD4131', 'CES0000000001', 'LNS14000000']
+    try:
+        s = bls_series(ids, year)
+        for k, d in s.items():
+            ym = latest_month(d)
+            r['bls'][k] = {'ultimo': '%s-%02d' % ym if ym else None, 'valor': d.get(ym) if ym else None}
+        for nombre, fn in (('IPC', calc_cpi), ('PPI', calc_ppi), ('NFP', calc_nfp)):
+            ym = latest_month(s['CUSR0000SA0' if nombre == 'IPC' else 'WPSFD4' if nombre == 'PPI' else 'CES0000000001'])
+            try:
+                r['calculos'][nombre] = fn(ym[1], year) if ym else None
+            except Exception as ex:
+                r['calculos'][nombre] = 'ERROR: %s' % ex
+    except Exception as ex:
+        r['bls']['ERROR'] = str(ex)
+    for sid in ('ICSA', 'RSAFS', 'INDPRO'):
+        try:
+            o = fred_obs(sid, 3)
+            r['fred'][sid] = [list(x) for x in o[:2]]
+        except Exception as ex:
+            r['fred'][sid] = 'ERROR: %s' % str(ex).replace(FRED_KEY or 'x', '***')
+    with open(os.path.join(ROOT, 'sonda.json'), 'w', encoding='utf-8') as f:
+        json.dump(r, f, ensure_ascii=False, indent=1)
+        f.write('\n')
+    print(json.dumps(r, ensure_ascii=False, indent=1))
+
+
 def main():
+    if '--sonda' in sys.argv:
+        return sonda()
     today = dt.datetime.now(dt.timezone.utc).date()
     html = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
     path = os.path.join(ROOT, 'actuales.json')
