@@ -329,7 +329,17 @@ h2 { color: var(--muted); }
 .minf .tab { padding: 5px 12px; font-size: 13px; }
 .day > summary span { flex: 1; }
 .elist { display: flex; flex-direction: column; }
-.eh, .er { display: grid; grid-template-columns: 52px 56px minmax(0, 1fr) minmax(70px, 150px) minmax(70px, 150px) minmax(70px, 150px); gap: 4px 12px; align-items: start; }
+.eh, .er { display: grid; grid-template-columns: 52px 56px minmax(0, 1fr); gap: 4px 12px; align-items: start; }
+.nt { grid-column: 3; max-width: 620px; margin-top: 4px; }
+.nh, .nr { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); gap: 4px 10px; align-items: baseline; }
+.nt.nolab .nh, .nt.nolab .nr { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.nh { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-bottom: 3px; border-bottom: 1px solid var(--line); }
+.nr { padding: 5px 0; border-bottom: 1px dotted var(--line); }
+.nr:last-child { border-bottom: 0; }
+.nl { font-size: 13px; color: var(--muted); }
+.ng { font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--fg); padding: 6px 0 0; }
+.nr.sub .nl { padding-left: 12px; }
+.nv { overflow-wrap: anywhere; }
 .eh { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 4px 12px 8px; }
 .er { padding: 11px 12px; border-top: 1px solid var(--line); }
 .er.past { opacity: .72; }
@@ -355,8 +365,10 @@ h2 { color: var(--muted); }
   .eh { display: none; }
   .er { grid-template-columns: 48px 56px minmax(0, 1fr); }
   .er .en { grid-column: 3; }
-  .nv { grid-column: 3; display: flex; gap: 8px; }
-  .nv::before { content: attr(data-l); color: var(--muted); font-family: var(--font-body); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; min-width: 92px; padding-top: 1px; }
+  .nt { grid-column: 1 / -1; }
+  .nh, .nr { gap: 4px 8px; }
+  .nh { font-size: 10px; }
+  .nv, .nl { font-size: 12.5px; }
 }
 
 /* Plan: largos y cortos */
@@ -1392,7 +1404,7 @@ var ENTRIES = [
           ['Bono a 10 años', 'Máximo desde 2002 a principios de semana. Subasta de 39.000 M$ al 5,300%, la más alta desde noviembre de 2000, pero por debajo de lo esperado (LPL)', 'Apoya tu idea de rotación hacia bonos: ese rendimiento compite con la bolsa. Hasta ahora ha convivido con máximos del S&P (hipótesis)'],
           ['Fed', 'Tipos 3,75‑4,00% tras la subida del 16 de septiembre. Las actas muestran mayoría a favor de otra subida antes de fin de año (LPL). Decisión el 28 de octubre a las 20:00 (hora de España)', 'Riesgo de mercado más alto: una Fed que sube con la bolsa en máximos'],
           ['Dólar y euro', 'Dólar más fuerte y euro más débil esta semana (LPL)', 'Tu idea de EURUSD fuerte aún no se ve en este dato. No tengo captura del EURUSD ni del DXY'],
-          ['IPC de septiembre (miércoles 14)', 'Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a (CMC Markets)', 'Un dato más alto de lo esperado refuerza las subidas de tipos: arriesgado para la bolsa'],
+          ['IPC de septiembre (miércoles 14)', 'Previsión: general +0,6% mensual y 3,6% anual; subyacente +0,2% mensual y 2,5% anual (CMC Markets)', 'Un dato más alto de lo esperado refuerza las subidas de tipos: arriesgado para la bolsa'],
           ['Año de midterm (estacionalidad)', 'Caída máxima media dentro del año de ≈19% (16 ciclos, 1962‑2022). En 2026 el S&P corrigió hasta la zona media de 6.500 a finales de marzo (Sequoia)', 'Es solo contexto, no la base de tu escenario: la cercanía de las elecciones puede añadir volatilidad. La caída típica del año ya pudo darse en marzo (hipótesis)'],
           ['Después de las elecciones', 'Ganancia media de ≈16,3% en los 12 meses siguientes (RBC, desde 1932). Subida media de ≈31% en 12 meses desde el mínimo del año de midterm, positiva en los 16 ciclos (Strategas) (ambas vía Sequoia)', 'Es coherente con tu «recoger beneficios y luego otra subida suave»: lo que importa es dónde esté el mínimo'],
           ['Elecciones de medio mandato', 'Martes 3 de noviembre (cálculo mío por el calendario)', 'Mira el movimiento de la semana anterior y posterior'],
@@ -1423,7 +1435,7 @@ var ENTRIES = [
     vigilar: [
       { k: 'Lunes 12 de octubre', text: 'Columbus Day: bonos cerrados y menos liquidez. Confirma el horario del contrato.' },
       { k: 'Martes 13 y miércoles 14', text: 'Resultados de JPMorgan, Goldman Sachs y Wells Fargo el martes, y de Bank of America, Morgan Stanley y BlackRock el miércoles (antes de la apertura). JPMorgan: BPA esperado ≈ 5,90 $ y ingresos ≈ 51,3 mil M$ (CMC Markets).' },
-      { k: 'Miércoles 14, 14:30', text: 'IPC de septiembre. Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a.' },
+      { k: 'Miércoles 14, 14:30', text: 'IPC de septiembre. Previsión: general +0,6% mensual y 3,6% anual; subyacente +0,2% mensual y 2,5% anual.' },
       { k: 'Jueves 15, 14:30', text: 'PPI y ventas minoristas de septiembre.' },
       { k: '7.901,75 y 7.734,75', text: 'Cierre H4 fuera del rango 7.734‑7.902 con volumen en M5 y color de fuerza: ese es el gatillo.' },
       { k: 'Miércoles 28 de octubre, 20:00', text: 'Decisión de la Fed. Sube el riesgo si hay otra subida de tipos con la bolsa en máximos.' },
@@ -1515,7 +1527,7 @@ var ENTRIES = [
           ['Gasto en IA', 'Amazon: capex 2026 ≈151.000 M$ y Alphabet ≈132.400 M$ (FXEmpire, 4 de agosto). Preocupa el flujo de caja', 'Contexto de fondo, de agosto. No tengo cifras más recientes'],
           ['Bono a 10 años', 'Máximo desde 2002 a principios de semana. Subasta al 5,300% (LPL)', 'Presiona las valoraciones de tecnología. Hipótesis'],
           ['Fed', 'Tipos 3,75‑4,00% tras la subida del 16 de septiembre. Mayoría de las actas a favor de otra subida antes de fin de año (LPL). Decisión el 28 de octubre, 20:00 (hora de España)', 'El Nasdaq es el más sensible a los tipos (hipótesis)'],
-          ['IPC de septiembre (miércoles 14)', 'Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a (CMC Markets)', 'Si sale por encima, más riesgo de bajada hacia tu zona'],
+          ['IPC de septiembre (miércoles 14)', 'Previsión: general +0,6% mensual y 3,6% anual; subyacente +0,2% mensual y 2,5% anual (CMC Markets)', 'Si sale por encima, más riesgo de bajada hacia tu zona'],
           ['Resultados', 'Bancos del 13 al 16 de octubre. TSMC el jueves 15 (CMC Markets). Las grandes tecnológicas no tienen fecha confirmada: se esperan a finales de octubre o principios de noviembre', 'TSMC es la primera lectura de demanda de chips después del jueves 8'],
           ['Dólar', 'Más fuerte esta semana (LPL)', 'Sin dato del DXY. Pásame la captura si quieres cruzarlo']
         ],
@@ -1543,7 +1555,7 @@ var ENTRIES = [
       { k: 'Lunes 12 de octubre', text: 'Columbus Day: bonos cerrados y menos liquidez. Confirma el horario del contrato.' },
       { k: '31.291,50 y 30.818,75', text: 'Cierre H1 y H4 fuera del rango 30.818,75‑31.291,50 con color de fuerza y volumen en M5: gatillo en H1 con confirmación en H4.' },
       { k: 'Martes 13', text: 'Resultados de JPMorgan, Goldman Sachs y Wells Fargo, antes de la apertura.' },
-      { k: 'Miércoles 14, 14:30', text: 'IPC de septiembre. Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a.' },
+      { k: 'Miércoles 14, 14:30', text: 'IPC de septiembre. Previsión: general +0,6% mensual y 3,6% anual; subyacente +0,2% mensual y 2,5% anual.' },
       { k: 'Jueves 15', text: 'Resultados de TSMC. A las 14:30, PPI y ventas minoristas.' },
       { k: 'Miércoles 28 de octubre, 20:00', text: 'Decisión de la Fed.' },
       { k: 'Capturas', text: 'Pásame el volumen en M5 y, si quieres, el DXY y el VIX.' }
@@ -1633,7 +1645,7 @@ var ENTRIES = [
         rows: [
           ['Swing (tu análisis del 10 de octubre)', 'Rango 4.095,5‑4.260 con pared en 4.376,8 y sesgo bajista de fondo', 'La subida de madrugada no superó el techo: refuerza el rango'],
           ['Dólar y bonos', 'Dólar más fuerte la semana pasada; el rendimiento a 10 años tocó máximos desde 2002 y luego los bonos subieron (LPL)', 'Un dólar fuerte pesa sobre el oro. Hoy los bonos están cerrados, así que hay menos referencia'],
-          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a (CMC Markets)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para el oro (hipótesis)'],
+          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% mensual y 3,6% anual; subyacente +0,2% mensual y 2,5% anual (CMC Markets)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para el oro (hipótesis)'],
           ['Hoy', 'Columbus Day y discurso de Hammack (Fed), sin hora confirmada (CMC Markets)', 'Menos liquidez: más riesgo de mechas']
         ],
         note: 'Son factores de contexto. El gráfico manda: solo opero con el gatillo.'
@@ -1721,7 +1733,7 @@ var ENTRIES = [
     vigilar: [
       { k: 'Lunes 12', text: 'Columbus Day: bonos cerrados y menos liquidez. Discurso de Hammack (Fed), sin hora confirmada. Apertura de EE. UU. a las 15:30.' },
       { k: 'Martes 13', text: 'Resultados de JPMorgan, Goldman Sachs y Wells Fargo antes de la apertura.' },
-      { k: 'Miércoles 14, 14:30', text: 'IPC de septiembre. Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a (CMC Markets).' },
+      { k: 'Miércoles 14, 14:30', text: 'IPC de septiembre. Previsión: general +0,6% mensual y 3,6% anual; subyacente +0,2% mensual y 2,5% anual (CMC Markets).' },
       { k: '31.200 y 31.060', text: 'Cierre M15 fuera del rango 31.060‑31.200 con volumen: ese es el gatillo.' }
     ],
     sources: [
@@ -1805,7 +1817,7 @@ var ENTRIES = [
         rows: [
           ['Tu tesis swing (análisis del 11 de octubre)', 'Alcista a corto plazo sin entrar; máximo semanal 7.897,50 bajo tu línea 7.901,75', 'Hoy el precio no ha llegado a ella: el techo sigue intacto'],
           ['Bono a 10 años', 'Máximo desde 2002 a principios de la semana pasada; luego los bonos subieron (LPL)', 'Hoy los bonos están cerrados (Columbus Day), con menos referencia'],
-          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% m/m y 3,6% a/a; subyacente +0,2% m/m y 2,5% a/a (CMC Markets)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para la bolsa'],
+          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% mensual y 3,6% anual; subyacente +0,2% mensual y 2,5% anual (CMC Markets)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para la bolsa'],
           ['Resultados', 'JPMorgan, Goldman Sachs y Wells Fargo el martes 13, antes de la apertura (CMC Markets)', 'Arranca la temporada: más volatilidad desde mañana']
         ],
         note: 'Son factores de contexto. El gráfico manda: solo opero con el gatillo.'
@@ -1906,7 +1918,7 @@ var ENTRIES = [
           ['Swing (tu análisis del 10 de octubre)', 'Rango 4.095,5‑4.260 con pared en 4.376,8 y sesgo bajista de fondo', 'El rebote de hoy sigue dentro del rango y no ha superado el máximo de ayer'],
           ['Dólar y bonos', 'Dólar más fuerte la semana pasada; el rendimiento a 10 años tocó máximos desde 2002 y luego los bonos subieron (LPL)', 'Hoy los bonos vuelven a operar tras el festivo de ayer: más referencia que ayer (hipótesis)'],
           ['Bancos (hoy, antes de la apertura)', 'JPMorgan, Citigroup, Goldman Sachs y Wells Fargo (Stocktwits)', 'Más volatilidad desde las 12:30 aprox. (hipótesis)'],
-          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% m/m y 3,6‑3,7% a/a según la fuente; subyacente +0,2% m/m y 2,5% a/a (CMC Markets, MarketWatch vía Stocktwits)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para el oro (hipótesis)']
+          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% mensual y 3,6‑3,7% anual según la fuente; subyacente +0,2% mensual y 2,5% anual (CMC Markets, MarketWatch vía Stocktwits)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para el oro (hipótesis)']
         ],
         note: 'Son factores de contexto. El gráfico manda: solo opero con el gatillo.'
       }
@@ -2005,7 +2017,7 @@ var ENTRIES = [
           ['Nasdaq (NQ)', 'Hoy −0,43% (gráfico de las 10:48) frente al +0,01% del ES (gráfico de las 10:50)', 'Si el NQ pierde su soporte de H4 (~30.605), puede arrastrar al ES (hipótesis)'],
           ['Bono a 10 años', 'Máximo desde 2002 a principios de la semana pasada; luego los bonos subieron (LPL)', 'Los bonos vuelven a operar hoy tras el festivo de ayer'],
           ['Bancos (hoy, antes de la apertura)', 'JPMorgan, Citigroup, Goldman Sachs y Wells Fargo (Stocktwits)', 'Arranca la temporada: más volatilidad desde las 12:30 aprox. (hipótesis)'],
-          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% m/m y 3,6‑3,7% a/a según la fuente; subyacente +0,2% m/m y 2,5% a/a (CMC Markets, MarketWatch vía Stocktwits)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para la bolsa']
+          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% mensual y 3,6‑3,7% anual según la fuente; subyacente +0,2% mensual y 2,5% anual (CMC Markets, MarketWatch vía Stocktwits)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para la bolsa']
         ],
         note: 'Son factores de contexto. El gráfico manda: solo opero con el gatillo.'
       }
@@ -2106,7 +2118,7 @@ var ENTRIES = [
           ['S&P 500 (ES)', 'Hoy +0,01% (gráfico de las 10:50) frente al −0,45% del NQ', 'Debilidad relativa del Nasdaq: el movimiento es de tecnología, no de todo el mercado (hipótesis)'],
           ['Bono a 10 años', 'Máximo desde 2002 a principios de la semana pasada; luego los bonos subieron (LPL)', 'Los bonos vuelven a operar hoy tras el festivo de ayer'],
           ['Bancos (hoy, antes de la apertura)', 'JPMorgan, Citigroup, Goldman Sachs y Wells Fargo (Stocktwits)', 'Arranca la temporada de resultados: más volatilidad desde las 12:30 aprox. (hipótesis)'],
-          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% m/m y 3,6‑3,7% a/a según la fuente; subyacente +0,2% m/m y 2,5% a/a (CMC Markets, MarketWatch vía Stocktwits)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para el tecnológico']
+          ['IPC de septiembre (miércoles 14, 14:30)', 'Previsión: general +0,6% mensual y 3,6‑3,7% anual según la fuente; subyacente +0,2% mensual y 2,5% anual (CMC Markets, MarketWatch vía Stocktwits)', 'Un IPC alto refuerza las subidas de tipos: arriesgado para el tecnológico']
         ],
         note: 'Son factores de contexto. El gráfico manda: solo opero con el gatillo.'
       }
@@ -2392,7 +2404,7 @@ var ENTRIES = [
             "Afecta sobre todo al WTI"
           ]
         ],
-        "note": "Ayer el IPC salió caliente (3,7% a/a). Próximo evento grande: FOMC 27‑28 de octubre."
+        "note": "Ayer el IPC salió caliente (3,7% anual). Próximo evento grande: FOMC 27‑28 de octubre."
       }
     ],
     "vigilar": [
@@ -2695,7 +2707,7 @@ var ENTRIES = [
             "Afecta sobre todo al WTI"
           ]
         ],
-        "note": "Ayer el IPC salió caliente (3,7% a/a). Próximo evento grande: FOMC 27‑28 de octubre."
+        "note": "Ayer el IPC salió caliente (3,7% anual). Próximo evento grande: FOMC 27‑28 de octubre."
       }
     ],
     "vigilar": [
@@ -2995,7 +3007,7 @@ var ENTRIES = [
             "Afecta sobre todo al WTI"
           ]
         ],
-        "note": "Ayer el IPC salió caliente (3,7% a/a). Próximo evento grande: FOMC 27‑28 de octubre."
+        "note": "Ayer el IPC salió caliente (3,7% anual). Próximo evento grande: FOMC 27‑28 de octubre."
       }
     ],
     "vigilar": [
@@ -3560,20 +3572,66 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     if (e.a && e.a.length) h += '<p><b>Afecta a</b> ' + e.a.map(function (n) { return ALBL[n] || n; }).join(', ') + '</p>';
     return '<div class="ex">' + h + '</div>';
   }
+  function parseNums(t) {
+    var out = [], lastM = false, u = 0;
+    String(t || '').split('\n').forEach(function (line) {
+      var m = /^(.*?)\s*([+−-]?[\d.,]+%)\s*m\/m(?:\s*·\s*([+−-]?[\d.,]+%)\s*a\/a)?$/.exec(line), m2;
+      if (m) {
+        lastM = true;
+        out.push({ k: m[1] + '|mensual', lab: m[1], per: 'mensual', v: m[2] });
+        if (m[3]) out.push({ k: m[1] + '|anual', lab: m[1], per: 'anual', v: m[3] });
+      } else if (lastM && (m2 = /^(Sin autos|Grupo de control)\s+([+−-]?[\d.,]+%)$/.exec(line))) {
+        out.push({ k: m2[1] + '|mensual', lab: m2[1], per: 'mensual', v: m2[2] });
+      } else out.push({ k: '#' + (u++), lab: '', per: '', v: line });
+    });
+    return out;
+  }
+  function ntHtml(cols, groups, res) {
+    var rows = [], idx = {}, cells = [];
+    groups.forEach(function (g, ci) {
+      cells[ci] = {};
+      var parts = g.vals;
+      (typeof parts === 'string' || !parts ? parseNums(parts) : parts).forEach(function (r) {
+        if (!(r.k in idx)) { idx[r.k] = rows.length; rows.push(r); }
+        cells[ci][r.k] = r.v;
+      });
+    });
+    var noLab = rows.every(function (r) { return !r.lab && !r.per && !r.name; }) && rows.length <= 1;
+    var h = '<div class="nt' + (noLab ? ' nolab' : '') + '"><div class="nh">' + (noLab ? '' : '<span></span>') + cols.map(function (c) { return '<span>' + esc(c) + '</span>'; }).join('') + '</div>';
+    var prevLab = '';
+    rows.forEach(function (r) {
+      var lab = r.name || r.lab;
+      if (r.per) {
+        lab = r.per.charAt(0).toUpperCase() + r.per.slice(1);
+        if (r.lab && r.lab !== prevLab) h += '<div class="ng">' + esc(r.lab) + '</div>';
+        if (r.lab) lab = '  ' + lab;
+      }
+      prevLab = r.per ? r.lab : '';
+      h += '<div class="nr' + (r.per && r.lab ? ' sub' : '') + '">' + (noLab ? '' : '<span class="nl">' + esc(lab.trim()) + '</span>');
+      groups.forEach(function (g, ci) {
+        var v = cells[ci][r.k];
+        h += '<span class="nv' + (ci === 0 && res ? ' rl ' + res : '') + '">' + (v ? esc(v) : '—') + '</span>';
+      });
+      h += '</div>';
+    });
+    return h + '</div>';
+  }
   function evRow(e) {
     return '<div class="er' + (isPast(e) ? ' past' : '') + (e.res ? ' ' + e.res : '') + '"><div class="et">' + esc(e.h) + '</div><div class="es">' + starsHtml(e.s || 1) + '</div>' +
       '<div class="en"><button type="button" class="enb" data-evt aria-expanded="false">' + esc(e.ev) + '</button></div>' +
-      '<div class="nv rl' + (e.res ? ' ' + e.res : '') + '" data-l="Real">' + (e.act ? nl(e.act) : '—') + '</div><div class="nv" data-l="Previsión">' + (e.fc ? nl(e.fc) : '—') + '</div><div class="nv" data-l="Anterior">' + (e.prev ? nl(e.prev) : '—') + '</div>' +
+      ntHtml(['Real', 'Previsión', 'Anterior'], [{ vals: e.act }, { vals: e.fc }, { vals: e.prev }], e.res) +
       impactHtml(e) + exHtml(e, e.k) + '</div>';
   }
   function earnRow(e) {
-    var rev = (e.revA || e.revF || e.revP) ? '<div class="ei"><span class="ih">Ingresos</span><span>Real ' + esc(e.revA || '—') + '</span><span>Previsión ' + esc(e.revF || '—') + '</span><span>Año anterior ' + esc(e.revP || '—') + '</span></div>' : '';
     var imp = e.res ? '<div class="ei"><span class="ih">Con este dato</span><span class="' + (e.res === 'up' ? 'ben' : 'hurt') + '">' + (e.res === 'up' ? 'Favorece' : 'Perjudica') + ': S&amp;P 500, Nasdaq</span></div>' : '';
     var x = { n: e.n, a: ['ES', 'NQ'] };
     return '<div class="er' + (isPast(e) ? ' past' : '') + (e.res ? ' ' + e.res : '') + '"><div class="et">' + esc(e.h) + '</div><div class="es">' + starsHtml(e.s || 1) + '</div>' +
       '<div class="en"><button type="button" class="enb" data-evt aria-expanded="false">' + esc(e.co) + ' <small>' + esc(e.tk) + '</small></button></div>' +
-      '<div class="nv rl' + (e.res ? ' ' + e.res : '') + '" data-l="BPA real">' + esc(e.epsA || '—') + '</div><div class="nv" data-l="BPA previsión">' + esc(e.epsF || '—') + '</div><div class="nv" data-l="BPA año anterior">' + esc(e.epsP || '—') + '</div>' +
-      rev + imp + exHtml(x, 'corp') + '</div>';
+      ntHtml(['Real', 'Previsión', 'Año anterior'], [
+        { vals: [{ k: 'bpa', name: 'BPA', v: e.epsA }, { k: 'ing', name: 'Ingresos', v: e.revA }].filter(function (r) { return r.v; }) },
+        { vals: [{ k: 'bpa', name: 'BPA', v: e.epsF }, { k: 'ing', name: 'Ingresos', v: e.revF }].filter(function (r) { return r.v; }) },
+        { vals: [{ k: 'bpa', name: 'BPA', v: e.epsP }, { k: 'ing', name: 'Ingresos', v: e.revP }].filter(function (r) { return r.v; }) }], e.res) +
+      imp + exHtml(x, 'corp') + '</div>';
   }
   function pickerHtml() {
     var pm = CALST.pm, first = new Date(pm.y, pm.m, 1, 12), off = (first.getDay() + 6) % 7, nd = new Date(pm.y, pm.m + 1, 0).getDate();
@@ -3614,7 +3672,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
       var evs = list.filter(function (e) { return e.d === d; });
       var open = (d in CALST.open) ? CALST.open[d] : d === openIso;
       html += '<details class="fold day" data-day="' + d + '"' + (open ? ' open' : '') + '><summary><span>' + esc(dlabelLong(d)) + (d === today ? ' · hoy' : '') + '</span><em>' + evs.length + '</em></summary><div class="elist">' +
-        '<div class="eh"><span>Hora</span><span>Imp.</span><span>' + (earn ? 'Empresa' : 'Evento') + '</span><span>' + (earn ? 'BPA real' : 'Real') + '</span><span>Previsión</span><span>Anterior</span></div>' +
+        '<div class="eh"><span>Hora</span><span>Imp.</span><span>' + (earn ? 'Empresa' : 'Evento') + '</span></div>' +
         evs.map(earn ? earnRow : evRow).join('') + '</div></details>';
     });
     html += '<details class="fold"><summary><span>Festivos y horarios</span><em>' + HOL.length + '</em></summary><div class="hol">' + HOL.map(function (h) { return '<div><b>' + esc(h.d) + ' · ' + esc(h.t) + '</b>' + esc(h.x) + '</div>'; }).join('') + '</div></details>';
