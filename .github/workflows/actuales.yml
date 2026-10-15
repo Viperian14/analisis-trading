@@ -2,9 +2,11 @@ name: Datos reales del calendario
 
 on:
   schedule:
-    # Cada 10 minutos de lunes a viernes entre las 12:00 y las 15:59 UTC (cubre las 14:30 de España
-    # con horario de verano y de invierno). GitHub puede retrasar unos minutos las tareas programadas.
+    # Casi todo el día de lunes a viernes (hora UTC). Cada 10 minutos entre las 12:00 y las 15:59 UTC,
+    # que es cuando salen la mayoría de los datos de EE. UU. (14:30 de España en verano), y cada 20 minutos el resto
+    # del día. GitHub puede retrasar unos minutos las tareas programadas.
     - cron: '*/10 12-15 * * 1-5'
+    - cron: '*/20 0-11,16-23 * * 1-5'
   workflow_dispatch:
     inputs:
       sonda:
