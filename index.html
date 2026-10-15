@@ -396,6 +396,10 @@ span.usd { display: inline-block; text-align: center; line-height: 24px; }
 .modal .note { color: var(--muted); font-size: 13px; }
 .catchips { margin: 10px 0 14px; }
 .trtabs { margin: 4px 0 16px; }
+.assetchips { margin: 18px 0 14px; }
+button.bs { font: inherit; color: var(--fg); text-align: left; cursor: pointer; }
+button.bs:hover, button.bs:focus-visible { border-color: var(--accent); outline: none; }
+.bs[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
 .actgrp[hidden], .actcat[hidden] { display: none; }
 </style>
 
@@ -2818,14 +2822,15 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     ['NG', '2026-10-11', 'Largo de retroceso (3,127‑3,08)', 'Mínimo 3,157, a 0,03 de la zona, y rebote con marca IN en M15 hasta 3,287. No llegó a entrar.'],
     ['NG', '2026-10-11', 'Corto (pérdida de 3,03)', 'No ha llegado.']
   ];
-  var TRST = { tab: 'intra' };
-  function renderTradesSet(TR, NA, kind) {
+  var TRST = { tab: 'intra', f: 'all', a: 'all' };
+  function renderTradesSet(TR0, NA0, kind) {
+    var TR = TR0.filter(function (t) { return TRST.a === 'all' || t.asset === TRST.a; }), NA = NA0.filter(function (n) { return TRST.a === 'all' || n[0] === TRST.a; });
     function dlabel(d) { var p = d.split('-'), dt = new Date(+p[0], +p[1] - 1, +p[2]); return DIAS[dt.getDay()] + ' ' + p[2].replace(/^0/, '') + ' de ' + MESES[+p[1] - 1]; }
     function pc(n, t) { return t ? Math.round(100 * n / t) : 0; }
     var W = TR.filter(function (t) { return t.out === 'win' || t.out === 'open'; }), F = TR.filter(function (t) { return t.out === 'loss'; }), PD = TR.filter(function (t) { return t.out === 'pend'; }), N = W.length + F.length, OP = TR.filter(function (t) { return t.out === 'open'; }).length;
     function by(list, m) { return list.filter(function (t) { return t.match === m; }).length; }
     var total = N + PD.length + NA.length;
-    var html = '<section><h2>Resumen</h2><div class="bigstat"><div class="bs win"><b>' + pc(W.length, N) + '%</b><span>aciertos · ' + W.length + ' de ' + N + (OP ? ' (' + (W.length - OP) + ' con objetivo alcanzado + ' + OP + ' en curso a favor)' : '') + '</span></div><div class="bs loss"><b>' + (N ? 100 - pc(W.length, N) : 0) + '%</b><span>fallos · ' + F.length + ' de ' + N + '</span></div><div class="bs"><b>' + N + '</b><span>activadas de ' + total + ' planteadas (' + pc(N, total) + '%)</span></div></div>' +
+    var html = '<section><h2>Resumen</h2><div class="bigstat"><button type="button" class="bs win" data-trf="win" aria-pressed="' + (TRST.f === 'win') + '"><b>' + pc(W.length, N) + '%</b><span>aciertos · ' + W.length + ' de ' + N + (OP ? ' (' + (W.length - OP) + ' con objetivo alcanzado + ' + OP + ' en curso a favor)' : '') + '</span></button><button type="button" class="bs loss" data-trf="loss" aria-pressed="' + (TRST.f === 'loss') + '"><b>' + (N ? 100 - pc(W.length, N) : 0) + '%</b><span>fallos · ' + F.length + ' de ' + N + '</span></button><button type="button" class="bs" data-trf="all" aria-pressed="' + (TRST.f === 'all') + '"><b>' + N + '</b><span>activadas de ' + total + ' planteadas (' + pc(N, total) + '%)</span></button></div><p class="legend">Pulsa aciertos o fallos para ver solo esos; pulsa el tercer cuadro para verlo todo.</p>' +
       '<div class="split"><div class="sp"><h3>Desglose de los aciertos</h3><div class="sumrow"><div><b>' + by(W, 'Exacta') + '</b><span>exactos · ' + pc(by(W, 'Exacta'), W.length) + '%</span></div><div><b>' + by(W, 'Aproximada') + '</b><span>aproximados · ' + pc(by(W, 'Aproximada'), W.length) + '%</span></div><div><b>' + by(W, 'Parcial') + '</b><span>parciales · ' + pc(by(W, 'Parcial'), W.length) + '%</span></div></div></div>' +
       '<div class="sp"><h3>Desglose de los fallos</h3><div class="sumrow"><div><b>' + by(F, 'Exacta') + '</b><span>exactos · ' + pc(by(F, 'Exacta'), F.length) + '%</span></div><div><b>' + by(F, 'Aproximada') + '</b><span>aproximados · ' + pc(by(F, 'Aproximada'), F.length) + '%</span></div><div><b>' + by(F, 'Parcial') + '</b><span>parciales · ' + pc(by(F, 'Parcial'), F.length) + '%</span></div></div></div></div>' +
       '<p class="legend">Muestra pequeña (' + N + (kind === 'swing' ? ' operativas swing de los análisis del 10 y 11 de octubre, medidas con tus gráficos H4 de las 19:20 y M15 y diarios de las 23:00 del miércoles 14' : ' operativas de los días 12 y 13 de octubre') + '): los porcentajes son orientativos. Son resultados teóricos medidos a ojo sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «activada» significa que el precio hizo el recorrido del plan, no que se confirmaran todas las condiciones.</p></section>';
@@ -2841,10 +2846,18 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     }
     var o = { Exacta: 0, Aproximada: 1, Parcial: 2 };
     function sorted(l) { return l.slice().sort(function (a, b) { return a.date !== b.date ? (a.date < b.date ? 1 : -1) : o[a.match] - o[b.match]; }); }
-    html += '<details class="fold" open><summary><span>Aciertos</span><em>' + W.length + '</em></summary><div class="elist">' + sorted(W).map(tradeHtml).join('') + '</div></details>';
-    html += '<details class="fold" open><summary><span>Fallos</span><em>' + F.length + '</em></summary><div class="elist">' + sorted(F).map(tradeHtml).join('') + '</div></details>';
-    if (PD.length) html += '<details class="fold" open><summary><span>En curso, todavía no cuentan</span><em>' + PD.length + '</em></summary><div class="elist">' + PD.map(tradeHtml).join('') + '</div></details>';
-    html += '<details class="fold"><summary><span>No se activaron o no se pueden comprobar (no cuentan en los porcentajes)</span><em>' + NA.length + '</em></summary><div class="elist">' +
+    var seen = {};
+    TR0.concat(NA0.map(function (n) { return { asset: n[0] }; })).forEach(function (t) { seen[t.asset] = 1; });
+    var ORD = ['NQ', 'ES', 'GC', 'SI', 'WTI', 'NG', 'KC', 'CC'].filter(function (a) { return seen[a]; });
+    html += '<div class="tabs assetchips" role="group" aria-label="Activo"><button type="button" class="tab" data-tra="all" aria-pressed="' + (TRST.a === 'all') + '">Todos los activos</button>' + ORD.map(function (a) {
+      return '<button type="button" class="tab" data-tra="' + a + '" aria-pressed="' + (TRST.a === a) + '">' + esc(ASSET_NAMES[a] || a) + '</button>';
+    }).join('') + '</div>';
+    var fa = TRST.f === 'all', fw = fa || TRST.f === 'win', fl = fa || TRST.f === 'loss';
+    if (!W.length && !F.length && !PD.length && !NA.length) html += '<p class="note">No hay operativas de este activo en esta pestaña.</p>';
+    if (fw && W.length) html += '<details class="fold" open><summary><span>Aciertos</span><em>' + W.length + '</em></summary><div class="elist">' + sorted(W).map(tradeHtml).join('') + '</div></details>';
+    if (fl && F.length) html += '<details class="fold" open><summary><span>Fallos</span><em>' + F.length + '</em></summary><div class="elist">' + sorted(F).map(tradeHtml).join('') + '</div></details>';
+    if (fa && PD.length) html += '<details class="fold" open><summary><span>En curso, todavía no cuentan</span><em>' + PD.length + '</em></summary><div class="elist">' + PD.map(tradeHtml).join('') + '</div></details>';
+    if (fa && NA.length) html += '<details class="fold"><summary><span>No se activaron o no se pueden comprobar (no cuentan en los porcentajes)</span><em>' + NA.length + '</em></summary><div class="elist">' +
       NA.map(function (n) { return '<div class="trade"><div class="th"><span class="tg2">' + esc(ASSET_NAMES[n[0]] || n[0]) + '</span><span class="tg2">' + esc(dlabel(n[1])) + '</span></div><h3>' + esc(n[2]) + '</h3><p>' + esc(n[3]) + '</p></div>'; }).join('') + '</div></details>';
     html += '<section><h2>Cómo lo mido</h2><div class="paras"><p><b>Acierto:</b> el precio alcanzó al menos el primer objetivo sin tocar antes el stop (o la invalidación, cuando el análisis no define stop). <b>Exacto:</b> entrada y objetivos coinciden con el plan. <b>Aproximado:</b> la entrada o algún objetivo se quedó a pocos puntos. <b>Parcial:</b> solo se cumplió una parte de los objetivos.</p><p><b>Fallo:</b> el stop o la invalidación se dieron antes del primer objetivo. <b>Exacto:</b> el plan falló tal como estaba escrito. <b>Aproximado:</b> falló por pocos puntos o el precio fue al objetivo justo después. <b>Parcial:</b> llegó a algún objetivo pero la operación acabó en pérdida.</p><p><b>No se activó:</b> el precio no llegó a la zona o no hubo gatillo comprobable; no cuenta como acierto ni como fallo.</p><p>' + (kind === 'swing' ? '<b>En curso a favor:</b> el gatillo se activó y el precio va a favor, pero aún no ha llegado al primer objetivo o el análisis no definía objetivo; cuenta como acierto mientras no se invalide y se indica aparte. Las velas diarias de las capturas de las 23:00 aún no habían cerrado: lo que dependa de ese cierre puede cambiar. <b>En curso, no cuenta:</b> el gatillo se activó pero el precio devolvió lo ganado sin llegar al objetivo ni invalidarse. Solo evalúo los análisis de swing del 10 y 11 de octubre con tus gráficos H4 de las 19:20 y M15 y diarios de las 23:00 del miércoles 14.' : 'Solo evalúo las operativas de intradía y scalping (NQ, ES y oro) de los días 12 y 13 de octubre, con los gráficos M15 de las 19:35 del martes 13.') + '</p></div></section>';
     return html;
@@ -2987,7 +3000,9 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     if (T) {
       var ca = T.closest('[data-cal]'); if (ca) { calAct(ca.getAttribute('data-cal')); return; }
       var eb = T.closest('[data-evt]'); if (eb) { var rw = eb.closest('.er'), op = rw.classList.toggle('open'); eb.setAttribute('aria-expanded', op ? 'true' : 'false'); return; }
-      var tt = T.closest('[data-trtab]'); if (tt) { TRST.tab = tt.getAttribute('data-trtab'); renderInfo(); return; }
+      var tt = T.closest('[data-trtab]'); if (tt) { TRST.tab = tt.getAttribute('data-trtab'); TRST.a = 'all'; renderInfo(); return; }
+      var tf = T.closest('[data-trf]'); if (tf) { var nf = tf.getAttribute('data-trf'); TRST.f = (TRST.f === nf ? 'all' : nf); renderInfo(); return; }
+      var ta = T.closest('[data-tra]'); if (ta) { TRST.a = ta.getAttribute('data-tra'); renderInfo(); return; }
       var ct = T.closest('[data-cat]'); if (ct) { TOOLST.cat = ct.getAttribute('data-cat'); renderInfo(); return; }
       var tl = T.closest('[data-tool]'); if (tl) { TOOLST.tab = tl.getAttribute('data-tool'); renderInfo(); return; }
       var us = T.closest('[data-usd]'); if (us) { openUsd(us.getAttribute('data-usd')); return; }
