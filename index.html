@@ -3896,6 +3896,25 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     document.getElementById('infobody').innerHTML = pg === 'herramientas' ? renderTools() : pg === 'operativas' ? renderTrades() : renderCalendar();
   }
 
+  /* Datos reales automáticos: un script de GitHub Actions escribe actuales.json y aquí se aplican sobre el calendario.
+     Solo rellena el campo "real" si está vacío (lo que escribo a mano manda). Si el archivo no existe, no pasa nada. */
+  function loadActuals() {
+    try {
+      if (!/^https?:$/.test(location.protocol)) return;
+      fetch('actuales.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (!j || !j.items) return;
+        var ch = 0;
+        j.items.forEach(function (it) {
+          CAL.forEach(function (e) {
+            if (e.d === it.d && e.ev.indexOf(it.match) >= 0 && !e.act) { e.act = it.act; if (it.res) e.res = it.res; ch++; }
+          });
+        });
+        if (ch && state.page === 'calendario') renderInfo();
+      }).catch(function () {});
+    } catch (e) {}
+  }
+  loadActuals();
+
   function render() {
     document.getElementById('home').hidden = !state.home;
     document.getElementById('app').hidden = state.home || !!state.page;
