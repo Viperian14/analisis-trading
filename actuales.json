@@ -1,10 +1,16 @@
 {
- "updated": "2026-10-16T13:20:57Z",
+ "updated": "2026-10-16T18:30:45Z",
  "items": [
   {
    "d": "2026-10-16",
    "match": "Producción industrial de EE. UU., septiembre",
    "act": "+0,7% m/m · 2,2% a/a",
+   "res": ""
+  },
+  {
+   "d": "2026-10-16",
+   "match": "IPC final de la zona euro, septiembre",
+   "act": "General 3,8% a/a\nSubyacente 2,5% a/a",
    "res": ""
   }
  ]
