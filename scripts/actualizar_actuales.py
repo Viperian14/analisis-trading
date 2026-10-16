@@ -223,6 +223,18 @@ def sonda():
                 r['calculos'][nombre] = 'ERROR: %s' % ex
     except Exception as ex:
         r['bls']['ERROR'] = str(ex)
+    try:
+        cand = ['EIUIR', 'EIUIQ', 'EIUSIR', 'EIUSIQ', 'EIUIR10', 'EIUIREXFUELS', 'EIUIR10']
+        s2 = bls_series(cand, year)
+        r['importacion'] = {}
+        for k, d in s2.items():
+            ym = latest_month(d)
+            if not ym:
+                r['importacion'][k] = None
+                continue
+            r['importacion'][k] = {'ultimo': '%s-%02d' % ym, 'valor': d.get(ym), 'mm': mm(d, ym), 'yy': yy(d, ym), 'mm_previo': mm(d, prev_month(ym)), 'yy_previo': yy(d, prev_month(ym))}
+    except Exception as ex:
+        r['importacion'] = 'ERROR: %s' % ex
     for sid in ('ICSA', 'RSAFS', 'INDPRO'):
         try:
             o = fred_obs(sid, 3)
