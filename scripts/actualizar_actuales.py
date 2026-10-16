@@ -275,6 +275,8 @@ def sonda():
         for dk, dv in j['dimension'].items():
             cat = dv['category']
             dims[dk] = {k: (cat.get('label', {}).get(k, '')[:60]) for k in list(cat['index'])[:12]} if dk not in ('time',) else list(cat['index'])
+        cat18 = j['dimension']['coicop18']['category']
+        r['eurostat_especiales'] = {k: cat18.get('label', {}).get(k, '')[:80] for k in cat18['index'] if not k.startswith('CP')}
         r['eurostat_minr'] = {'id': j.get('id'), 'size': j.get('size'), 'dims': dims, 'n_valores': len(j.get('value', {}))}
     except Exception as ex:
         r['eurostat_minr'] = 'ERROR: %s' % ex
