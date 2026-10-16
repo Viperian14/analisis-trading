@@ -130,6 +130,33 @@ def calc_ppi(month, year):
     return act, False
 
 
+def calc_import(month, year):
+    s = bls_series(['EIUIR', 'EIUIQ'], year)
+    ym = latest_month(s['EIUIR'])
+    if not ym or ym[1] != month or latest_month(s['EIUIQ']) != ym:
+        return None
+    act = 'Importaciones %s m/m · %s a/a\nExportaciones %s m/m · %s a/a' % (
+        pct(mm(s['EIUIR'], ym)), pct(yy(s['EIUIR'], ym), False), pct(mm(s['EIUIQ'], ym)), pct(yy(s['EIUIQ'], ym), False))
+    return act, False
+
+
+def eurostat_hicp(coicop):
+    url = ('https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr'
+           '?format=JSON&lang=EN&geo=EA&coicop=%s&lastTimePeriod=3' % coicop)
+    j = http_json(url)
+    idx = j['dimension']['time']['category']['index']
+    vals = j.get('value', {})
+    return {t: vals.get(str(i)) for t, i in idx.items()}
+
+
+def calc_hicp(month, year):
+    key = '%d-%02d' % (year, month)
+    g, c = eurostat_hicp('CP00'), eurostat_hicp('TOT_X_NRG_FOOD')
+    if g.get(key) is None or c.get(key) is None:
+        return None
+    return 'General %s a/a\nSubyacente %s a/a' % (pct(g[key], False), pct(c[key], False)), False
+
+
 def calc_nfp(month, year):
     s = bls_series(['CES0000000001', 'LNS14000000'], year)
     emp, un = s['CES0000000001'], s['LNS14000000']
@@ -177,6 +204,8 @@ HANDLERS = [
     ('Ventas minoristas de EE. UU.', lambda m, y, d: fred_month_event('RSAFS')(m, y), True, 0.05),
     ('Producción industrial de EE. UU.', lambda m, y, d: fred_month_event('INDPRO')(m, y), True, 0.05),
     ('Peticiones iniciales de subsidio de desempleo', calc_claims, False, 0.5),
+    ('Precios de importación y exportación de EE. UU.', lambda m, y, d: calc_import(m, y), True, 0.05),
+    ('IPC final de la zona euro', lambda m, y, d: calc_hicp(m, y), True, 0.05),
 ]
 
 
@@ -235,6 +264,10 @@ def sonda():
             r['importacion'][k] = {'ultimo': '%s-%02d' % ym, 'valor': d.get(ym), 'mm': mm(d, ym), 'yy': yy(d, ym), 'mm_previo': mm(d, prev_month(ym)), 'yy_previo': yy(d, prev_month(ym))}
     except Exception as ex:
         r['importacion'] = 'ERROR: %s' % ex
+    try:
+        r['eurostat'] = {'CP00': eurostat_hicp('CP00'), 'TOT_X_NRG_FOOD': eurostat_hicp('TOT_X_NRG_FOOD')}
+    except Exception as ex:
+        r['eurostat'] = 'ERROR: %s' % ex
     for sid in ('ICSA', 'RSAFS', 'INDPRO'):
         try:
             o = fred_obs(sid, 3)

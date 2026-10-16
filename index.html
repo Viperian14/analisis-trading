@@ -3988,7 +3988,7 @@ var CAL = [
   { d: '2026-10-16', h: '11:00', s: 2, k: 'infl', p: ['UE'], ev: 'IPC final de la zona euro, septiembre', a: ['GC','ES','NQ'], prev: [{ k: 'g', lab: 'General', per: 'anual', v: '3,2%' }, { k: 's', lab: 'Subyacente', per: 'anual', v: '2,4%' }], fc: [{ k: 'g', lab: 'General', per: 'anual', v: '3,8%' }, { k: 's', lab: 'Subyacente', per: 'anual', v: '2,5%' }], n: 'Hora de España (Eurostat suele publicar a las 11:00; Trading Economics lo sitúa a las 09:00 GMT). La previsión es la estimación preliminar, que se suele confirmar: general 3,8% frente al 3,6% esperado entonces y subyacente 2,5%. Un IPC alto refuerza al BCE y al euro.' },
   { d: '2026-10-16', h: '04:00', s: 1, k: 'cb', ev: 'Bailey (BoE) habla; Macklem (BoC) a las 06:15', a: ['GC'], prev: '', fc: '', n: 'Hora de España según la fuente.' },
   { d: '2026-10-16', h: '05:30', s: 3, k: 'fed', ev: 'Warsh (presidente de la Fed) habla', a: ['ES','NQ','GC','SI','WTI'], prev: '', fc: '', n: 'InvestingLive lo sitúa a las 05:30 del viernes (hora de España). Stocktwits habla de una intervención el jueves 15 en las reuniones del FMI y el Banco Mundial, sin hora. Confirma.' },
-  { d: '2026-10-16', h: '14:30', s: 2, k: 'infl', ev: 'Precios de importación y exportación de EE. UU., septiembre', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Sin cifras previstas localizadas (InvestingLive).' },
+  { d: '2026-10-16', h: '14:30', s: 2, k: 'infl', ev: 'Precios de importación y exportación de EE. UU., septiembre', a: ['ES','NQ','GC'], prev: 'Importaciones +0,5% m/m · 7,0% a/a\nExportaciones +1,2% m/m', fc: 'Importaciones +0,8% m/m\nExportaciones +1,0% m/m', act: 'Importaciones +1,1% m/m · 8,1% a/a\nExportaciones +2,2% m/m · 11,6% a/a', res: 'down', n: 'Muy por encima de lo previsto en importaciones (+1,1% frente a +0,8%) y en exportaciones (+2,2% frente a +1,0%); la columna «Anterior» ya recoge agosto revisado a +0,5% y +1,2% (InvestingLive). El anual de exportaciones (11,6%) lo calculé con el índice del BLS (EIUIQ); el resto coincide con el titular. Refuerza la inflación tras el PPI de ayer.' },
   { d: '2026-10-16', h: '15:15', s: 2, k: 'growth', ev: 'Producción industrial de EE. UU., septiembre', a: ['ES','NQ'], prev: '0,0% m/m · +1,4% a/a\nUtilización de capacidad 76,3%', fc: '', n: 'Hora de España según la fuente. No localicé la previsión.' },
 
   { d: '2026-10-19', h: '16:00', s: 2, k: 'housing', ev: 'Índice del mercado de la vivienda NAHB (NAHB Housing Market Index)', a: ['ES','NQ'], prev: '32', fc: '', n: 'Dato de TradingView (semana del 19 al 25 de octubre). Aún sin previsión.' },
@@ -4043,6 +4043,7 @@ var HOL = [
   { d: 'Viernes 25 de diciembre', t: 'Navidad', x: 'ICE Futures US cierra.' }
 ];
 var CAL_SRC = [
+  { t: 'InvestingLive: precios de importación de EE. UU., septiembre de 2026', u: 'https://investinglive.com/news/us-september-import-price-index-1-1-vs-0-8-expected/' },
   { t: 'Newsquawk: calendario semanal del 12 al 16 de octubre de 2026 (PNC, producción industrial de Japón)', u: 'https://www.newsquawk.com/headlines/newsquawk-weekly-economic-calendar---12th-16th-october-2026' },
   { t: 'Trading Economics: inflación de la zona euro, septiembre de 2026', u: 'https://tradingeconomics.com/euro-area/inflation-cpi' },
   { t: 'Trading Economics: paro de Australia, septiembre de 2026', u: 'https://tradingeconomics.com/australia/unemployment-rate' },
@@ -4471,11 +4472,14 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
   function parseNums(t) {
     var out = [], lastM = false, u = 0;
     String(t || '').split('\n').forEach(function (line) {
+      if (!line.trim()) return;
       var m = /^(.*?)\s*([+−-]?[\d.,]+%)\s*m\/m(?:\s*·\s*([+−-]?[\d.,]+%)\s*a\/a)?$/.exec(line), m2;
       if (m) {
         lastM = true;
         out.push({ k: m[1] + '|mensual', lab: m[1], per: 'mensual', v: m[2] });
         if (m[3]) out.push({ k: m[1] + '|anual', lab: m[1], per: 'anual', v: m[3] });
+      } else if ((m2 = /^(.*?)\s*([+−-]?[\d.,]+%)\s*a\/a$/.exec(line)) && m2[1]) {
+        out.push({ k: m2[1] + '|anual', lab: m2[1], per: 'anual', v: m2[2] });
       } else if (lastM && (m2 = /^(Sin autos|Grupo de control)\s+([+−-]?[\d.,]+%)$/.exec(line))) {
         out.push({ k: m2[1] + '|mensual', lab: m2[1], per: 'mensual', v: m2[2] });
       } else out.push({ k: '#' + (u++), lab: '', per: '', v: line });
@@ -4492,6 +4496,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
         cells[ci][r.k] = r.v;
       });
     });
+    if (!rows.length) rows.push({ k: '#0', lab: '', per: '', v: '' });
     var noLab = rows.every(function (r) { return !r.lab && !r.per && !r.name; }) && rows.length <= 1;
     var h = '<div class="nt' + (noLab ? ' nolab' : '') + '"><div class="nh">' + (noLab ? '' : '<span></span>') + cols.map(function (c) { return '<span>' + esc(c) + '</span>'; }).join('') + '</div>';
     var prevLab = '';
