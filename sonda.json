@@ -1,5 +1,5 @@
 {
- "hecho": "2026-10-16T18:26:17Z",
+ "hecho": "2026-10-16T18:27:48Z",
  "bls": {
   "CUSR0000SA0": {
    "ultimo": "2026-09",
@@ -127,5 +127,51 @@
  "eurostat": {
   "CP00": {},
   "TOT_X_NRG_FOOD": {}
+ },
+ "eurostat_minr": {
+  "id": [
+   "freq",
+   "unit",
+   "coicop18",
+   "geo",
+   "time"
+  ],
+  "size": [
+   1,
+   1,
+   555,
+   1,
+   2
+  ],
+  "dims": {
+   "freq": {
+    "M": "Monthly"
+   },
+   "unit": {
+    "RCH_A": "Annual rate of change"
+   },
+   "coicop18": {
+    "TOTAL": "Total",
+    "CP01": "Food and non-alcoholic beverages",
+    "CP011": "Food",
+    "CP0111": "Cereals and cereal products (ND)",
+    "CP01111": "Cereals (ND)",
+    "CP01112": "Flour of cereals (ND)",
+    "CP01113": "Bread and bakery products (ND)",
+    "CP011131": "Bread",
+    "CP011139": "Other bakery products",
+    "CP01114": "Breakfast cereals (ND)",
+    "CP01115": "Macaroni, noodles, couscous and similar pasta products (ND)",
+    "CP01119": "Other milled cereal and grain products (ND)"
+   },
+   "geo": {
+    "EA": "Euro area (EA11-1999, EA12-2001, EA13-2007, EA15-2008, EA16-"
+   },
+   "time": [
+    "2026-08",
+    "2026-09"
+   ]
+  },
+  "n_valores": 1066
  }
 }
