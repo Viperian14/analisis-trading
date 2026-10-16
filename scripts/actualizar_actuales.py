@@ -269,6 +269,15 @@ def sonda():
         r['eurostat'] = {'CP00': eurostat_hicp('CP00'), 'TOT_X_NRG_FOOD': eurostat_hicp('TOT_X_NRG_FOOD')}
     except Exception as ex:
         r['eurostat'] = 'ERROR: %s' % ex
+    try:
+        j = http_json('https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_minr?format=JSON&lang=EN&geo=EA&sinceTimePeriod=2026-08&unit=RCH_A')
+        dims = {}
+        for dk, dv in j['dimension'].items():
+            cat = dv['category']
+            dims[dk] = {k: (cat.get('label', {}).get(k, '')[:60]) for k in list(cat['index'])[:12]} if dk not in ('time',) else list(cat['index'])
+        r['eurostat_minr'] = {'id': j.get('id'), 'size': j.get('size'), 'dims': dims, 'n_valores': len(j.get('value', {}))}
+    except Exception as ex:
+        r['eurostat_minr'] = 'ERROR: %s' % ex
     for sid in ('ICSA', 'RSAFS', 'INDPRO'):
         try:
             o = fred_obs(sid, 3)
