@@ -140,9 +140,10 @@ def calc_import(month, year):
     return act, False
 
 
-def eurostat_hicp(coicop):
+def eurostat_hicp(coicop, year=None):
+    year = year or dt.datetime.now(dt.timezone.utc).year
     url = ('https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr'
-           '?format=JSON&lang=EN&geo=EA&coicop=%s&lastTimePeriod=3' % coicop)
+           '?format=JSON&lang=EN&geo=EA&coicop=%s&sinceTimePeriod=%d-01' % (coicop, year))
     j = http_json(url)
     idx = j['dimension']['time']['category']['index']
     vals = j.get('value', {})
@@ -151,7 +152,7 @@ def eurostat_hicp(coicop):
 
 def calc_hicp(month, year):
     key = '%d-%02d' % (year, month)
-    g, c = eurostat_hicp('CP00'), eurostat_hicp('TOT_X_NRG_FOOD')
+    g, c = eurostat_hicp('CP00', year), eurostat_hicp('TOT_X_NRG_FOOD', year)
     if g.get(key) is None or c.get(key) is None:
         return None
     return 'General %s a/a\nSubyacente %s a/a' % (pct(g[key], False), pct(c[key], False)), False
