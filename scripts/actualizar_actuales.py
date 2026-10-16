@@ -142,8 +142,8 @@ def calc_import(month, year):
 
 def eurostat_hicp(coicop, year=None):
     year = year or dt.datetime.now(dt.timezone.utc).year
-    url = ('https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr'
-           '?format=JSON&lang=EN&geo=EA&coicop=%s&sinceTimePeriod=%d-01' % (coicop, year))
+    url = ('https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_minr'
+           '?format=JSON&lang=EN&geo=EA&unit=RCH_A&coicop18=%s&sinceTimePeriod=%d-01' % (coicop, year))
     j = http_json(url)
     idx = j['dimension']['time']['category']['index']
     vals = j.get('value', {})
@@ -152,7 +152,7 @@ def eurostat_hicp(coicop, year=None):
 
 def calc_hicp(month, year):
     key = '%d-%02d' % (year, month)
-    g, c = eurostat_hicp('CP00', year), eurostat_hicp('TOT_X_NRG_FOOD', year)
+    g, c = eurostat_hicp('TOTAL', year), eurostat_hicp('TOT_X_NRG_FOOD', year)
     if g.get(key) is None or c.get(key) is None:
         return None
     return 'General %s a/a\nSubyacente %s a/a' % (pct(g[key], False), pct(c[key], False)), False
@@ -266,7 +266,7 @@ def sonda():
     except Exception as ex:
         r['importacion'] = 'ERROR: %s' % ex
     try:
-        r['eurostat'] = {'CP00': eurostat_hicp('CP00'), 'TOT_X_NRG_FOOD': eurostat_hicp('TOT_X_NRG_FOOD')}
+        r['eurostat'] = {'TOTAL': eurostat_hicp('TOTAL'), 'TOT_X_NRG_FOOD': eurostat_hicp('TOT_X_NRG_FOOD')}
     except Exception as ex:
         r['eurostat'] = 'ERROR: %s' % ex
     try:
