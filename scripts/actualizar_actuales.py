@@ -197,20 +197,32 @@ def calc_claims(month, year, ev_date):
     return '%d mil' % round(v / 1000), False
 
 
+NOTAS = {'2 años': ('Note', ('2-Year',)), '5 años': ('Note', ('5-Year',)), '7 años': ('Note', ('7-Year',)), '10 años': ('Note', ('10-Year', '9-Year')), '30 años': ('Bond', ('30-Year', '29-Year'))}
 TERMINOS = {'6 semanas': '6-Week', '3 meses': '13-Week', '6 meses': '26-Week'}
 
 
 def calc_subasta(ev, d):
-    """Rendimiento adjudicado de las letras del Tesoro de EE. UU. (fiscaldata.treasury.gov, sin clave)."""
-    term = next((v for k, v in TERMINOS.items() if k in ev), None)
-    if not term:
+    """Rendimiento adjudicado de las subastas del Tesoro de EE. UU. (fiscaldata.treasury.gov, sin clave).
+    Letras: tipo de descuento. Notas y bonos: rendimiento (high_yield)."""
+    letra = next((v for k, v in TERMINOS.items() if k in ev), None) if 'letras' in ev else None
+    nota = None
+    if not letra:
+        for k, (tipo, pref) in NOTAS.items():
+            if k in ev:
+                nota = (tipo, pref)
+    if not letra and not nota:
         return None
-    q = ('filter=security_type:eq:Bill,security_term:eq:%s,auction_date:eq:%s&fields=auction_date,high_discnt_rate&page[size]=1' % (term, d.isoformat()))
+    tipo = 'Bill' if letra else nota[0]
+    campo = 'high_discnt_rate' if letra else 'high_yield'
+    q = urllib.parse.urlencode({'filter': 'security_type:eq:%s,auction_date:eq:%s' % (tipo, d.isoformat()), 'fields': 'security_term,%s' % campo, 'page[size]': '20'}, safe=':,[]')
     j = http_json('https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?' + q)
-    rows = j.get('data') or []
-    if not rows or rows[0].get('high_discnt_rate') in (None, '', 'null'):
-        return None
-    return ('%s%%' % rows[0]['high_discnt_rate'].rstrip('0').rstrip('.')).replace('.', ','), False
+    for row in j.get('data') or []:
+        term = row.get('security_term') or ''
+        ok = term == letra if letra else any(term.startswith(x) for x in nota[1])
+        v = row.get(campo)
+        if ok and v not in (None, '', 'null'):
+            return ('%s%%' % v.rstrip('0').rstrip('.')).replace('.', ','), False
+    return None
 
 
 def calc_fed(d):
@@ -241,6 +253,7 @@ HANDLERS = [
     ('Peticiones iniciales de subsidio de desempleo', calc_claims, False, 0.5),
     ('Precios de importación y exportación de EE. UU.', lambda m, y, d: calc_import(m, y), True, 0.05),
     ('Subasta de letras del Tesoro', lambda m, y, d: None, False, 0.05),
+    ('Subasta de notas y bonos del Tesoro', lambda m, y, d: None, False, 0.05),
     ('Decisión de tipos de la Fed', lambda m, y, d: calc_fed(d), False, 0.0),
     ('IPC final de la zona euro', lambda m, y, d: calc_hicp(m, y), True, 0.05),
 ]

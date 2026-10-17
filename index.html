@@ -31,7 +31,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0e1620; --surface: #152230; --fg: #e5ecf1; --muted: #9fb0bc; --line: #2a3a49;
+    --bg: #0e1620; --surface: #152230; --fg: #e5ecf1; --muted: #b8c7d2; --line: #2a3a49;
     --accent: #5cc0dc; --accent-soft: #17323f; --up: #4cc58a; --up-soft: #153427;
     --flat: #e0b04c; --flat-soft: #3a2f15; --down: #ef7f70; --down-soft: #3b1f1c;
     --band: rgba(92, 192, 220, 0.12);
@@ -39,7 +39,7 @@
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0e1620; --surface: #152230; --fg: #e5ecf1; --muted: #9fb0bc; --line: #2a3a49;
+  --bg: #0e1620; --surface: #152230; --fg: #e5ecf1; --muted: #b8c7d2; --line: #2a3a49;
   --accent: #5cc0dc; --accent-soft: #17323f; --up: #4cc58a; --up-soft: #153427;
   --flat: #e0b04c; --flat-soft: #3a2f15; --down: #ef7f70; --down-soft: #3b1f1c;
   --band: rgba(92, 192, 220, 0.12);
@@ -362,8 +362,10 @@ h2 { color: var(--muted); }
 .ei { grid-column: 3 / -1; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); }
 .ei .ih { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .ei .ben { color: var(--up); font-weight: 600; } .ei .hurt { color: var(--down); font-weight: 600; }
-.ex { grid-column: 3 / -1; display: none; background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; font-size: 14px; color: var(--muted); }
+.ex { grid-column: 3 / -1; display: none; background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; font-size: 14px; color: #d6e1e8; }
 .ex p + p { margin-top: 6px; }
+.fabmenu { position: fixed; right: 16px; bottom: 18px; z-index: 50; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--accent); font-size: 20px; line-height: 1; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.fabmenu.show { display: flex; }
 .ex b { color: var(--accent); font-weight: 600; margin-right: 4px; }
 .er.open .ex { display: block; }
 @media (max-width: 700px) {
@@ -3992,6 +3994,11 @@ var CAL = [
   { d: '2026-10-16', h: '15:15', s: 2, k: 'growth', ev: 'Producción industrial de EE. UU., septiembre', a: ['ES','NQ'], prev: '0,0% m/m · +1,4% a/a\nUtilización de capacidad 76,3%', fc: '', n: 'Hora de España según la fuente. No localicé la previsión.' },
 
   { d: '2026-10-19', h: '16:00', s: 2, k: 'housing', ev: 'Índice del mercado de la vivienda NAHB (NAHB Housing Market Index)', a: ['ES','NQ'], prev: '32', fc: '', n: 'Dato de TradingView (semana del 19 al 25 de octubre). Aún sin previsión.' },
+  { d: '2026-10-26', h: '18:00', s: 2, k: 'auction', ev: 'Subasta de notas y bonos del Tesoro a 2 años (Nota a 2 años)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Resultado a las 13:00 de Nueva York: 18:00 en España (Europa ya en horario de invierno y EE. UU. todavía no). Fechas según el calendario de subastas del Tesoro (us500.com); sin rendimiento previo localizado. El bot rellena el rendimiento adjudicado solo.' },
+  { d: '2026-10-27', h: '18:00', s: 2, k: 'auction', ev: 'Subasta de notas y bonos del Tesoro a 5 años (Nota a 5 años)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Resultado a las 13:00 de Nueva York: 18:00 en España. Fechas según el calendario de subastas del Tesoro (us500.com); sin rendimiento previo localizado. El bot rellena el rendimiento adjudicado solo.' },
+  { d: '2026-10-29', h: '18:00', s: 2, k: 'auction', ev: 'Subasta de notas y bonos del Tesoro a 7 años (Nota a 7 años)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'No la pediste, pero cierra la semana de subastas; resultado 18:00 en España. Fechas según el calendario de subastas del Tesoro (us500.com); sin rendimiento previo localizado. El bot rellena el rendimiento adjudicado solo.' },
+  { d: '2026-11-10', h: '19:00', s: 2, k: 'auction', ev: 'Subasta de notas y bonos del Tesoro a 10 años (Nota a 10 años)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Emisión de refinanciación de noviembre. Ya con la misma diferencia horaria que EE. UU. (19:00 en España). Fechas según el calendario de subastas del Tesoro (us500.com); sin rendimiento previo localizado. El bot rellena el rendimiento adjudicado solo.' },
+  { d: '2026-11-12', h: '19:00', s: 2, k: 'auction', ev: 'Subasta de notas y bonos del Tesoro a 30 años (Bono a 30 años)', a: ['ES','NQ','GC'], prev: '', fc: '', n: 'Emisión de refinanciación de noviembre. Referencia para el rendimiento largo y el dólar. Fechas según el calendario de subastas del Tesoro (us500.com); sin rendimiento previo localizado. El bot rellena el rendimiento adjudicado solo.' },
   { d: '2026-10-19', h: '17:30', s: 1, k: 'auction', ev: 'Subasta de letras del Tesoro a 3 meses', a: ['ES','NQ','GC'], prev: '4,085%', fc: '', n: '' },
   { d: '2026-10-19', h: '17:30', s: 1, k: 'auction', ev: 'Subasta de letras del Tesoro a 6 meses', a: ['ES','NQ','GC'], prev: '4,2%', fc: '', n: '' },
   { d: '2026-10-20', h: '14:15', s: 2, k: 'jobs', ev: 'Cambio semanal del empleo ADP', a: ['ES','NQ','GC','SI'], prev: '24,75 K', fc: '', n: '' },
@@ -5056,6 +5063,12 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
   }
   loadActuals();
 
+  var fab = document.createElement('button');
+  fab.type = 'button'; fab.className = 'fabmenu'; fab.setAttribute('data-home', '1'); fab.setAttribute('aria-label', 'Subir y volver al menú principal'); fab.textContent = '🔼';
+  document.body.appendChild(fab);
+  function fabUpdate() { var y = window.pageYOffset || document.documentElement.scrollTop || 0; fab.classList.toggle('show', y > 400 && !state.home); }
+  window.addEventListener('scroll', fabUpdate, { passive: true });
+
   function render() {
     document.getElementById('home').hidden = !state.home;
     document.getElementById('app').hidden = state.home || !!state.page;
@@ -5064,6 +5077,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     else if (!state.home) { renderNav(); renderEntry(); }
     setHash();
     try { window.scrollTo(0, 0); } catch (e) {}
+    fabUpdate();
   }
 
   document.addEventListener('toggle', function (ev) { var d = ev.target; if (d && d.classList && d.classList.contains('day')) CALST.open[d.getAttribute('data-day')] = d.open; }, true);
