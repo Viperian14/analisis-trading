@@ -5,8 +5,10 @@ on:
     # Sondeo intensivo: una sola ejecución que arranca a las 12:10 UTC y comprueba cada 2 minutos hasta las 16:05 UTC
     # (cubre de 14:30 a 17:00 de España en verano y en invierno).
     - cron: '10 12 * * 1-5'
+    # Segundo sondeo: FRED publica con retraso (la producción industrial llegó 5 h después), así que sigue comprobando de 16:10 a 20:05 UTC.
+    - cron: '10 16 * * 1-5'
     # Resto del día laborable: cada 10 minutos, fuera de la ventana anterior.
-    - cron: '*/10 0-11,16-23 * * 1-5'
+    - cron: '*/10 0-11,20-23 * * 1-5'
   workflow_dispatch:
     inputs:
       sonda:
@@ -24,7 +26,7 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 270
+    timeout-minutes: 250
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -52,8 +54,9 @@ jobs:
           if [ "$SONDA" = "true" ]; then
             python scripts/actualizar_actuales.py --sonda || true
             guardar
-          elif [ "$EVENTO" = "10 12 * * 1-5" ]; then
-            while [ "$((10#$(date -u +%H%M)))" -lt 1605 ]; do
+          elif [ "$EVENTO" = "10 12 * * 1-5" ] || [ "$EVENTO" = "10 16 * * 1-5" ]; then
+            if [ "$EVENTO" = "10 12 * * 1-5" ]; then FIN=1605; else FIN=2005; fi
+            while [ "$((10#$(date -u +%H%M)))" -lt "$FIN" ]; do
               git pull -q --rebase origin main || true
               python scripts/actualizar_actuales.py || true
               guardar
