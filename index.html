@@ -4798,7 +4798,47 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
       plan: 'Rechazo en 7.775‑7.810 (mejor) o en 7.760 con vela naranja o roja en M5/M15 y volumen vendedor. Stop sobre 7.815. Objetivos 7.734,75 y 7.700.',
       goals: [['Zona 7.775‑7.810 alcanzada', 'hit'], ['7.734,75', 'miss'], ['7.700', 'miss']],
       pasa: 'Tras el mínimo de la apertura (≈7.717), el ES subió y desde las 20:30 se mueve dentro de la zona; máximo ≈7.80. A las 22:30 cotiza 7.792,75 con velas rojas y amarillas en la parte alta. Todavía no ha vuelto a 7.734,75 ni ha superado 7.815.',
-      res: 'Acierto parcial (el más flojo del día): el precio llegó a la zona y no tocó el stop (7.815), pero tampoco alcanzó 7.734,75 y cierra la jornada plano, en 7.792,75. Lo que no se alcanza en el día no se arrastra al siguiente.' }
+      res: 'Acierto parcial (el más flojo del día): el precio llegó a la zona y no tocó el stop (7.815), pero tampoco alcanzó 7.734,75 y cierra la jornada plano, en 7.792,75. Lo que no se alcanza en el día no se arrastra al siguiente.' },
+    { asset: 'GC', date: '2026-10-16', mode: 'intra', dir: 'Largo', setup: 'Tesis tuya: sube a la siguiente resistencia y luego lateraliza', out: 'win', match: 'Exacta',
+      plan: 'Tu lectura de las 09:12: posibles subidas a la siguiente resistencia en los tres activos y después lateralizar. En el oro, la siguiente resistencia es 4.213.',
+      goals: [['Sube a 4.213', 'hit'], ['Lateraliza', 'hit']],
+      pasa: 'El oro subió a 4.213 y lo superó con una mecha hasta ≈4.220 (hacia las 16:15‑16:30), se rechazó y volvió a ≈4.176. El resto de la sesión se movió en 4.176‑4.193.',
+      res: 'Acierto exacto por tu criterio de tesis: llegó a la resistencia y lateralizó. Medido a ojo con tus M5 y M15 del sábado.' },
+    { asset: 'ES', date: '2026-10-16', mode: 'intra', dir: 'Largo', setup: 'Tesis tuya: sube a la siguiente resistencia y luego lateraliza', out: 'loss', match: 'Aproximada',
+      plan: 'Tu lectura de las 09:12: posibles subidas a la siguiente resistencia en los tres activos y después lateralizar. En el ES, la siguiente resistencia es 7.832,75.',
+      goals: [['Sube a 7.832,75', 'miss'], ['Lateraliza', 'miss']],
+      pasa: 'El ES subió de ≈7.735 a ≈7.808 por la mañana, sin llegar a 7.832,75. Con la apertura de EE. UU. (≈15:30) apareció una marca OUT en M15 y cayó hasta un mínimo de ≈7.676. Cierra en 7.704,25 (−1,09%).',
+      res: 'Fallo aproximado de la tesis: la subida se quedó a ≈25 puntos de la resistencia y después no lateralizó, sino que giró a la baja con fuerza. Cuenta por tu criterio de tesis.' },
+    { asset: 'NQ', date: '2026-10-16', mode: 'intra', dir: 'Largo', setup: 'Tesis tuya: sube a la siguiente resistencia y luego lateraliza', out: 'loss', match: 'Aproximada',
+      plan: 'Tu lectura de las 09:12: posibles subidas a la siguiente resistencia en los tres activos y después lateralizar. En el NQ, la siguiente resistencia es 30.401,25.',
+      goals: [['Sube a 30.401,25', 'miss'], ['Lateraliza', 'miss']],
+      pasa: 'El NQ se movió en 30.10‑30.22 por la mañana, sin llegar a 30.401,25. Con la apertura de EE. UU. apareció una marca OUT en M15 y cayó hasta ≈29.268,75. Cierra en 29.391,50 (−2,50%).',
+      res: 'Fallo aproximado de la tesis: no llegó a la resistencia (≈175 puntos por debajo) y la jornada acabó con una caída fuerte. Cuenta por tu criterio de tesis.' },
+    { asset: 'NQ', date: '2026-10-16', mode: 'intra', dir: 'Corto', setup: 'Corto de rebote (30.100‑30.162)', out: 'win', match: 'Exacta',
+      plan: 'Corrección de las 15:10. Rechazo en 30.100‑30.162 (línea y Genial D) con vela naranja o roja en M5/M15 y volumen vendedor. Stop sobre 30.200. Objetivos 30.078 y 29.768,75.',
+      goals: [['30.078', 'hit'], ['29.768,75', 'hit']],
+      pasa: 'A las 15:10 el NQ estaba en 30.10‑30.20 (a ojo, en tu M15). Con la apertura de EE. UU. apareció una marca OUT en M15 y cayó bajo 30.078 y 29.768,75, hasta un mínimo de ≈29.268,75. El stop (30.200) no se tocó después de las 15:10.',
+      res: 'Ganadora. De ≈30.100 a 29.768,75, ≈330 puntos; hasta el mínimo, ≈830. A ojo: no puedo confirmar la vela de gatillo ni el volumen.' },
+    { asset: 'NQ', date: '2026-10-16', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura (cierre M15 bajo 30.078)', out: 'win', match: 'Aproximada',
+      plan: 'Cierre M15 bajo 30.078 y retesteo por abajo. Objetivos 29.768,75 y 29.505,50.',
+      goals: [['29.768,75', 'hit'], ['29.505,50', 'hit']],
+      pasa: 'Con la apertura el NQ cerró M15 bajo 30.078. No hubo retesteo de 30.078 por abajo (el primer rebote llegó a ≈29.93); sí hubo retesteo de 29.768,75 hacia las 17:30. Ambos objetivos se tocaron y el mínimo fue ≈29.268,75.',
+      res: 'Ganadora aproximada: sin retesteo del nivel de ruptura, la entrada razonable es el rebote a ≈29.93 o el retesteo de 29.768,75 (≈260 puntos hasta 29.505,50). El análisis no definía stop en este escenario.' },
+    { asset: 'ES', date: '2026-10-16', mode: 'intra', dir: 'Corto', setup: 'Corto de ruptura (cierre M15 bajo 7.775)', out: 'win', match: 'Exacta',
+      plan: 'Escenario bajista del 15:10 (20%): cierre M15 bajo 7.775 con color de fuerza bajista y volumen. Objetivo 7.734,75.',
+      goals: [['7.734,75', 'hit']],
+      pasa: 'Con la apertura de EE. UU. el ES perdió 7.775 (marca OUT en M15) y bajó a 7.734,75 durante la tarde, con un mínimo de ≈7.676. Cierra en 7.704,25 (−1,09%).',
+      res: 'Ganadora. De 7.775 a 7.734,75, ≈40 puntos; hasta el mínimo, ≈100. Era el escenario menos probable del análisis. El análisis no definía stop en este escenario.' },
+    { asset: 'GC', date: '2026-10-16', mode: 'intra', dir: 'Corto', setup: 'Corto de rebote (4.205‑4.213)', out: 'win', match: 'Aproximada',
+      plan: 'Rechazo en 4.205‑4.213 con vela naranja o roja y volumen vendedor. Objetivos 4.196 y 4.182. Iba a favor del diario.',
+      goals: [['4.196', 'hit'], ['4.182', 'hit']],
+      pasa: 'El oro subió a ≈4.220 (hacia las 16:15‑16:30), rechazó 4.213 y bajó a 4.196, 4.182 y hasta un mínimo de ≈4.176.',
+      res: 'Ganadora aproximada: el rechazo llegó con una mecha por encima de la zona (≈7 puntos sobre 4.213). De 4.213 a 4.182, ≈31 puntos. El análisis no definía stop en este escenario.' },
+    { asset: 'GC', date: '2026-10-16', mode: 'intra', dir: 'Largo', setup: 'Largo de pullback (4.196‑4.182)', out: 'win', match: 'Parcial',
+      plan: 'Retroceso a 4.196‑4.182 con vela verde de inicio o continuación en M5/M15 y volumen comprador. Stop bajo 4.175. Objetivo 4.213.',
+      goals: [['Zona 4.196‑4.182', 'hit'], ['Stop 4.175 sin tocar', 'hit'], ['4.213', 'miss']],
+      pasa: 'Tras el rechazo de las 16:30 el oro volvió a la zona y marcó mínimo ≈4.176, sin pasar de 4.175; luego se movió en 4.18‑4.193 hasta el cierre. No tocó 4.213 de nuevo.',
+      res: 'Acierto parcial al cierre de la jornada: unos 10 puntos desde 4.182 sin tocar el stop, pero sin llegar a 4.213. A ojo: no puedo confirmar la vela verde ni el volumen. Lo que no se alcanza en el día no se arrastra al siguiente.' }
   ];
   var NOACT = [
     ['GC', '2026-10-12', 'Largo de rebote (4.197‑4.193)', 'El precio atravesó la zona sin rechazo alcista y siguió cayendo.'],
@@ -4815,7 +4855,13 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     ['NQ', '2026-10-15', 'Corto de rebote (30.078‑30.401)', 'Antes de la apertura el precio no llegó a la zona (máximo ≈29.95). Después de la apertura sí subió hasta ≈30.20, pero sin rechazo con vela naranja o roja: superó 30.078.'],
     ['NQ', '2026-10-15', 'Corto de ruptura (cierre M15 bajo 29.768,75)', 'El cierre bajo 29.768,75 se dio con la caída de la apertura (mínimo ≈29.63), pero la vela siguiente lo recuperó de golpe: no hubo retesteo por abajo para entrar y 29.505,50 no se alcanzó.'],
     ['ES', '2026-10-15', 'Corto de ruptura (cierre M15 bajo 7.734,75)', 'El cierre bajo 7.734,75 se dio con la caída de la apertura (mínimo ≈7.717), pero el rebote en V lo recuperó enseguida: no hubo retesteo por abajo y 7.700 no se alcanzó.'],
-    ['GC', '2026-10-15', 'Corto de ruptura (cierre M15 bajo 4.145)', 'El oro no cerró M15 por debajo de 4.145: el mínimo del rango fue ≈4.152.']
+    ['GC', '2026-10-15', 'Corto de ruptura (cierre M15 bajo 4.145)', 'El oro no cerró M15 por debajo de 4.145: el mínimo del rango fue ≈4.152.'],
+    ['GC', '2026-10-16', 'Largo de ruptura (cierre M15 sobre 4.213)', 'El máximo ≈4.220 fue una mecha: no veo cierre M15 por encima y se rechazó enseguida.'],
+    ['GC', '2026-10-16', 'Corto de ruptura (cierre M15 bajo 4.182)', 'El mínimo fue ≈4.176, sin continuación: no llegó a 4.145 y no veo retesteo por abajo.'],
+    ['ES', '2026-10-16', 'Largo de pullback (7.790‑7.785)', 'El precio atravesó la zona con la caída de las 15:30, sin vela de rechazo alcista, y perdió 7.775.'],
+    ['ES', '2026-10-16', 'Largo de ruptura (cierre M15 sobre 7.810)', 'Máximo ≈7.808‑7.810, sin cierre M15 por encima.'],
+    ['ES', '2026-10-16', 'Corto táctico (7.820‑7.833)', 'No llegó a la zona (máximo ≈7.810).'],
+    ['NQ', '2026-10-16', 'Largo táctico (cierre M15 sobre 30.162)', 'No hubo cierre M15 por encima: el máximo ≈30.225 fue antes de las 15:10.']
   ];
 
 
@@ -4823,52 +4869,52 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     { asset: 'NQ', date: '2026-10-11', mode: 'swing', dir: 'Corto', setup: 'Corto de ruptura y retesteo', out: 'win', match: 'Exacta',
       plan: 'Cierre H4 bajo 31.097,25 y sobre todo bajo 30.818,75 con retesteo, color de fuerza bajista y volumen vendedor en M5. Objetivos 30.401,25 y 30.190‑30.078.',
       goals: [['30.401,25', 'hit'], ['30.190‑30.078', 'hit']],
-      pasa: 'El NQ perdió 31.097,25, retesteó 30.818,75 por debajo (el día 14 subió a ≈30.890 y apareció una marca OUT en M15 sobre 30.850) y cayó con una vela diaria de −2,12% hasta el mínimo de 30.078,00, justo el fondo de tu zona. Cotiza 30.137,75.',
-      res: 'Acierto exacto: de ≈30.818 a 30.078, unos 740 puntos, con los dos objetivos cumplidos y el segundo en su borde inferior exacto. Desde la línea 31.200 de tu idea son ≈1.120 puntos. La vela diaria seguía abierta.' },
+      pasa: 'El NQ perdió 31.097,25, retesteó 30.818,75 por debajo (el día 14 subió a ≈30.890 y apareció una marca OUT en M15 sobre 30.850), cayó a 30.078 y el viernes 16, con la apertura de EE. UU., siguió hasta un mínimo de 29.268,75. Cierre del viernes en 29.391,50 (−2,50% en el día).',
+      res: 'Acierto exacto: de ≈30.818 a 29.391, unos 1.430 puntos; los dos objetivos (30.401,25 y 30.190‑30.078) se cumplieron con holgura. Desde la línea 31.200 de tu idea son ≈1.810 puntos.' },
     { asset: 'GC', date: '2026-10-10', mode: 'swing', dir: 'Corto', setup: 'Corto por no superar 4.250‑4.260', out: 'win', match: 'Exacta',
       plan: 'Si el oro no supera 4.250‑4.260 no es alcista: sesgo bajista con objetivo 4.095. Rechazo en 4.250‑4.265 con colores de fuerza bajista y volumen vendedor en M5, o cierre H4 bajo 4.095,5 con retesteo. Objetivos 4.095 → 3.962 → 3.900.',
       goals: [['4.095', 'hit'], ['3.962 (pendiente)', 'miss'], ['3.900', 'miss']],
-      pasa: 'El oro no llegó a 4.250‑4.260 (máximo ≈4.240). El día 14 abrió en 4.184,2 (máximo 4.193,5), perdió 4.190 con marca OUT en M15 y cayó hasta 4.095,0 de mínimo, justo en el objetivo. Rebota a 4.126,8 (−1,23% en el día).',
+      pasa: 'El oro no llegó a 4.250‑4.260 (máximo ≈4.240). El día 14 abrió en 4.184,2 (máximo 4.193,5), perdió 4.190 con marca OUT en M15 y cayó hasta 4.095,0 de mínimo, justo en el objetivo. El viernes 16 subió hasta ≈4.220 y cerró en 4.181,1.',
       res: 'Acierto exacto: objetivo 4.095 tocado a 0,5 puntos. Cuenta por tu criterio de tesis (sin 4.250‑4.260 no hay subida), no por un gatillo confirmado. No hubo cierre H4 ni diario bajo 4.095,5, así que 3.962 y 3.900 siguen pendientes.' },
-    { asset: 'ES', date: '2026-10-11', mode: 'swing', dir: 'Corto', setup: 'Bajada por no sostener 7.860', out: 'win', match: 'Aproximada',
+    { asset: 'ES', date: '2026-10-11', mode: 'swing', dir: 'Corto', setup: 'Bajada por no sostener 7.860', out: 'win', match: 'Exacta',
       plan: 'Tu tesis: si el ES no sostiene sobre 7.860 se cancela la subida y baja hacia 7.734,75, el techo de la zona de largos 7.734,75‑7.638,50. El análisis escrito no daba gatillo de corto antes de perder 7.542,25.',
-      goals: [['7.734,75 (a 6 puntos)', 'near']],
-      pasa: 'El ES llegó a ≈7.886 en los días previos, pero el 14 abrió en 7.856,25 (máximo 7.879,75), perdió 7.832,75 con marcas OUT en M15 y cayó hasta un mínimo de 7.741,00. Cotiza 7.765,25 (−1,15%).',
-      res: 'Acierto aproximado: la bajada es la prevista (≈120 puntos desde 7.860) y el mínimo quedó a solo 6,25 puntos de 7.734,75. Cuenta por tu criterio de tesis, no por un gatillo del análisis escrito.' },
+      goals: [['7.734,75','hit']],
+      pasa: 'El ES llegó a ≈7.886 en los días previos; el 14 perdió 7.832,75 con marcas OUT en M15 y el viernes 16, con la apertura de EE. UU., cayó bajo 7.734,75 hasta un mínimo de 7.676,00. Cierra en 7.704,25 (−1,09% en el día).',
+      res: 'Acierto exacto: de 7.860 a 7.676, unos 185 puntos; 7.734,75 se cumplió con ≈125. Cuenta por tu criterio de tesis, no por un gatillo del análisis escrito.' },
     { asset: 'SI', date: '2026-10-10', mode: 'swing', dir: 'Corto', setup: 'Corto de ruptura', out: 'win', match: 'Parcial',
       plan: 'Cierre H4 bajo 59,535 con retesteo, colores de fuerza bajista y volumen vendedor en M5. Objetivos 56,245 y 53,285. Con el CPI cerca, tamaño reducido.',
       goals: [['56,245', 'hit'], ['53,285 (pendiente)', 'miss']],
-      pasa: 'La plata cerró en H4 bajo 59,535 y la vela diaria del 14 (máximo 59,595: retesteó el nivel por arriba) cayó con marcas OUT en M15 hasta un mínimo de 55,56. Cotiza ≈55,8 (−6,28%), por debajo de 56,245.',
-      res: 'A favor: de ≈59,3 a ≈55,8, unos 3,5 (≈6%). Primer objetivo cumplido; el segundo sigue pendiente, así que está en curso. El retesteo diario fue casi exacto (59,595).' },
+      pasa: 'La plata cerró en H4 bajo 59,535 y la vela diaria del 14 (máximo 59,595: retesteó el nivel por arriba) cayó con marcas OUT en M15 hasta un mínimo de 55,56, por debajo de 56,245. El viernes 16 rebotó y cierra en 57,305 (+0,26%), todavía bajo 59,535.',
+      res: 'A favor: de ≈59,3 a ≈57,3, unos 2 (≈3,4%); hasta el mínimo, ≈3,7. Primer objetivo cumplido; 53,285 sigue pendiente, así que la operación está en curso. El retesteo diario fue casi exacto (59,595).' },
     { asset: 'KC', date: '2026-10-10', mode: 'swing', dir: 'Largo', setup: 'Largo de rebote en zona', out: 'win', match: 'Exacta',
       plan: 'Solo en 284‑286,5 con rechazo en H1 o Genial H1 recuperada, H4 en color de fuerza y volumen comprador en M5. Stop bajo 282,5. Rango 283‑298,5 con los extremos como únicas entradas; reducir tamaño.',
       goals: [['Stop 282,5 sin tocar', 'hit'], ['298,5 (techo del rango)', 'hit']],
-      pasa: 'Hacia el 12‑13 de octubre el KC bajó a la zona (mínimo ≈284,4, sin tocar el stop) y rebotó hasta un máximo de 303,35 el día 14. Cotiza 296,75 (vela diaria verde, +1,38%).',
-      res: 'Acierto: ≈+19 puntos desde el mínimo de la zona hasta el máximo del rango, pasando el techo 298,5. A ojo: no puedo confirmar el rechazo en H1 ni el volumen en M5.' },
+      pasa: 'Hacia el 12‑13 de octubre el KC bajó a la zona (mínimo ≈284,4, sin tocar el stop) y rebotó. El viernes 16 el contrato de ICE marcó un máximo de 311,30 y cierra en 305,60 (+3,66% en el día), ya sobre el techo del rango 298,5.',
+      res: 'Acierto: ≈+21 puntos desde el mínimo de la zona hasta el máximo del viernes, pasando el techo 298,5. A ojo: no puedo confirmar el rechazo en H1 ni el volumen en M5.' },
     { asset: 'WTI', date: '2026-10-10', mode: 'swing', dir: 'Largo', setup: 'Largo de ruptura', out: 'open', match: 'Aproximada',
       plan: 'Cierre H4 sobre 93,51 con retesteo, H1 y H4 sobre Genial y EMA 8, color de fuerza alcista (verde oscuro o azul marino) y volumen en M5. El análisis no definía objetivo ni stop.',
       goals: [],
-      pasa: 'El WTI cerró sobre 93,51 en H4 y en diario (velas verdes), retesteó la zona 93,9‑94 sin llegar a 93,51 y el día 14 abrió 94,75, con máximo 96,06 y mínimo 93,97. Cotiza 95,14 (+1,06%). La resistencia 97,11 no se ha tocado.',
-      res: 'A favor y en curso: ≈+1,6 desde 93,51 sin invalidación (máximo ≈+2,5). Aproximada porque el retesteo se quedó ≈0,5 por encima del nivel. No puedo confirmar el volumen en M5.' },
+      pasa: 'El WTI cerró sobre 93,51 en H4 y en diario (velas verdes), retesteó la zona 93,9‑94 sin llegar a 93,51 y siguió subiendo: el viernes 16 superó 97,11 y cierra en 99,02 (+1,07%), con máximo 99,34. La siguiente resistencia, 102,38, no se ha tocado.',
+      res: 'A favor y en curso: ≈+5,5 desde 93,51 (≈+5,9%) sin invalidación. Aproximada porque el retesteo se quedó ≈0,5 por encima del nivel. No puedo confirmar el volumen en M5.' },
     { asset: 'NG', date: '2026-10-11', mode: 'swing', dir: 'Largo', setup: 'Largo de ruptura', out: 'loss', match: 'Exacta',
       plan: 'Cierre H4 sobre 3,305 con retesteo. Objetivo 3,535‑3,7. El análisis no definía stop.',
       goals: [['3,535‑3,7', 'miss']],
-      pasa: 'Hubo dos cierres H4 sobre 3,305 (≈3,32), pero el retesteo no aguantó: el precio volvió bajo 3,305, cayó hasta 3,157 y rebota a 3,286, otra vez bajo 3,305. La vela diaria del 14 abre 3,321.',
+      pasa: 'Hubo dos cierres H4 sobre 3,305 (≈3,32), pero el retesteo no aguantó: el precio volvió bajo 3,305, cayó hasta 3,157 y rebota a 3,286, otra vez bajo 3,305. El viernes 16 cae a 3,062 de mínimo y cierra en 3,116 (−3,71%).',
       res: 'Fallida: falsa ruptura. La invalidación razonable (cierre H4 de nuevo bajo 3,305) se dio antes de cualquier objetivo. Sigue siendo fallo mientras el precio no recupere 3,305 con cierre H4.' },
-    { asset: 'NG', date: '2026-10-11', mode: 'swing', dir: 'Corto', setup: 'Corto de rechazo', out: 'pend', match: 'Exacta',
+    { asset: 'NG', date: '2026-10-11', mode: 'swing', dir: 'Corto', setup: 'Corto de rechazo', out: 'win', match: 'Parcial',
       plan: 'Rechazo en 3,305 con colores de fuerza bajista y volumen vendedor en M5, o pérdida de 3,03 con retesteo. Objetivos 3,127 y después 2,922. Tamaño reducido y gestión rápida.',
-      goals: [['3,127 (pendiente)', 'miss'], ['2,922', 'miss']],
-      pasa: 'El NG cerró bajo 3,305 y llegó a 3,157 de mínimo, a 0,03 del primer objetivo. Después rebotó con una marca IN en M15 y cotiza 3,286 (vela diaria roja, apertura 3,321), casi en la entrada.',
-      res: 'En curso y sin resultado: dio ≈0,15 a favor, no alcanzó 3,127 y devolvió casi todo. Sin objetivo cumplido ni invalidación no cuenta. Pasará a acierto si llega a 3,127 y a fallo si cierra H4 sobre 3,305 y se mantiene.' }
+      goals: [['3,127','hit'], ['2,922', 'miss']],
+      pasa: 'El NG rechazó 3,305 (con un último intento hasta ≈3,334 el día 14, a ojo) y el viernes 16 cayó hasta 3,062, por debajo de 3,127. Cierra en 3,116 (−3,71%). 2,922 no se ha alcanzado.',
+      res: 'Acierto parcial: primer objetivo cumplido, ≈0,19 desde 3,305 (≈0,24 hasta el mínimo). No define stop; la invalidación razonable (cierre H4 sostenido sobre 3,305) no se dio. 2,922 queda pendiente.' }
   ];
   var NOACT_SW = [
-    ['ES', '2026-10-11', 'Largo de retroceso (7.734,75‑7.638,50)', 'El mínimo fue 7.741,00 (diario y M15), unos 6 puntos por encima del techo de la zona 7.734,75. Todavía no ha entrado.'],
+    ['ES', '2026-10-11', 'Largo de retroceso (7.734,75‑7.638,50)', 'El viernes 16 entró en la zona (mínimo 7.676,00, sin llegar a 7.638,50) y rebota a 7.704. Falta el rechazo en H1 y la confirmación en H4, que no puedo comprobar, y no hay objetivo alcanzado: sin resultado.'],
     ['ES', '2026-10-11', 'Largo de ruptura (sobre 7.901,75)', 'Máximo ≈7.886, sin cierre H4 por encima.'],
-    ['ES', '2026-10-11', 'Corto (pérdida de 7.542,25 en diario)', 'El precio no ha llegado (mínimo 7.741,00).'],
-    ['NQ', '2026-10-11', 'Largo en 30.190‑30.078', 'El precio llegó al fondo exacto de la zona (30.078,00) y rebota a 30.137,75. Falta el rechazo en H1 y la confirmación en H4, que no puedo comprobar con estas capturas. Stop bajo 29.768,75 sin tocar.'],
+    ['ES', '2026-10-11', 'Corto (pérdida de 7.542,25 en diario)', 'El precio no ha llegado (mínimo 7.676,00).'],
+    ['NQ', '2026-10-11', 'Largo en 30.190‑30.078', 'El viernes 16 el precio atravesó la zona con la caída de la apertura, sin rechazo alcista, y perdió el stop (29.768,75) hasta un mínimo de 29.268,75. No activada; de haber entrado sin confirmar habría sido pérdida.'],
     ['NQ', '2026-10-11', 'Largo de ruptura (sobre 31.291,50)', 'No hubo cierre H4 por encima.'],
     ['GC', '2026-10-10', 'Largo (cierre H4 sobre 4.260)', 'Máximo ≈4.240, sin cierre sobre 4.260. La invalidación (cierre H4 bajo 4.190) se dio.'],
-    ['GC', '2026-10-10', 'Corto de ruptura (cierre H4 bajo 4.095,5)', 'El mínimo diario fue 4.095,0 (0,5 bajo el nivel), pero no hay cierre H4 ni diario por debajo: rebota a 4.126,8. No activada.'],
+    ['GC', '2026-10-10', 'Corto de ruptura (cierre H4 bajo 4.095,5)', 'El mínimo diario fue 4.095,0 el día 14 (0,5 bajo el nivel), sin cierre H4 ni diario por debajo; el viernes 16 cierra en 4.181,1. No activada.'],
     ['SI', '2026-10-10', 'Largo (cierre H4 sobre 62,4‑62,5)', 'Máximo ≈61,7.'],
     ['SI', '2026-10-10', 'Corto de rechazo (62,4‑64,96)', 'El precio no llegó a la zona.'],
     ['KC', '2026-10-10', 'Corto (cierre H4 bajo 283)', 'El mínimo fue ≈284,4.'],
@@ -4877,8 +4923,8 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     ['CC', '2026-10-10', 'Corto (cierre bajo 5.362)', 'No ha llegado.'],
     ['WTI', '2026-10-10', 'Largo de rebote (88‑89 o 86,86)', 'No llegó (mínimo reciente ≈90).'],
     ['WTI', '2026-10-10', 'Corto (cierre H4 bajo 86,86)', 'No ha llegado.'],
-    ['NG', '2026-10-11', 'Largo de retroceso (3,127‑3,08)', 'Mínimo 3,157, a 0,03 de la zona, y rebote con marca IN en M15 hasta 3,287. No llegó a entrar.'],
-    ['NG', '2026-10-11', 'Corto (pérdida de 3,03)', 'No ha llegado.']
+    ['NG', '2026-10-11', 'Largo de retroceso (3,127‑3,08)', 'El viernes 16 entró en la zona (mínimo 3,062, ≈0,02 bajo su fondo) y rebota a 3,116. Falta el rechazo en H1 y la confirmación en H4, que no puedo comprobar: sin resultado.'],
+    ['NG', '2026-10-11', 'Corto (pérdida de 3,03)', 'No ha llegado (mínimo 3,062).']
   ];
   var TRST = { tab: 'intra', f: 'all', a: 'all', c: 'all' };
   function renderTradesSet(TR0, NA0, kind) {
@@ -4891,7 +4937,7 @@ var KEYLV = {"WTI-2026-10-10": [86.86], "KC-2026-10-10": [285.45, 283], "CC-2026
     var html = '<section><h2>Resumen</h2><div class="bigstat"><button type="button" class="bs win" data-trf="win" aria-pressed="' + (TRST.f === 'win') + '"><b>' + pc(W.length, N) + '%</b><span>aciertos · ' + W.length + ' de ' + N + (OP ? ' (' + (W.length - OP) + ' con objetivo alcanzado + ' + OP + ' en curso a favor)' : '') + '</span></button><button type="button" class="bs loss" data-trf="loss" aria-pressed="' + (TRST.f === 'loss') + '"><b>' + (N ? 100 - pc(W.length, N) : 0) + '%</b><span>fallos · ' + F.length + ' de ' + N + '</span></button><button type="button" class="bs" data-trf="all" aria-pressed="' + (TRST.f === 'all') + '"><b>' + N + '</b><span>activadas de ' + total + ' planteadas (' + pc(N, total) + '%)</span></button></div><p class="legend">Pulsa aciertos o fallos para ver solo esos; pulsa el tercer cuadro para verlo todo.</p>' +
       '<div class="split"><div class="sp"><h3>Desglose de los aciertos</h3><div class="sumrow"><div><b>' + by(W, 'Exacta') + '</b><span>exactos · ' + pc(by(W, 'Exacta'), W.length) + '%</span></div><div><b>' + by(W, 'Aproximada') + '</b><span>aproximados · ' + pc(by(W, 'Aproximada'), W.length) + '%</span></div><div><b>' + by(W, 'Parcial') + '</b><span>parciales · ' + pc(by(W, 'Parcial'), W.length) + '%</span></div></div></div>' +
       '<div class="sp"><h3>Desglose de los fallos</h3><div class="sumrow"><div><b>' + by(F, 'Exacta') + '</b><span>exactos · ' + pc(by(F, 'Exacta'), F.length) + '%</span></div><div><b>' + by(F, 'Aproximada') + '</b><span>aproximados · ' + pc(by(F, 'Aproximada'), F.length) + '%</span></div><div><b>' + by(F, 'Parcial') + '</b><span>parciales · ' + pc(by(F, 'Parcial'), F.length) + '%</span></div></div></div></div>' +
-      '<p class="legend">Muestra pequeña (' + N + (kind === 'swing' ? ' operativas swing de los análisis del 10 y 11 de octubre, medidas con tus gráficos H4 de las 19:20 y M15 y diarios de las 23:00 del miércoles 14' : ' operativas de los días 12, 13 y 15 de octubre (las del 15, medidas con tus M15 de las 22:30; tres de ellas son tus tesis y cuentan como válidas, no gatillos de mis análisis escritos)') + '): en intradía lo que no se alcanza en el día no se arrastra al siguiente: si el plan se activó y no tocó el stop, se cierra como acierto parcial. Los porcentajes son orientativos. Son resultados teóricos medidos a ojo sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «activada» significa que el precio hizo el recorrido del plan, no que se confirmaran todas las condiciones.</p></section>';
+      '<p class="legend">Muestra pequeña (' + N + (kind === 'swing' ? ' operativas swing de los análisis del 10 y 11 de octubre, medidas con tus capturas del sábado 17 de octubre (12:16‑13:30, cierre del viernes 16)' : ' operativas de los días 12, 13, 15 y 16 de octubre (las del 15, medidas con tus M15 de las 22:30; las del 16, con tus capturas del sábado 17 a las 12:20; seis de ellas son tus tesis y cuentan como válidas, no gatillos de mis análisis escritos)') + '): en intradía lo que no se alcanza en el día no se arrastra al siguiente: si el plan se activó y no tocó el stop, se cierra como acierto parcial. Los porcentajes son orientativos. Son resultados teóricos medidos a ojo sobre tus capturas, no operaciones ejecutadas por ti. No tengo el volumen real de M5 que pedían los gatillos, así que «activada» significa que el precio hizo el recorrido del plan, no que se confirmaran todas las condiciones.</p></section>';
     function tradeHtml(t) {
       var tag = t.out !== 'loss' ? (t.match === 'Exacta' ? 'win' : t.match === 'Aproximada' ? 'ap' : '') : 'dn';
       var goals = t.goals.map(function (g) {
