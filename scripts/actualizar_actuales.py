@@ -197,6 +197,40 @@ def calc_claims(month, year, ev_date):
     return '%d mil' % round(v / 1000), False
 
 
+TERMINOS = {'6 semanas': '6-Week', '3 meses': '13-Week', '6 meses': '26-Week'}
+
+
+def calc_subasta(ev, d):
+    """Rendimiento adjudicado de las letras del Tesoro de EE. UU. (fiscaldata.treasury.gov, sin clave)."""
+    term = next((v for k, v in TERMINOS.items() if k in ev), None)
+    if not term:
+        return None
+    q = ('filter=security_type:eq:Bill,security_term:eq:%s,auction_date:eq:%s&fields=auction_date,high_discnt_rate&page[size]=1' % (term, d.isoformat()))
+    j = http_json('https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?' + q)
+    rows = j.get('data') or []
+    if not rows or rows[0].get('high_discnt_rate') in (None, '', 'null'):
+        return None
+    return ('%s%%' % rows[0]['high_discnt_rate'].rstrip('0').rstrip('.')).replace('.', ','), False
+
+
+def calc_fed(d):
+    """Rango objetivo de los fondos federales tras la reunión (FRED: DFEDTARL/DFEDTARU)."""
+    lo, hi = fred_obs('DFEDTARL', 1), fred_obs('DFEDTARU', 1)
+    if not lo or not hi or dt.date.fromisoformat(lo[0][0]) < d:
+        return None
+    return 'Tipos %s–%s%%' % (('%.2f' % lo[0][1]).replace('.', ','), ('%.2f' % hi[0][1]).replace('.', ',')), False
+
+
+def gate():
+    """Código 0 solo si hoy hay subasta de letras de EE. UU. o decisión de la Fed en el calendario."""
+    html = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+    today = dt.datetime.now(dt.timezone.utc).date().isoformat()
+    for line in html.splitlines():
+        if line.lstrip().startswith("{ d: '%s'" % today) and ', p:' not in line and ("k: 'auction'" in line or "k: 'fed'" in line):
+            return 0
+    return 1
+
+
 # (texto que debe contener el evento, función(mes, año, fecha_evento), necesita_mes, tolerancia para "igual")
 HANDLERS = [
     ('Precios de producción (PPI)', lambda m, y, d: calc_ppi(m, y), True, 0.05),
@@ -206,6 +240,8 @@ HANDLERS = [
     ('Producción industrial de EE. UU.', lambda m, y, d: fred_month_event('INDPRO')(m, y), True, 0.05),
     ('Peticiones iniciales de subsidio de desempleo', calc_claims, False, 0.5),
     ('Precios de importación y exportación de EE. UU.', lambda m, y, d: calc_import(m, y), True, 0.05),
+    ('Subasta de letras del Tesoro', lambda m, y, d: None, False, 0.05),
+    ('Decisión de tipos de la Fed', lambda m, y, d: calc_fed(d), False, 0.0),
     ('IPC final de la zona euro', lambda m, y, d: calc_hicp(m, y), True, 0.05),
 ]
 
@@ -293,6 +329,8 @@ def sonda():
 
 
 def main():
+    if '--gate' in sys.argv:
+        sys.exit(gate())
     if '--sonda' in sys.argv:
         return sonda()
     today = dt.datetime.now(dt.timezone.utc).date()
@@ -315,7 +353,7 @@ def main():
             res = None
             if month or not needs_month:
                 try:
-                    res = fn(month, ev_date.year, ev_date)
+                    res = calc_subasta(e['ev'], ev_date) if key.startswith('Subasta') else fn(month, ev_date.year, ev_date)
                 except Exception as ex:
                     print('ERROR en %s: %s' % (e['ev'], ex), file=sys.stderr)
             if res:
